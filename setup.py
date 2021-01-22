@@ -10,7 +10,7 @@ setup(
   url = 'https://github.com/PooyaHekmati', 
   download_url = 'https://github.com/PooyaHekmati/music_embedding/archive/PyPI_v0.1.tar.gz',
   keywords = ['music', 'interval', 'pianoroll', 'embedding', 'knowledge representation'], 
-  install_requires=[ 
+  install_requires=[
           'numpy',
       ],
   classifiers=[
