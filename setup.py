@@ -8,7 +8,7 @@ setup(
   author = 'SeyyedPooya HekmatiAthar',
   author_email = 's.pooyahekmati.a@gmail.com', 
   url = 'https://github.com/PooyaHekmati', 
-  download_url = 'https://github.com/PooyaHekmati/midi2tensor/archive/PyPI_V_0.1.tar.gz',
+  download_url = 'https://github.com/PooyaHekmati/music_embedding/archive/PyPI_v0.1.tar.gz',
   keywords = ['music', 'interval', 'pianoroll', 'embedding', 'knowledge representation'], 
   install_requires=[ 
           'numpy',
