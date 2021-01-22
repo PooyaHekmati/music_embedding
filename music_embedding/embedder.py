@@ -2,7 +2,7 @@ import numpy as np
 import .interval       
     
 class embedder:
-    """ The COder-DECoder class for musical data. Provides functionallities to convert pianorolls into intervals and vice versa. 
+    """ The embedding class for musical data. Provides functionallities to convert pianorolls into intervals and vice versa (embedding). 
     
     Dependencies
     ----------
