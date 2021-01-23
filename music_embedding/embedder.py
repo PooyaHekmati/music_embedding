@@ -1,5 +1,5 @@
 import numpy as np
-import interval       
+from .interval import interval       
     
 class embedder:
     """ The embedding class for musical data. Provides functionallities to convert pianorolls into intervals and vice versa (embedding). 
