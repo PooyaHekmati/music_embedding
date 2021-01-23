@@ -1,5 +1,5 @@
 import numpy as np
-import .interval       
+import interval       
     
 class embedder:
     """ The embedding class for musical data. Provides functionallities to convert pianorolls into intervals and vice versa (embedding). 
@@ -171,7 +171,7 @@ class embedder:
         return self.get_pianoroll_from_melodic_intervals()
         
           
-    def get_harmonic_intervals_from_pianoroll(self, pianoroll=None, ref_pianoroll): 
+    def get_harmonic_intervals_from_pianoroll(self, ref_pianoroll, pianoroll=None): 
         """Does not perform any checks. Updates self.pianoroll if pianoroll argument is passed. Updates self.intervals.
         Calculates the harmonic intervals of the highest pitch notes in self.pianoroll with respect to ref_pianoroll.        
 
