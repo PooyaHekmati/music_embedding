@@ -171,14 +171,17 @@ class embedder:
         return self.get_pianoroll_from_melodic_intervals()
         
           
-    def get_highest_pitch_harmonic_intervals_from_pianoroll(self, pianoroll=None): 
-        """Does not perform any checks. Works on highest pitch notes in self.pianoroll, Updates self.pianoroll if pianoroll argument is passed. Updates self.intervals.
-        Example: Given the pianoroll of an SATB choir, returns harmonic intervals of Soprano with respect to Alto.        
+    def get_harmonic_intervals_from_pianoroll(self, pianoroll=None, ref_pianoroll): 
+        """Does not perform any checks. Updates self.pianoroll if pianoroll argument is passed. Updates self.intervals.
+        Calculates the harmonic intervals of the highest pitch notes in self.pianoroll with respect to ref_pianoroll.        
 
         Parameters
         ----------
         pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional
             If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.
+            
+        ref_pianoroll : ndarray, dtype=uint8, shape=(?, 128)
+            Harmonic intervals are calculated with reference to this pianoroll.
 
         Returns
         -------
@@ -199,7 +202,7 @@ class embedder:
                 self.intervals[i]=silent_interval   
             else:
                 ref_note=notes[i]-1
-                while ref_note >= 0 and self.pianoroll[i,ref_note] == 0:
+                while ref_note >= 0 and ref_pianoroll[i,ref_note] == 0:
                     ref_note-=1
                 if ref_note >= 0:                    
                     curser.semitones=notes[i]-ref_note
@@ -216,10 +219,10 @@ class embedder:
         Returns
         -------
         Call to function:
-            self.get_highest_pitch_harmonic_intervals_from_pianoroll()
+            self.get_harmonic_intervals_from_pianoroll()
 
         """
-        return self.get_highest_pitch_harmonic_intervals_from_pianoroll()
+        return self.get_harmonic_intervals_from_pianoroll()
 
     
     def get_pianoroll_from_harmonic_intervals(self, pianoroll=None, intervals=None, velocity=None):
