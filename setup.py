@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'music_embedding', 
   packages = ['music_embedding'],
-  version = '0.1',
+  version = '0.1.1',
   license='MIT',
   description = 'A package for representing music data based on music theory',
   author = 'SeyyedPooya HekmatiAthar',
