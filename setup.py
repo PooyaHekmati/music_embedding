@@ -2,13 +2,13 @@ from distutils.core import setup
 setup(
   name = 'music_embedding', 
   packages = ['music_embedding'],
-  version = '0.1.3',
+  version = '0.1.4',
   license='MIT',
   description = 'A package for representing music data based on music theory',
   author = 'SeyyedPooya HekmatiAthar',
   author_email = 's.pooyahekmati.a@gmail.com', 
   url = 'https://github.com/PooyaHekmati', 
-  download_url = 'https://github.com/PooyaHekmati/music_embedding/archive/PyPI_v0.1.3.tar.gz',
+  download_url = 'https://github.com/PooyaHekmati/music_embedding/archive/PyPI_v0.1.4.tar.gz',
   keywords = ['music', 'interval', 'pianoroll', 'embedding', 'knowledge representation'], 
   install_requires=[
           'numpy',

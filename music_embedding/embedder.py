@@ -404,31 +404,31 @@ class embedder:
                     self.pianoroll [ i, origin + curser.interval2semitone() ] = velocity            
         return self.pianoroll
     
-    def chunk_intervals_per_bar(self, intervals=None, pixels_per_bar=None):
+    def chunk_sequence_of_intervals(self, intervals=None, pixels_per_chunk=None):
         """Does not perform any checks. Works on self.intervals, Updates self.intervals if intervals argument is passed. 
-        Recieves a long sequence of intervals and breaks it into chunks each corresponding to a bar.        
+        Recieves a long sequence of intervals and breaks it into chunks.        
 
         Parameters
         ----------
         intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional
             If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.
             
-        pixels_per_bar: int, optional
-            Number of pixels in each bar. Equals time signature's numarator multiplied by resolution per pixel. The default is self.pixels_per_bar.
+        pixels_per_chunk: int, optional
+            Number of pixels in each chunk. Set it to time signature's numarator multiplied by resolution per pixel to get chunk_per-bar. The default is self.pixels_per_bar.
 
         Returns
         -------
-        ndarray, dtype=int8, shape=(?, pixels_per_bar, interval.feature_dimensions)
-            First dimension is bars, second dimension is pixels in each bar and, third dimension is interval features.
+        ndarray, dtype=int8, shape=(?, pixels_per_chunk, interval.feature_dimensions)
+            First dimension is bars, second dimension is pixels in each chunk and, third dimension is interval features.
 
         """
         if intervals is not None:
             self.intervals=intervals
             
-        if pixels_per_bar is None:
-            pixels_per_bar=self.pixels_per_bar
+        if pixels_per_chunk is None:
+            pixels_per_chunk=self.pixels_per_bar
             
-        return np.reshape(self.intervals, (self.intervals.shape[0]//pixels_per_bar , pixels_per_bar, self.intervals.shape[1] ))
+        return np.reshape(self.intervals, (self.intervals.shape[0]//pixels_per_chunk , pixels_per_chunk, self.intervals.shape[1] ))
     
     
     def merge_chunked_intervals(self, chunked_intervals):
@@ -506,3 +506,49 @@ class embedder:
             self.intervals[index:index+RLE_data[i,-1],:self.intervals.shape[1]]=replacement
             index+=RLE_data[i,-1]
         return self.intervals
+    
+    def get_RLE_from_intervals_bulk(self, bulk_intervals):
+        """ Does not perform any checks.
+        Bulk version of self.get_RLE_from_intervals.
+
+        Parameters
+        ----------
+        bulk_intervals : ndarray, dtype=int8, shape=(?, pixels_per_chunk, interval.feature_dimensions)
+            First dimension is chunks, second dimension is pixels in each chunk and, third dimension is interval features.
+
+        Returns
+        -------
+        list
+            List of RLE_compressed data, see self.get_intervals_from_RLE.
+
+        """
+        
+        RLE_bulk=[]
+        
+        for intervals in bulk_intervals:
+            RLE_bulk.append(self.get_RLE_from_intervals(intervals))        
+                
+        return RLE_bulk
+    
+    def get_intervals_from_RLE_bulk(self, bulk_RLE_data):
+        """Does not perform any checks. 
+        Bulk version of self.get_intervals_from_RLE.
+    
+        Parameters
+        ----------
+        bulk_RLE_data : list
+            List of RLE_compressed data, see self.get_intervals_from_RLE.
+
+        Returns
+        -------
+        ndarray, dtype=int8, shape=(?, pixels_per_chunk, interval.feature_dimensions)
+            First dimension is chunks, second dimension is pixels in each chunk and, third dimension is interval features.
+
+        """
+        
+        bulk_intervals=[]
+        
+        for RLE_data in bulk_RLE_data:
+            bulk_intervals.append(self.get_intervals_from_RLE(RLE_data))         
+        
+        return bulk_intervals
