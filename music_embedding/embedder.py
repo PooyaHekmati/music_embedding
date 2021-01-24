@@ -80,21 +80,21 @@ class embedder:
         
         notes=self.extract_highest_pitch_notes_from_pianoroll(self) #first get the notes of the melody
         
-        self.intervals=np.zeros((len(notes)-1,interval.feature_dimensions),dtype=np.int8) #create the placeholder of intervals. Because origin is the first note of the melody, we need one less value.
+        self.intervals=np.zeros((len(notes),interval.feature_dimensions),dtype=np.int8) #create the placeholder of intervals.
         curser=interval()
         last_voice_index=0
         
         silent_interval = interval.get_silence_specs_list()
         
         if notes[0]==0:                         #if the first pixel is silence there is no interval to calculate
-            self.intervals[0]=silent_interval
+            self.intervals[1]=silent_interval   #The first melodic interval is always zeros. This is becuase melody is calcualted with respect to the previous note.
         for i in range(1,len(notes)):
             if notes[i]==0:                     #it is silence and there is no interval to calculate
-                self.intervals[i-1]=silent_interval   
+                self.intervals[i]=silent_interval   
             else:
                 curser.semitones=notes[i]-notes[last_voice_index]
                 curser.semitone2interval()
-                self.intervals[i-1]=curser.get_specs_list()
+                self.intervals[i]=curser.get_specs_list()
                 last_voice_index=i
         return self.intervals        
     def pianoroll2intervals_melody(self):
@@ -141,6 +141,8 @@ class embedder:
         if velocity is None:
             velocity=self.default_velocity
             
+        self.intervals=self.intervals[1:,:]         #removing the first row of zeros. This is becuase melody is calcualted with respect to the previous note.
+        
         self.pianoroll=np.zeros((len(self.intervals)+1,128),dtype=np.uint8)   #128 is the number of notes in MIDI        
         self.pianoroll [ leading_silence, origin ]=velocity        
         
@@ -317,6 +319,9 @@ class embedder:
         silent_interval = interval.get_silence_specs_list()
         
         for bar_number in range(int(len(notes)/pixels_per_bar)):        #traversing bars
+            if np.sum(notes[bar_number * pixels_per_bar : (bar_number+1) * pixels_per_bar ])==0:  #bar is empty
+                continue
+            
             i=bar_number*pixels_per_bar                                   #init counter i with the first pixel of the bar
             while i<(bar_number + 1) * pixels_per_bar and notes[i]==0:    #finding the first note of the bar
                 self.intervals[i]=silent_interval 
@@ -329,6 +334,7 @@ class embedder:
             
             curser.semitones=ref_note-last_bar_ref_note         #finding the interval of the first note of the current bar with respect to the first note of the last bar
             curser.semitone2interval()
+
             self.intervals[i]=curser.get_specs_list()
             last_bar_ref_note=ref_note
             
@@ -396,6 +402,7 @@ class embedder:
                 if not curser.is_silence():       #skip silences
                     origin = last_known_origin + curser.interval2semitone()     #finding the first note of the current bar
                     last_known_origin = origin
+
                     self.pianoroll [ i, origin ] = velocity
                     origin_is_unkown = False
             else: 
@@ -545,10 +552,10 @@ class embedder:
             First dimension is chunks, second dimension is pixels in each chunk and, third dimension is interval features.
 
         """
+        tmp=self.get_intervals_from_RLE(bulk_RLE_data[0])        #just to identify the shape
+        bulk_intervals=np.zeros((len(bulk_RLE_data), tmp.shape[0], tmp.shape[1]))
         
-        bulk_intervals=[]
-        
-        for RLE_data in bulk_RLE_data:
-            bulk_intervals.append(self.get_intervals_from_RLE(RLE_data))         
+        for i in range(len(bulk_RLE_data)):
+            bulk_intervals[i]=self.get_intervals_from_RLE(bulk_RLE_data[i])
         
         return bulk_intervals
