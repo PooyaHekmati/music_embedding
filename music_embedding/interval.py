@@ -315,3 +315,6 @@ class interval:
         ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n//10%10!=1)*(n%10<4)*n%10::4]) #adopted from https://codegolf.stackexchange.com/questions/4707/outputting-ordinal-numbers-1st-2nd-3rd#answer-4712
         output += ordinal(self.interval_order + self.octave_offset * 7) 
         return output
+    
+    def __str__(self):
+        return self.get_name()
