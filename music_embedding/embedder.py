@@ -539,7 +539,7 @@ class embedder:
     
     def get_intervals_from_RLE_bulk(self, bulk_RLE_data):
         """Does not perform any checks. 
-        Bulk version of self.get_intervals_from_RLE.
+        Bulk version of self.get_intervals_from_RLE. Infers output size from first chunk.
     
         Parameters
         ----------
