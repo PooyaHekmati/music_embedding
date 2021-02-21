@@ -111,19 +111,10 @@ class interval:
     def interval2semitone(self, specs=None):
         """ Does not perform any checks. Updates intervals parameters if specs is passed. 
         Returns the distance between the two notes of the interval in semitones.  
-        Semitone-interval Q-Table:
-            0 semitones: P 1st
-            1 semitones: m 2nd
-            2 semitones: M 2nd
-            3 semitones: m 3rd
-            4 semitones: M 3rd
-            5 semitones: P 4th
-            6 semitones: dim 5th
-            7 semitones: P 5th
-            8 semitones: m 6th
-            9 semitones: M 6th
-            10 semitones: m 7th
-            11 semitones: M 7th        
+        Faulty interval representation handling: 
+            - if interval is 1st, 4th, or 5th and interval type is set to m or M, calculates P interval.
+            - if interval is 2nd, 3rd, 6th, or 7th and interval type is set to P, calculates M interval.
+               
 
         Parameters
         ----------
@@ -148,34 +139,94 @@ class interval:
             self.set_specs_list(specs)
             
         self.semitones=0
-        if self.interval_order==1 and self.interval_type==0:            #Implementing Q-table
-            self.semitones=0
-        elif self.interval_order==2 and self.interval_type==-1:
-            self.semitones=1
-        elif self.interval_order==2 and self.interval_type==1:
-            self.semitones=2
-        elif self.interval_order==3 and self.interval_type==-1:
-            self.semitones=3
-        elif self.interval_order==3 and self.interval_type==1:
-            self.semitones=4
-        elif self.interval_order==4 and self.interval_type==0:
-            self.semitones=5
-        elif self.interval_order==5 and self.interval_type==-2:
-            self.semitones=6
-        elif self.interval_order==5 and self.interval_type==0:
-            self.semitones=7
-        elif self.interval_order==6 and self.interval_type==-1:
-            self.semitones=8
-        elif self.interval_order==6 and self.interval_type==1:
-            self.semitones=9
-        elif self.interval_order==7 and self.interval_type==-1:
-            self.semitones=10
-        elif self.interval_order==7 and self.interval_type==1:
-            self.semitones=11
+            
+        if self.interval_order==1:
+            if self.interval_type==-2:
+                self.semitones=-1
+            elif self.interval_type==-1:
+                self.semitones=0
+            elif self.interval_type==0:
+                self.semitones=0
+            elif self.interval_type==1:
+                self.semitones=0
+            elif self.interval_type==2:
+                self.semitones=1
+            
+        elif self.interval_order==2:           
+            if self.interval_type==-2:
+                self.semitones=0
+            elif self.interval_type==-1:
+                self.semitones=1
+            elif self.interval_type==0:
+                self.semitones=2
+            elif self.interval_type==1:
+                self.semitones=2
+            elif self.interval_type==2:
+                self.semitones=3
+        
+        elif self.interval_order==3:           
+            if self.interval_type==-2:
+                self.semitones=2
+            elif self.interval_type==-1:
+                self.semitones=3
+            elif self.interval_type==0:
+                self.semitones=4
+            elif self.interval_type==1:
+                self.semitones=4
+            elif self.interval_type==2:
+                self.semitones=5
+                
+        elif self.interval_order==4:           
+            if self.interval_type==-2:
+                self.semitones=4
+            elif self.interval_type==-1:
+                self.semitones=5
+            elif self.interval_type==0:
+                self.semitones=5
+            elif self.interval_type==1:
+                self.semitones=5
+            elif self.interval_type==2:
+                self.semitones=6
+                
+        elif self.interval_order==5:           
+            if self.interval_type==-2:
+                self.semitones=6
+            elif self.interval_type==-1:
+                self.semitones=7
+            elif self.interval_type==0:
+                self.semitones=7
+            elif self.interval_type==1:
+                self.semitones=7
+            elif self.interval_type==2:
+                self.semitones=8
+                
+        elif self.interval_order==6:           
+            if self.interval_type==-2:
+                self.semitones=7
+            elif self.interval_type==-1:
+                self.semitones=8
+            elif self.interval_type==0:
+                self.semitones=9
+            elif self.interval_type==1:
+                self.semitones=9
+            elif self.interval_type==2:
+                self.semitones=10
+                
+        elif self.interval_order==7:           
+            if self.interval_type==-2:
+                self.semitones=9
+            elif self.interval_type==-1:
+                self.semitones=10
+            elif self.interval_type==0:
+                self.semitones=11
+            elif self.interval_type==1:
+                self.semitones=11
+            elif self.interval_type==2:
+                self.semitones=12
             
         self.semitones+=self.octave_offset*12                  #adds multiplies of 12 to semitones becuase octave is 12 semitones
         
-        if self.is_descending==1:           #12th bit represents a descending interval
+        if self.is_descending==1:       
             self.semitones=-self.semitones
             
         return int(self.semitones)
