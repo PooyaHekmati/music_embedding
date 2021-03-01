@@ -350,6 +350,10 @@ class interval:
         if semitones is not None:
             self.semitones=semitones
             self.semitone2interval()
+            
+        if self.is_silence():
+            return 'Silence'
+        
         output=""
         if self.is_descending:
             output += "Descending "
