@@ -4,7 +4,6 @@ Music Embedding
 [![GitHub license](https://img.shields.io/github/license/PooyaHekmati/music_embedding)](https://github.com/PooyaHekmati/music_embedding/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/PooyaHekmati/music_embedding?include_prereleases)](https://github.com/PooyaHekmati/music_embedding/releases)
 
-© By SeyyedPooya HekmatiAthar 2021
 
 Music Embedding is an open source python package for representing music data based on music theory. It provides tools to convert melodic and harmonic sequences to and from pianorolls.
 
@@ -39,6 +38,11 @@ Documentation
 -------------
 
 Currently, docstrings are the best source of documentation. An extensive documentation will be available soon.
+
+Authorship
+-------------
+
+© By SeyyedPooya HekmatiAthar 2021
 
 License
 -------------
