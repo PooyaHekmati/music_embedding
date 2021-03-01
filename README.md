@@ -1,10 +1,11 @@
 Music Embedding
 ===========
 
-[![GitHub license](https://img.shields.io/github/license/PooyaHekmati/music_embedding?style=for-the-badge)](https://github.com/PooyaHekmati/music_embedding/blob/main/LICENSE)
-[![GitHub release](https://img.shields.io/github/v/release/PooyaHekmati/music_embedding?include_prereleases&style=for-the-badge)](https://github.com/PooyaHekmati/music_embedding/releases)
+[![GitHub license](https://img.shields.io/github/license/PooyaHekmati/music_embedding)](https://github.com/PooyaHekmati/music_embedding/blob/main/LICENSE)
+[![GitHub release](https://img.shields.io/github/v/release/PooyaHekmati/music_embedding?include_prereleases)](https://github.com/PooyaHekmati/music_embedding/releases)
 
 © By SeyyedPooya HekmatiAthar 2021
+
 Music Embedding is an open source python package for representing music data based on music theory. It provides tools to convert melodic and harmonic sequences to and from pianorolls.
 
 Features
@@ -30,7 +31,7 @@ Embedding is an underexplored area in the intersection of AI and music. While ma
 Installation
 ------------
 
-Music Embedding's only prerequisit is the Numpy package. Music Embedding is developed and tested in interaction with [Pypianoroll] (https://github.com/salu133445/pypianoroll); yet, any other code which can handle pianorolls should work just fine.
+Music Embedding's only prerequisit is the Numpy package. Music Embedding is developed and tested in interaction with [Pypianoroll](https://github.com/salu133445/pypianoroll) ; yet, any other code which can handle pianorolls should work just fine.
 
 To install Music Embedding, please run `pip install music_embedding`. To build Music Embedding from source, please download the [source](https://github.com/PooyaHekmati/music_embedding/releases) and run `python setup.py install`.
 
