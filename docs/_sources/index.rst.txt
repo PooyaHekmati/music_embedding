@@ -43,13 +43,16 @@ Semantic Versioning Policy
 
 Music Embedding uses x.y.z format to indicate the version where x is major versin number, y is minor version number, and z is the patch number. A stable version of Music Embedding is not released yet so x is 0. Also, prior to version numbers, a PyPI tag might apear which means this version is availble using pip.
 
-Documentation
--------------
+Classes Documentation
+---------------------
 
-Documentation is available `here <https://pooyahekmati.github.io/music_embedding/>`_ and as docstrings with the code.
+For detailed documenation please visit:
+	- `interval <interval.html>`_
+	- `embedder <embedder.html>`_
 
 Usage
 -----
+Please visit the `getting started <getting_started.html>`_ page.
 
 The following code snippet demonstrates how to convert a midi file into a sequence of harmonic intervals. ::
 
@@ -85,23 +88,9 @@ The following code snippet demonstrates how to convert a midi file into a sequen
 Issues
 ------
 
-If you find a problem, please `file a bug <ttps://github.com/PooyaHekmati/music_embedding/issues/new>`_.
+If you find a problem, please `file a bug <https://github.com/PooyaHekmati/music_embedding/issues/new>`_.
 
 License
 -------
 
 This project is licensed under the MIT License - see the `LICENSE <https://github.com/PooyaHekmati/music_embedding/blob/main/LICENSE>`_ file for details.
-
-
-
-Contents
---------
-
-.. toctree::
-    :maxdepth: 4
-    :caption: Contents:
-    :titlesonly:
-
-    getting_started
-    interval
-    embedder
