@@ -1,5 +1,5 @@
 Music Embedding
-===========
+===============
 
 [![GitHub license](https://img.shields.io/github/license/PooyaHekmati/music_embedding)](https://github.com/PooyaHekmati/music_embedding/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/PooyaHekmati/music_embedding?include_prereleases)](https://github.com/PooyaHekmati/music_embedding/releases)
@@ -18,7 +18,7 @@ Features
 - Compress the sequence of intervals using Run Length Encoding (RLE)
 
 Why Music Embedding
----------------
+-------------------
 Embedding is an underexplored area in the intersection of AI and music. While many works try to apply NLP-based embedding and automatic embedding (such as convolution), representing music data based on music theory is important. Music Embedding package aims to make employment of music theory easy to enhance the computationals music projects' results. Some potential usecases are:
 - Statistical and probabilistic analysis of music pieces,
 - Developing generative models to have AI-synthesized music,
@@ -36,7 +36,7 @@ Music Embedding's only prerequisit is the Numpy package. Music Embedding is deve
 To install Music Embedding, please run `pip install music_embedding`. To build Music Embedding from source, please download the [source](https://github.com/PooyaHekmati/music_embedding/releases) and run `python setup.py install`.
 
 Semantic Versioning Policy
--------------
+--------------------------
 
 Music Embedding uses x.y.z format to indicate the version where x is major versin number, y is minor version number, and z is the patch number. A stable version of Music Embedding is not released yet so x is 0. Also, prior to version numbers, a PyPI tag might apear which means this version is availble using pip.
 
@@ -46,7 +46,8 @@ Documentation
 Documentation is available [here](https://pooyahekmati.github.io/music_embedding) and as docstrings with the code.
 
 Usage
--------------
+-----
+Please visit the [getting started] (https://pooyahekmati.github.io/music_embedding/getting_started.html) page.
 
 The following code snippet demonstrates how to convert a midi file into a sequence of harmonic intervals.
 
@@ -81,12 +82,12 @@ if __name__ == '__main__':
 ```
 
 Issues
--------------
+------
 
 If you find a problem, please [file a bug](https://github.com/PooyaHekmati/music_embedding/issues/new).
 
 License
--------------
+-------
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/PooyaHekmati/music_embedding/blob/main/LICENSE) file for details.
 
