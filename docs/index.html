@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Embedding &#8212; Music Embedding 0.1.7 alpha documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started" href="getting_started.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="music-embedding">
+<h1>Music Embedding<a class="headerlink" href="#music-embedding" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://github.com/PooyaHekmati/music_embedding/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/PooyaHekmati/music_embedding" /></a>
+<a class="reference external image-reference" href="https://github.com/PooyaHekmati/music_embedding/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/PooyaHekmati/music_embedding?include_prereleases" /></a>
+<p>Music Embedding is an open source python package for representing music data based on music theory. It provides tools to convert melodic and harmonic sequences to and from pianorolls.</p>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Representation for music intervals</p></li>
+<li><p>Create sequence of (harmonic or melodic) intervals from pianoroll presentation</p></li>
+<li><p>Create pianoroll from a sequence of (harmonic or melodic) intervals</p></li>
+<li><p>Break the sequence of intervals into smaller pieces e.g. bars</p></li>
+<li><p>Compress the sequence of intervals using Run Length Encoding (RLE)</p></li>
+</ul>
+</div>
+<div class="section" id="why-music-embedding">
+<h2>Why Music Embedding<a class="headerlink" href="#why-music-embedding" title="Permalink to this headline">¶</a></h2>
+<p>Embedding is an underexplored area in the intersection of AI and music. While many works try to apply NLP-based embedding and automatic embedding (such as convolution), representing music data based on music theory is important. Music Embedding package aims to make employment of music theory easy to enhance the computationals music projects’ results. Some potential usecases are:</p>
+<ul class="simple">
+<li><p>Statistical and probabilistic analysis of music pieces,</p></li>
+<li><p>Developing generative models to have AI-synthesized music,</p></li>
+<li><p>Genre classificaion,</p></li>
+<li><p>Mood recognition,</p></li>
+<li><p>Melody extraction,</p></li>
+<li><p>Audio-to-Score alignment,</p></li>
+<li><p>Structure analysis.</p></li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Music Embedding’s only prerequisit is the Numpy package. Music Embedding is developed and tested in interaction with <a class="reference external" href="https://github.com/salu133445/pypianoroll">Pypianoroll</a> ; yet, any other code which can handle pianorolls should work just fine.</p>
+<p>To install Music Embedding, please run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">music_embedding</span></code>. To build Music Embedding from source, please download the <a class="reference external" href="https://github.com/PooyaHekmati/music_embedding/releases">source</a> and run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>.</p>
+</div>
+<div class="section" id="semantic-versioning-policy">
+<h2>Semantic Versioning Policy<a class="headerlink" href="#semantic-versioning-policy" title="Permalink to this headline">¶</a></h2>
+<p>Music Embedding uses x.y.z format to indicate the version where x is major versin number, y is minor version number, and z is the patch number. A stable version of Music Embedding is not released yet so x is 0. Also, prior to version numbers, a PyPI tag might apear which means this version is availble using pip.</p>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>Documentation is available <a class="reference external" href="https://pooyahekmati.github.io/music_embedding/">here</a> and as docstrings with the code.</p>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>The following code snippet demonstrates how to convert a midi file into a sequence of harmonic intervals.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">music_embedding</span>
+<span class="kn">import</span> <span class="nn">pypianoroll</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+        <span class="c1">#opening midi file using pypianoroll</span>
+        <span class="n">midi_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;c:\Moonlight Sonata.mid&#39;</span>
+        <span class="n">multi_track</span> <span class="o">=</span> <span class="n">pypianoroll</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">midi_path</span><span class="p">)</span>
+
+        <span class="c1">#mergeing midi tracks into a single pianoroll so harmonic intervals can be extracted</span>
+        <span class="n">merged_piano_roll</span> <span class="o">=</span> <span class="n">multi_track</span><span class="o">.</span><span class="n">blend</span><span class="p">(</span><span class="s1">&#39;max&#39;</span><span class="p">)</span>
+
+        <span class="c1">#getting pianoroll of the first track</span>
+        <span class="n">pianoroll</span> <span class="o">=</span> <span class="n">multi_track</span><span class="o">.</span><span class="n">tracks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pianoroll</span>
+
+        <span class="c1">#creating embedder object from music embedding package</span>
+        <span class="n">embedder</span> <span class="o">=</span> <span class="n">music_embedding</span><span class="o">.</span><span class="n">embedder</span><span class="p">()</span>
+
+        <span class="c1">#extracting harmonic intervals</span>
+        <span class="n">harmonic_intervals</span> <span class="o">=</span> <span class="n">embedder</span><span class="o">.</span><span class="n">get_harmonic_intervals_from_pianoroll</span><span class="p">(</span><span class="n">pianoroll</span><span class="o">=</span><span class="n">pianoroll</span><span class="p">,</span> <span class="n">ref_pianoroll</span><span class="o">=</span><span class="n">merged_piano_roll</span><span class="p">)</span>
+
+        <span class="c1">#creating interval object from music embedding package</span>
+        <span class="n">interval</span> <span class="o">=</span> <span class="n">music_embedding</span><span class="o">.</span><span class="n">interval</span><span class="p">()</span>
+
+        <span class="c1">#printing the first 20 intervals</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+                <span class="n">interval</span><span class="o">.</span><span class="n">set_specs_list</span><span class="p">(</span><span class="n">harmonic_intervals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="issues">
+<h2>Issues<a class="headerlink" href="#issues" title="Permalink to this headline">¶</a></h2>
+<p>If you find a problem, please <a class="reference external" href="ttps://github.com/PooyaHekmati/music_embedding/issues/new">file a bug</a>.</p>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>This project is licensed under the MIT License - see the <a class="reference external" href="https://github.com/PooyaHekmati/music_embedding/blob/main/LICENSE">LICENSE</a> file for details.</p>
+</div>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interval.html">Interval</a></li>
+<li class="toctree-l1"><a class="reference internal" href="embedder.html">Embedder</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">Music Embedding</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interval.html">Interval</a></li>
+<li class="toctree-l1"><a class="reference internal" href="embedder.html">Embedder</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="getting_started.html" title="next chapter">Getting Started</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, SeyyedPooya HekmatiAthar.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
