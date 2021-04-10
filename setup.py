@@ -1,8 +1,20 @@
 from distutils.core import setup
+from pathlib import Path
+
+def _get_version():
+    with open(str(Path(__file__).parent / "pypianoroll/version.py"), "r") as f:
+        for line in f:
+            if line.startswith("__version__"):
+                delimeter = '"' if '"' in line else "'"
+                return line.split(delimeter)[1]
+    raise RuntimeError("Cannot read version string.")
+  
+VERSION = _get_version()
+  
 setup(
   name = 'music_embedding', 
   packages = ['music_embedding'],
-  version = '0.1.7',
+  version = VERSION,
   license='MIT',
   description = 'A package for representing music data based on music theory',
   author = 'SeyyedPooya HekmatiAthar',

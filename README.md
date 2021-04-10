@@ -35,7 +35,7 @@ Music Embedding's only prerequisit is the Numpy package. Music Embedding is deve
 
 To install Music Embedding, please run `pip install music_embedding`. To build Music Embedding from source, please download the [source](https://github.com/PooyaHekmati/music_embedding/releases) and run `python setup.py install`.
 
-Semantic versioning policy
+Semantic Versioning Policy
 -------------
 
 Music Embedding uses x.y.z format to indicate the version where x is major versin number, y is minor version number, and z is the patch number. A stable version of Music Embedding is not released yet so x is 0. Also, prior to version numbers, a PyPI tag might apear which means this version is availble using pip.
@@ -43,7 +43,7 @@ Music Embedding uses x.y.z format to indicate the version where x is major versi
 Documentation
 -------------
 
-Currently, docstrings are the best source of documentation. An extensive documentation will be available soon.
+Documentation is available [here] <https://pooyahekmati.github.io/music_embedding/> and as docstrings with the code.
 
 Usage
 -------------

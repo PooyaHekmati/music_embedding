@@ -4,11 +4,6 @@ from .interval import interval
 class embedder:
     """ The embedding class for musical data. Provides functionallities to convert pianorolls into intervals and vice versa (embedding). 
     
-    Dependencies
-    ----------
-    Numpy as np
-    interval class
-    
     Attributes
     ----------
     pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional
@@ -34,8 +29,14 @@ class embedder:
         self.pixels_per_bar=pixels_per_bar
     
     def extract_highest_pitch_notes_from_pianoroll(self, preserve_pianoroll=True): 
-        """Does not perform any checks. Works on self.pianoroll, fill it before calling this function.  
-        Example: Given the pianoroll of an SATB choir, returns Soprano notes.
+        """
+        Extracts highest pitch note at each timestep from pianoroll.
+        
+        **Example:** Given the pianoroll of an SATB choir, returns Soprano notes.
+        
+        Notes
+        -----
+        - Works on `self.pianoroll`, fill it before calling this function.  
         
         Parameters
         ----------
@@ -61,9 +62,16 @@ class embedder:
         return np.argmax(pianoroll,axis=1)        
         
     def get_melodic_intervals_from_pianoroll(self, pianoroll=None):
-        """Does not perform any checks. Works on highest pitch notes in self.pianoroll, Updates self.pianoroll if pianoroll argument is passed. Updates self.intervals.
-        Example: Given the pianoroll of an SATB choir, returns melodic intervals of Soprano.
+        """Creates sequence of melodic intervals from pianoroll.
         
+        **Example:** Given the pianoroll of an SATB choir, returns melodic intervals of Soprano.
+        
+        Notes
+        -----        
+        - Works on highest pitch notes in `self.pianoroll`
+        - Updates `self.pianoroll` if pianoroll argument is passed.
+        - Updates `self.intervals`.
+     
         Parameters
         ----------
         pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional
@@ -104,13 +112,19 @@ class embedder:
         Returns
         -------
         Call to function:
-            self.get_melodic_intervals_from_pianoroll()
+            :func:`get_melodic_intervals_from_pianoroll`
             
         """
         return self.get_melodic_intervals_from_pianoroll()
     
     def get_pianoroll_from_melodic_intervals(self, intervals=None, origin=None, velocity=None, leading_silence=0):
-        """Does not perform any checks. Works on self.intervals, Updates self.intervals if intervals argument is passed. Updates self.pianoroll.
+        """Creates pianoroll from sequence of melodic intervals.
+        
+        Notes
+        -----
+        - Works on `self.intervals`
+        - Updates `self.intervals` if intervals argument is passed.
+        - Updates `self.pianoroll`.
 
         Parameters
         ----------
@@ -167,15 +181,22 @@ class embedder:
         Returns
         -------
         Call to function:
-            self.get_pianoroll_from_melodic_intervals()
+            :func:`get_pianoroll_from_melodic_intervals`
 
         """
         return self.get_pianoroll_from_melodic_intervals()
         
           
     def get_harmonic_intervals_from_pianoroll(self, ref_pianoroll, pianoroll=None): 
-        """Does not perform any checks. Updates self.pianoroll if pianoroll argument is passed. Updates self.intervals.
+        """Creates sequence of harmonic intervals from pianoroll.
+        
         Calculates the harmonic intervals of the highest pitch notes in self.pianoroll with respect to ref_pianoroll.        
+        
+        Notes
+        -----
+        - Works on `self.pianoroll`.
+        - Updates `self.pianoroll` if pianoroll argument is passed.
+        - Updates `self.intervals`.
 
         Parameters
         ----------
@@ -221,16 +242,24 @@ class embedder:
         Returns
         -------
         Call to function:
-            self.get_harmonic_intervals_from_pianoroll()
+            :func:`get_harmonic_intervals_from_pianoroll`
 
         """
         return self.get_harmonic_intervals_from_pianoroll()
 
     
     def get_pianoroll_from_harmonic_intervals(self, pianoroll=None, intervals=None, velocity=None):
-        """Does not perform any checks. Works on self.intervals, Updates self.intervals if intervals argument is passed. Updates self.pianoroll.
+        """Creates pianoroll from sequence of harmonic intervals.
+        
         Extracts highest pitch notes from self.pianoroll first, then builds a new pianoroll based on the extracted notes and self.intervals(harmonic).
-        Example: Given ATB choir pianoroll and Soprano's harmonic intervals with respect to Alto, returns Soprano's pianoroll.
+        
+        **Example:** Given ATB choir pianoroll and Soprano's harmonic intervals with respect to Alto, returns Soprano's pianoroll.
+        
+        Notes
+        -----        
+        - Works on `self.intervals`.
+        - Updates `self.intervals` if intervals argument is passed.
+        - Updates `self.pianoroll`.        
 
         Parameters
         ----------
@@ -274,15 +303,22 @@ class embedder:
         Returns
         -------
         Call to function:
-            self.get_pianoroll_from_harmonic_intervals()
+            :func:`get_pianoroll_from_harmonic_intervals`
 
         """
         return self.get_pianoroll_from_harmonic_intervals()
 
     
     def get_barwise_intervals_from_pianoroll(self, pianoroll=None, pixels_per_bar=None):
-        """Does not perform any checks. Works on highest pitch notes in self.pianoroll, Updates self.pianoroll if pianoroll argument is passed. Updates self.intervals.
-        Calculates intervals with respect to the first note of bar. For first notes the interval is calculated with respect to the first note of the last bar.
+        """Creates sequence of barwise intervals from pianoroll.
+        
+        Calculates intervals with respect to the first note of the current bar. For first notes of bars, the interval is calculated with respect to the first note of the last bar.
+        
+        Notes
+        -----
+        - Works on highest pitch notes in `self.pianoroll`.
+        - Updates `self.pianoroll` if pianoroll argument is passed.
+        - Updates `self.intervals`.
         
         Parameters
         ----------
@@ -350,7 +386,13 @@ class embedder:
     
 
     def get_pianoroll_from_barwise_intervals(self, intervals=None, origin=None, velocity=None, leading_silence=0, pixels_per_bar=None):
-        """Does not perform any checks. Works on self.intervals, Updates self.intervals if intervals argument is passed. Updates self.pianoroll.        
+        """Creates pianoroll from sequence of barwise intervals.
+        
+        Notes
+        -----
+        - Works on `self.intervals`.
+        - Updates `self.intervals` if intervals argument is passed.
+        - Updates `self.pianoroll`.        
 
         Parameters
         ----------
@@ -412,8 +454,12 @@ class embedder:
         return self.pianoroll
     
     def chunk_sequence_of_intervals(self, intervals=None, pixels_per_chunk=None):
-        """Does not perform any checks. Works on self.intervals, Updates self.intervals if intervals argument is passed. 
-        Recieves a long sequence of intervals and breaks it into chunks.        
+        """Breaks a long sequence of intervals into chunks.        
+
+        Notes
+        -----
+        - Works on `self.intervals`.
+        - Updates `self.intervals` if intervals argument is passed. 
 
         Parameters
         ----------
@@ -439,8 +485,11 @@ class embedder:
     
     
     def merge_chunked_intervals(self, chunked_intervals):
-        """Does not perform any checks. Updates self.intervals.
-        Recieves chunks of interval sequences and merges them.
+        """Merges chunks of interval sequence.
+        
+        Notes
+        -----
+        - Updates `self.intervals`.
 
         Parameters
         ----------
@@ -457,8 +506,12 @@ class embedder:
         return self.intervals
 
     def get_RLE_from_intervals(self, intervals=None):
-        """ Does not perform any checks. Works on self.intervals, Updates self.intervals if intervals argument is passed.       
-        Compresses sequence of intervals using Run-Length Encoding.
+        """Compresses sequence of intervals using Run-Length Encoding.
+        
+        Notes
+        -----
+        - Works on `self.intervals`.
+        - Updates `self.intervals` if `intervals` argument is passed.
 
         Parameters
         ----------
@@ -490,8 +543,11 @@ class embedder:
         return RLE[:index + 1,:]
     
     def get_intervals_from_RLE(self, RLE_data):
-        """Does not perform any checks. Updates self.intervals.
-        Uncompresses Run-Length Encoded intervals data.
+        """Uncompresses Run-Length Encoded intervals data.
+        
+        Notes
+        -----
+        - Updates `self.intervals`.
 
         Parameters
         ----------
@@ -515,8 +571,7 @@ class embedder:
         return self.intervals
     
     def get_RLE_from_intervals_bulk(self, bulk_intervals):
-        """ Does not perform any checks.
-        Bulk version of self.get_RLE_from_intervals.
+        """Bulk version of :func:`get_RLE_from_intervals`.
 
         Parameters
         ----------
@@ -526,7 +581,7 @@ class embedder:
         Returns
         -------
         list
-            List of RLE_compressed data, see self.get_intervals_from_RLE.
+            List of RLE_compressed data, see :func:`get_intervals_from_RLE`.
 
         """
         
@@ -538,8 +593,11 @@ class embedder:
         return RLE_bulk
     
     def get_intervals_from_RLE_bulk(self, bulk_RLE_data):
-        """Does not perform any checks. 
-        Bulk version of self.get_intervals_from_RLE. Infers output size from first chunk.
+        """Bulk version of :func:`get_intervals_from_RLE`.
+        
+        Notes
+        -----
+        - Infers output size from the first chunk.
     
         Parameters
         ----------

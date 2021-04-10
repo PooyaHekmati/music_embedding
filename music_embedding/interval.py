@@ -1,12 +1,8 @@
 import numpy as np
 
-class interval:
-    """ Implementation of interval concept in music theory.
-    
-    Dependencies
-    ----------
-    Numpy as np    
-    
+class interval(object):
+    """Implementation of interval concept in music theory.  
+        
     Attributes
     ----------
     interval_order: int
@@ -20,6 +16,7 @@ class interval:
     semitones: int
         Number of semitones in the interval.
     """
+
     feature_dimensions=4
     def __init__ (self,interval_order=1,interval_type=0,octave_offset=0,is_descending=0,semitones=0):
         self.interval_order=interval_order
@@ -29,21 +26,30 @@ class interval:
         self.semitones=semitones
         
     def semitone2interval(self, semitones=None):
-        """ Does not perform any checks. Updates self.semitones if semitones is passed. 
-        Calculates the interval characterisics based on their semitone distance.
-        Semitone-interval Q-Table:
-            0 semitones: P 1st
-            1 semitones: m 2nd
-            2 semitones: M 2nd
-            3 semitones: m 3rd
-            4 semitones: M 3rd
-            5 semitones: P 4th
-            6 semitones: dim 5th
-            7 semitones: P 5th
-            8 semitones: m 6th
-            9 semitones: M 6th
-            10 semitones: m 7th
-            11 semitones: M 7th  
+        """Calculates the interval characterisics based on their semitone distance.
+        
+        Notes
+        -----
+        - Updates `self.semitones` if semitones is passed. 
+        
+        Semitone-interval Q-Table
+            =========   ===============
+            Semitones   Interval
+            =========   ===============
+            0           Perfect 1st
+            1           minor 2nd
+            2           Major 2nd
+            3           minor 3rd
+            4           Major 3rd
+            5           Perfect 4th
+            6           diminished 5th
+            7           Perfect 5th
+            8           minor 6th
+            9           Major 6th
+            10          minor 7th
+            11          Major 7th  
+            =========   ===============
+
 
         Parameters
         ----------
@@ -109,8 +115,12 @@ class interval:
         return {'interval_order':self.interval_order,'interval_type':self.interval_type,'octave_offset':self.octave_offset,'is_descending':self.is_descending}
 
     def interval2semitone(self, specs=None):
-        """ Does not perform any checks. Updates intervals parameters if specs is passed. 
-        Returns the distance between the two notes of the interval in semitones.  
+        """Returns the distance between the two notes of the interval in semitones.  
+        
+        Notes
+        -----
+        - Updates intervals parameters if specs is passed.
+        
         Faulty interval representation handling: 
             - if interval is 1st, 4th, or 5th and interval type is set to m or M, calculates P interval.
             - if interval is 2nd, 3rd, 6th, or 7th and interval type is set to P, calculates M interval.
@@ -119,14 +129,10 @@ class interval:
         Parameters
         ----------
         specs : array, dtype=int, shape=(4), optional
-            interval_order=specs[0],interval_type=specs[1], is_descending=specs[2], octave_offset=specs[3]
-            interval_order: first to seventh
-            interval_type:
-                -2: dim
-                -1: m
-                0: perfect
-                1: M
-                2: Aug  
+            - interval_order=specs[0] (first to seventh)
+            - interval_type=specs[1] (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug )
+            - is_descending=specs[2]
+            - octave_offset=specs[3]
 
         Returns
         -------
@@ -230,11 +236,9 @@ class interval:
             self.semitones=-self.semitones
             
         return int(self.semitones)
-            
-    
+             
     def is_silence(self):
-        """
-        Determines if the interval represents silence.
+        """Determines if the interval represents silence.
 
         Returns
         -------
@@ -245,8 +249,7 @@ class interval:
         return np.array_equal(self.get_specs_list(), interval.get_silence_specs_list())
     
     def get_specs_list(self):
-        """
-        Returns interval's characteristics.
+        """Returns interval's characteristics.
 
         Returns
         -------
@@ -257,20 +260,15 @@ class interval:
         return [self.interval_order,self.interval_type,self.is_descending,self.octave_offset]
     
     def set_specs_list(self, specs):
-        """ Does not perform any checks.
-        Sets interval's characteristics.
+        """Sets interval's characteristics.
 
         Parameters
         ----------
         specs : array, dtype=int, shape=(4)
-            interval_order=specs[0],interval_type=specs[1], is_descending=specs[2], octave_offset=specs[3]
-            interval_order: first to seventh
-            interval_type:
-                -2: dim
-                -1: m
-                0: perfect
-                1: M
-                2: Aug   
+            - interval_order=specs[0] (first to seventh)
+            - interval_type=specs[1] (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug )
+            - is_descending=specs[2]
+            - octave_offset=specs[3] 
 
         Returns
         -------
@@ -297,7 +295,7 @@ class interval:
         return {'interval_order':interval_order, 'interval_type': interval_type, 'is_descending': self.is_descending, 'octave_offset': self.octave_offset}
         
     def set_one_hot_specs_list(self,interval_order,interval_type,is_descending,octave_offset):
-        """Does not perform any checks.        
+        """Sets interval's characteristics.      
 
         Parameters
         ----------
@@ -322,8 +320,7 @@ class interval:
     
     @staticmethod
     def get_silence_specs_list():
-        """
-        Representaion of a silence.
+        """Representaion of a silence.
 
         Returns
         -------
@@ -334,8 +331,11 @@ class interval:
         return [0]*interval().feature_dimensions
     
     def get_name(self, semitones=None):
-        """Does not perform any checks. Updates all self parameters if semitones is passed. 
-        Generates interval's name from inner representation.        
+        """Generates interval's name from inner representation.   
+
+        Notes
+        -----
+        - Updates all `self parameters` if semitones is passed. 
 
         Parameters
         ----------
