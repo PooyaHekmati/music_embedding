@@ -31,7 +31,7 @@ Embedding is an underexplored area in the intersection of AI and music. While ma
 Installation
 ------------
 
-Music Embedding's only prerequisit is the Numpy package. Music Embedding is developed and tested in interaction with [Pypianoroll](https://github.com/salu133445/pypianoroll) ; yet, any other code which can handle pianorolls should work just fine.
+Music Embedding's only prerequisit is the Numpy package. Music Embedding is developed and tested in interaction with [Pypianoroll](https://github.com/salu133445/pypianoroll); yet, any other code which can handle pianorolls should work just fine.
 
 To install Music Embedding, please run `pip install music_embedding`. To build Music Embedding from source, please download the [source](https://github.com/PooyaHekmati/music_embedding/releases) and run `python setup.py install`.
 
@@ -43,7 +43,7 @@ Music Embedding uses x.y.z format to indicate the version where x is major versi
 Documentation
 -------------
 
-Documentation is available [here] <https://pooyahekmati.github.io/music_embedding/> and as docstrings with the code.
+Documentation is available [here](https://pooyahekmati.github.io/music_embedding) and as docstrings with the code.
 
 Usage
 -------------
