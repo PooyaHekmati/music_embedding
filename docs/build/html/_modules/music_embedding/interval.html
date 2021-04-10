@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>music_embedding.interval &#8212; Music Embedding 0.1.7 alpha documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for music_embedding.interval</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="interval"><a class="viewcode-back" href="../../interval.html#music_embedding.interval.interval">[docs]</a><span class="k">class</span> <span class="nc">interval</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implementation of interval concept in music theory.  </span>
+<span class="sd">        </span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    interval_order: int</span>
+<span class="sd">        first to seventh</span>
+<span class="sd">    interval_type: int</span>
+<span class="sd">        -2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug</span>
+<span class="sd">    octave_offset : int8</span>
+<span class="sd">        octave offset of a compound interval, 0 if interval is not compund.</span>
+<span class="sd">    is_descending : boolean</span>
+<span class="sd">            true if interval is descending.</span>
+<span class="sd">    semitones: int</span>
+<span class="sd">        Number of semitones in the interval.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">feature_dimensions</span><span class="o">=</span><span class="mi">4</span>
+    <span class="k">def</span> <span class="fm">__init__</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">interval_type</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">octave_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">is_descending</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">semitones</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="n">interval_order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=</span><span class="n">interval_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">octave_offset</span><span class="o">=</span><span class="n">octave_offset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_descending</span><span class="o">=</span><span class="n">is_descending</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="n">semitones</span>
+        
+<div class="viewcode-block" id="interval.semitone2interval"><a class="viewcode-back" href="../../interval.html#music_embedding.interval.interval.semitone2interval">[docs]</a>    <span class="k">def</span> <span class="nf">semitone2interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">semitones</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculates the interval characterisics based on their semitone distance.</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - Updates `self.semitones` if semitones is passed. </span>
+<span class="sd">        </span>
+<span class="sd">        Semitone-interval Q-Table</span>
+<span class="sd">            =========   ===============</span>
+<span class="sd">            Semitones   Interval</span>
+<span class="sd">            =========   ===============</span>
+<span class="sd">            0           Perfect 1st</span>
+<span class="sd">            1           minor 2nd</span>
+<span class="sd">            2           Major 2nd</span>
+<span class="sd">            3           minor 3rd</span>
+<span class="sd">            4           Major 3rd</span>
+<span class="sd">            5           Perfect 4th</span>
+<span class="sd">            6           diminished 5th</span>
+<span class="sd">            7           Perfect 5th</span>
+<span class="sd">            8           minor 6th</span>
+<span class="sd">            9           Major 6th</span>
+<span class="sd">            10          minor 7th</span>
+<span class="sd">            11          Major 7th  </span>
+<span class="sd">            =========   ===============</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        semitones : int, optional</span>
+<span class="sd">            Number of semitones in the interval.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict, shape=(4)</span>
+<span class="sd">            {&#39;interval_order&#39;, &#39;interval_type&#39;, &#39;octave_offset&#39;, &#39;is_descending&#39;}</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">semitones</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="n">semitones</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_descending</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_descending</span><span class="o">=</span><span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">semitones</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">octave_offset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">//</span><span class="mi">12</span>         <span class="c1">#becuase 12th semitone is the octave</span>
+        <span class="n">remainder_semitones</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">%</span><span class="mi">12</span>
+    
+        <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">if</span> <span class="n">remainder_semitones</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>          <span class="c1">#implementing Q-table</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">remainder_semitones</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=-</span><span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">remainder_semitones</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=</span><span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">remainder_semitones</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">3</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=-</span><span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">remainder_semitones</span><span class="o">==</span><span class="mi">4</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">3</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=</span><span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">remainder_semitones</span><span class="o">==</span><span class="mi">5</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">4</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">remainder_semitones</span><span class="o">==</span><span class="mi">6</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">5</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=-</span><span class="mi">2</span>
+        <span class="k">elif</span> <span class="n">remainder_semitones</span><span class="o">==</span><span class="mi">7</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">5</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">remainder_semitones</span><span class="o">==</span><span class="mi">8</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">6</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=-</span><span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">remainder_semitones</span><span class="o">==</span><span class="mi">9</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">6</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=</span><span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">remainder_semitones</span><span class="o">==</span><span class="mi">10</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">7</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=-</span><span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">remainder_semitones</span><span class="o">==</span><span class="mi">11</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="mi">7</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=</span><span class="mi">1</span>
+        
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;interval_order&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="p">,</span><span class="s1">&#39;interval_type&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="p">,</span><span class="s1">&#39;octave_offset&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">octave_offset</span><span class="p">,</span><span class="s1">&#39;is_descending&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">is_descending</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="interval.interval2semitone"><a class="viewcode-back" href="../../interval.html#music_embedding.interval.interval.interval2semitone">[docs]</a>    <span class="k">def</span> <span class="nf">interval2semitone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the distance between the two notes of the interval in semitones.  </span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - Updates intervals parameters if specs is passed.</span>
+<span class="sd">        </span>
+<span class="sd">        Faulty interval representation handling: </span>
+<span class="sd">            - if interval is 1st, 4th, or 5th and interval type is set to m or M, calculates P interval.</span>
+<span class="sd">            - if interval is 2nd, 3rd, 6th, or 7th and interval type is set to P, calculates M interval.</span>
+<span class="sd">               </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        specs : array, dtype=int, shape=(4), optional</span>
+<span class="sd">            - interval_order=specs[0] (first to seventh)</span>
+<span class="sd">            - interval_type=specs[1] (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug )</span>
+<span class="sd">            - is_descending=specs[2]</span>
+<span class="sd">            - octave_offset=specs[3]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Number of semitones in the interval</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="n">specs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_specs_list</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">0</span>
+            
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=-</span><span class="mi">1</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">0</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">0</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">0</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">1</span>
+            
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>           
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">0</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">1</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">2</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">2</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">3</span>
+        
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span>           
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">2</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">3</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">4</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">4</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">5</span>
+                
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">==</span><span class="mi">4</span><span class="p">:</span>           
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">4</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">5</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">5</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">5</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">6</span>
+                
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">==</span><span class="mi">5</span><span class="p">:</span>           
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">6</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">7</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">7</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">7</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">8</span>
+                
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">==</span><span class="mi">6</span><span class="p">:</span>           
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">7</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">8</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">9</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">9</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">10</span>
+                
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">==</span><span class="mi">7</span><span class="p">:</span>           
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">9</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">10</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">11</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">11</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="mi">12</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">+=</span><span class="bp">self</span><span class="o">.</span><span class="n">octave_offset</span><span class="o">*</span><span class="mi">12</span>                  <span class="c1">#adds multiplies of 12 to semitones becuase octave is 12 semitones</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_descending</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>       
+            <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">semitones</span>
+            
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="p">)</span></div>
+             
+<div class="viewcode-block" id="interval.is_silence"><a class="viewcode-back" href="../../interval.html#music_embedding.interval.interval.is_silence">[docs]</a>    <span class="k">def</span> <span class="nf">is_silence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Determines if the interval represents silence.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        boolean</span>
+<span class="sd">            True if interval is silenmce, False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_specs_list</span><span class="p">(),</span> <span class="n">interval</span><span class="o">.</span><span class="n">get_silence_specs_list</span><span class="p">())</span></div>
+    
+<div class="viewcode-block" id="interval.get_specs_list"><a class="viewcode-back" href="../../interval.html#music_embedding.interval.interval.get_specs_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_specs_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns interval&#39;s characteristics.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list, dtype=int, shape=(4)</span>
+<span class="sd">            [interval_order, interval_type, is_descending, octave_offset]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">is_descending</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">octave_offset</span><span class="p">]</span></div>
+    
+<div class="viewcode-block" id="interval.set_specs_list"><a class="viewcode-back" href="../../interval.html#music_embedding.interval.interval.set_specs_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_specs_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets interval&#39;s characteristics.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        specs : array, dtype=int, shape=(4)</span>
+<span class="sd">            - interval_order=specs[0] (first to seventh)</span>
+<span class="sd">            - interval_type=specs[1] (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug )</span>
+<span class="sd">            - is_descending=specs[2]</span>
+<span class="sd">            - octave_offset=specs[3] </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="n">specs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=</span><span class="n">specs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_descending</span><span class="o">=</span><span class="n">specs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">octave_offset</span><span class="o">=</span><span class="n">specs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span></div>
+        
+<div class="viewcode-block" id="interval.get_one_hot_specs_list"><a class="viewcode-back" href="../../interval.html#music_embedding.interval.interval.get_one_hot_specs_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_one_hot_specs_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Provides one-hot-encoding of the interval&#39;s order, type, and is decending. Octave offset is represented as an integer.</span>
+<span class="sd">                    </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict, shape=(4)</span>
+<span class="sd">            interval order (one-hot), interval type(one hot), is decending (boolean), octave offset (integer)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">interval_order</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">7</span>
+        <span class="n">interval_type</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span>
+        <span class="n">interval_order</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>              <span class="c1">#1 is subtracted to get the index; index starts at 0 while order starts at 1</span>
+        <span class="n">interval_type</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span> <span class="o">+</span> <span class="mi">2</span> <span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>      <span class="c1">#2 is added to get the index; index starts at 0 while type starts at -2</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;interval_order&#39;</span><span class="p">:</span><span class="n">interval_order</span><span class="p">,</span> <span class="s1">&#39;interval_type&#39;</span><span class="p">:</span> <span class="n">interval_type</span><span class="p">,</span> <span class="s1">&#39;is_descending&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_descending</span><span class="p">,</span> <span class="s1">&#39;octave_offset&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">octave_offset</span><span class="p">}</span></div>
+        
+<div class="viewcode-block" id="interval.set_one_hot_specs_list"><a class="viewcode-back" href="../../interval.html#music_embedding.interval.interval.set_one_hot_specs_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_one_hot_specs_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">interval_order</span><span class="p">,</span><span class="n">interval_type</span><span class="p">,</span><span class="n">is_descending</span><span class="p">,</span><span class="n">octave_offset</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets interval&#39;s characteristics.      </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        interval_order : array, dtype=int8, shape=(7)</span>
+<span class="sd">            One-hot encoding representation of interval&#39;s order: 1st to 7th</span>
+<span class="sd">        interval_type : array, dtype=int8, shape=(5)</span>
+<span class="sd">            One-hot encoding representation of interval&#39;s type: 0: dim,-1: min, 2: perfect, 3: Maj, 4: Aug  </span>
+<span class="sd">        is_descending : boolean</span>
+<span class="sd">            true if interval is descending.</span>
+<span class="sd">        octave_offset : int8</span>
+<span class="sd">            octave offset of a compound interval, 0 if interval is not compund.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">interval_order</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span> <span class="c1">#1 is added to get the index; index starts at 0 while order starts at 1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">interval_type</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span>   <span class="c1">#2 is subtracted to get the index; index starts at 0 while type starts at -2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_descending</span><span class="o">=</span><span class="n">is_descending</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">octave_offset</span><span class="o">=</span><span class="n">octave_offset</span></div>
+    
+<div class="viewcode-block" id="interval.get_silence_specs_list"><a class="viewcode-back" href="../../interval.html#music_embedding.interval.interval.get_silence_specs_list">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_silence_specs_list</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Representaion of a silence.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        array, dtype=int8, shape=(interval.feature_dimensions)</span>
+<span class="sd">            All zeros.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">interval</span><span class="p">()</span><span class="o">.</span><span class="n">feature_dimensions</span></div>
+    
+<div class="viewcode-block" id="interval.get_name"><a class="viewcode-back" href="../../interval.html#music_embedding.interval.interval.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">semitones</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generates interval&#39;s name from inner representation.   </span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - Updates all `self parameters` if semitones is passed. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        semitones : int8, optional</span>
+<span class="sd">            If passed, is used to generate the name. The default is None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : string</span>
+<span class="sd">            Name of the interval.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">semitones</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="n">semitones</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">semitone2interval</span><span class="p">()</span>
+            
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_silence</span><span class="p">():</span>
+            <span class="k">return</span> <span class="s1">&#39;Silence&#39;</span>
+        
+        <span class="n">output</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_descending</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;Descending &quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span> <span class="o">==</span> <span class="o">-</span><span class="mi">2</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;dim &quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;min &quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;perfect &quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;Maj &quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">interval_type</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;Aug &quot;</span> 
+        <span class="n">ordinal</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%d%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="s2">&quot;tsnrhtdd&quot;</span><span class="p">[(</span><span class="n">n</span><span class="o">//</span><span class="mi">10</span><span class="o">%</span><span class="mi">10</span><span class="o">!=</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">%</span><span class="mi">10</span><span class="o">&lt;</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="n">n</span><span class="o">%</span><span class="mi">10</span><span class="p">::</span><span class="mi">4</span><span class="p">])</span> <span class="c1">#adopted from https://codegolf.stackexchange.com/questions/4707/outputting-ordinal-numbers-1st-2nd-3rd#answer-4712</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="n">ordinal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interval_order</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">octave_offset</span> <span class="o">*</span> <span class="mi">7</span><span class="p">)</span> 
+        <span class="k">return</span> <span class="n">output</span></div>
+    
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Music Embedding</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../interval.html">Interval</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../embedder.html">Embedder</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, SeyyedPooya HekmatiAthar.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

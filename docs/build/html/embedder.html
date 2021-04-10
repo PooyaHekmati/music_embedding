@@ -1,0 +1,600 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Embedder &#8212; Music Embedding 0.1.7 alpha documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Interval" href="interval.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-music_embedding.embedder">
+<span id="embedder"></span><h1>Embedder<a class="headerlink" href="#module-music_embedding.embedder" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="music_embedding.embedder.embedder">
+<em class="property">class </em><code class="sig-prename descclassname">music_embedding.embedder.</code><code class="sig-name descname">embedder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pianoroll</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">intervals</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">default_velocity</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">origin</span><span class="o">=</span><span class="default_value">60</span></em>, <em class="sig-param"><span class="n">pixels_per_bar</span><span class="o">=</span><span class="default_value">96</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The embedding class for musical data. Provides functionallities to convert pianorolls into intervals and vice versa (embedding).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>pianoroll</strong><span class="classifier">ndarray, dtype=uint8, shape=(?, 128), optional</span></dt><dd><p>First dimension is timesteps and second dimension is fixed 128 per MIDI standard. The default is None.</p>
+</dd>
+<dt><strong>intervals</strong><span class="classifier">ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional</span></dt><dd><p>First dimension is timesteps and second dimension is interval features. The default is None.</p>
+</dd>
+<dt><strong>default_velocity</strong><span class="classifier">int</span></dt><dd><p>When creating pianorolls this value is used for notes’ velocities. The default is 100.</p>
+</dd>
+<dt><strong>origin</strong><span class="classifier">int</span></dt><dd><p>The reference note of a melody; when decoding a melody, this indicates the first note. The default is 60.</p>
+</dd>
+<dt><strong>pixels_per_bar</strong><span class="classifier">int</span></dt><dd><p>Number of pixels in each bar. Equals time signature’s numarator multiplied by resolution per pixel. The default is 96.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.chunk_sequence_of_intervals" title="music_embedding.embedder.embedder.chunk_sequence_of_intervals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chunk_sequence_of_intervals</span></code></a>([intervals, …])</p></td>
+<td><p>Breaks a long sequence of intervals into chunks.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.extract_highest_pitch_notes_from_pianoroll" title="music_embedding.embedder.embedder.extract_highest_pitch_notes_from_pianoroll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_highest_pitch_notes_from_pianoroll</span></code></a>([…])</p></td>
+<td><p>Extracts highest pitch note at each timestep from pianoroll.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_RLE_from_intervals" title="music_embedding.embedder.embedder.get_RLE_from_intervals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_RLE_from_intervals</span></code></a>([intervals])</p></td>
+<td><p>Compresses sequence of intervals using Run-Length Encoding.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_RLE_from_intervals_bulk" title="music_embedding.embedder.embedder.get_RLE_from_intervals_bulk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_RLE_from_intervals_bulk</span></code></a>(bulk_intervals)</p></td>
+<td><p>Bulk version of <a class="reference internal" href="#music_embedding.embedder.embedder.get_RLE_from_intervals" title="music_embedding.embedder.embedder.get_RLE_from_intervals"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_RLE_from_intervals()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_barwise_intervals_from_pianoroll" title="music_embedding.embedder.embedder.get_barwise_intervals_from_pianoroll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_barwise_intervals_from_pianoroll</span></code></a>([…])</p></td>
+<td><p>Creates sequence of barwise intervals from pianoroll.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_harmonic_intervals_from_pianoroll" title="music_embedding.embedder.embedder.get_harmonic_intervals_from_pianoroll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_harmonic_intervals_from_pianoroll</span></code></a>(…[, …])</p></td>
+<td><p>Creates sequence of harmonic intervals from pianoroll.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_intervals_from_RLE" title="music_embedding.embedder.embedder.get_intervals_from_RLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_intervals_from_RLE</span></code></a>(RLE_data)</p></td>
+<td><p>Uncompresses Run-Length Encoded intervals data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_intervals_from_RLE_bulk" title="music_embedding.embedder.embedder.get_intervals_from_RLE_bulk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_intervals_from_RLE_bulk</span></code></a>(bulk_RLE_data)</p></td>
+<td><p>Bulk version of <a class="reference internal" href="#music_embedding.embedder.embedder.get_intervals_from_RLE" title="music_embedding.embedder.embedder.get_intervals_from_RLE"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_intervals_from_RLE()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_melodic_intervals_from_pianoroll" title="music_embedding.embedder.embedder.get_melodic_intervals_from_pianoroll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_melodic_intervals_from_pianoroll</span></code></a>([pianoroll])</p></td>
+<td><p>Creates sequence of melodic intervals from pianoroll.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_pianoroll_from_barwise_intervals" title="music_embedding.embedder.embedder.get_pianoroll_from_barwise_intervals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pianoroll_from_barwise_intervals</span></code></a>([…])</p></td>
+<td><p>Creates pianoroll from sequence of barwise intervals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_pianoroll_from_harmonic_intervals" title="music_embedding.embedder.embedder.get_pianoroll_from_harmonic_intervals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pianoroll_from_harmonic_intervals</span></code></a>([…])</p></td>
+<td><p>Creates pianoroll from sequence of harmonic intervals.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_pianoroll_from_melodic_intervals" title="music_embedding.embedder.embedder.get_pianoroll_from_melodic_intervals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pianoroll_from_melodic_intervals</span></code></a>([…])</p></td>
+<td><p>Creates pianoroll from sequence of melodic intervals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.intervals2pianoroll_harmony" title="music_embedding.embedder.embedder.intervals2pianoroll_harmony"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intervals2pianoroll_harmony</span></code></a>()</p></td>
+<td><p>This method is depricated.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.intervals2pianoroll_melody" title="music_embedding.embedder.embedder.intervals2pianoroll_melody"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intervals2pianoroll_melody</span></code></a>()</p></td>
+<td><p>This method is depricated.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.merge_chunked_intervals" title="music_embedding.embedder.embedder.merge_chunked_intervals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_chunked_intervals</span></code></a>(chunked_intervals)</p></td>
+<td><p>Merges chunks of interval sequence.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.pianoroll2intervals_harmony" title="music_embedding.embedder.embedder.pianoroll2intervals_harmony"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pianoroll2intervals_harmony</span></code></a>()</p></td>
+<td><p>This method is depricated.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.pianoroll2intervals_melody" title="music_embedding.embedder.embedder.pianoroll2intervals_melody"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pianoroll2intervals_melody</span></code></a>()</p></td>
+<td><p>This method is depricated.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.chunk_sequence_of_intervals">
+<code class="sig-name descname">chunk_sequence_of_intervals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">intervals</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pixels_per_chunk</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.chunk_sequence_of_intervals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.chunk_sequence_of_intervals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Breaks a long sequence of intervals into chunks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>intervals</strong><span class="classifier">ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional</span></dt><dd><p>If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.</p>
+</dd>
+<dt><strong>pixels_per_chunk: int, optional</strong></dt><dd><p>Number of pixels in each chunk. Set it to time signature’s numarator multiplied by resolution per pixel to get chunk_per-bar. The default is self.pixels_per_bar.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>ndarray, dtype=int8, shape=(?, pixels_per_chunk, interval.feature_dimensions)</dt><dd><p>First dimension is bars, second dimension is pixels in each chunk and, third dimension is interval features.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Works on <cite>self.intervals</cite>.</p></li>
+<li><p>Updates <cite>self.intervals</cite> if intervals argument is passed.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.extract_highest_pitch_notes_from_pianoroll">
+<code class="sig-name descname">extract_highest_pitch_notes_from_pianoroll</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">preserve_pianoroll</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.extract_highest_pitch_notes_from_pianoroll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.extract_highest_pitch_notes_from_pianoroll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts highest pitch note at each timestep from pianoroll.</p>
+<p><strong>Example:</strong> Given the pianoroll of an SATB choir, returns Soprano notes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>preserve_pianoroll</strong><span class="classifier">boolean</span></dt><dd><p>Determines if self.pianoroll needs to be preserved. Setting it to False slightly increases the performance.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>array, dtype=int64, shape=(?)</dt><dd><p>Contains the highest pitch note at each timestep. Indicates silence with 0.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Works on <cite>self.pianoroll</cite>, fill it before calling this function.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.get_RLE_from_intervals">
+<code class="sig-name descname">get_RLE_from_intervals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">intervals</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.get_RLE_from_intervals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.get_RLE_from_intervals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compresses sequence of intervals using Run-Length Encoding.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>intervals</strong><span class="classifier">ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional</span></dt><dd><p>If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>ndarray, dtype=int32, shape=(?, interval.feature_dimensions + 1)</dt><dd><p>First dimension is compressed timesteps. The last element in the second dimension indicates number of repeatitions for the rest of the elements in the second dimension.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Works on <cite>self.intervals</cite>.</p></li>
+<li><p>Updates <cite>self.intervals</cite> if <cite>intervals</cite> argument is passed.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.get_RLE_from_intervals_bulk">
+<code class="sig-name descname">get_RLE_from_intervals_bulk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bulk_intervals</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.get_RLE_from_intervals_bulk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.get_RLE_from_intervals_bulk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bulk version of <a class="reference internal" href="#music_embedding.embedder.embedder.get_RLE_from_intervals" title="music_embedding.embedder.embedder.get_RLE_from_intervals"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_RLE_from_intervals()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>bulk_intervals</strong><span class="classifier">ndarray, dtype=int8, shape=(?, pixels_per_chunk, interval.feature_dimensions)</span></dt><dd><p>First dimension is chunks, second dimension is pixels in each chunk and, third dimension is interval features.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>list</dt><dd><p>List of RLE_compressed data, see <a class="reference internal" href="#music_embedding.embedder.embedder.get_intervals_from_RLE" title="music_embedding.embedder.embedder.get_intervals_from_RLE"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_intervals_from_RLE()</span></code></a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.get_barwise_intervals_from_pianoroll">
+<code class="sig-name descname">get_barwise_intervals_from_pianoroll</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pianoroll</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pixels_per_bar</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.get_barwise_intervals_from_pianoroll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.get_barwise_intervals_from_pianoroll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates sequence of barwise intervals from pianoroll.</p>
+<p>Calculates intervals with respect to the first note of the current bar. For first notes of bars, the interval is calculated with respect to the first note of the last bar.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>pianoroll</strong><span class="classifier">ndarray, dtype=uint8, shape=(?, 128), optional</span></dt><dd><p>If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</p>
+</dd>
+<dt><strong>pixels_per_bar: int, optional</strong></dt><dd><p>Number of pixels in each bar. Equals time signature’s numarator multiplied by resolution per pixel. The default is self.pixels_per_bar.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>ndarray, dtype=int8, shape=(?, interval.feature_dimensions)</dt><dd><p>First dimension is timesteps and second dimension is interval features.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Works on highest pitch notes in <cite>self.pianoroll</cite>.</p></li>
+<li><p>Updates <cite>self.pianoroll</cite> if pianoroll argument is passed.</p></li>
+<li><p>Updates <cite>self.intervals</cite>.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.get_harmonic_intervals_from_pianoroll">
+<code class="sig-name descname">get_harmonic_intervals_from_pianoroll</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ref_pianoroll</span></em>, <em class="sig-param"><span class="n">pianoroll</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.get_harmonic_intervals_from_pianoroll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.get_harmonic_intervals_from_pianoroll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates sequence of harmonic intervals from pianoroll.</p>
+<p>Calculates the harmonic intervals of the highest pitch notes in self.pianoroll with respect to ref_pianoroll.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>pianoroll</strong><span class="classifier">ndarray, dtype=uint8, shape=(?, 128), optional</span></dt><dd><p>If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</p>
+</dd>
+<dt><strong>ref_pianoroll</strong><span class="classifier">ndarray, dtype=uint8, shape=(?, 128)</span></dt><dd><p>Harmonic intervals are calculated with reference to this pianoroll.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>ndarray, dtype=int8, shape=(?, interval.feature_dimensions)</dt><dd><p>First dimension is timesteps and second dimension is interval features.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Works on <cite>self.pianoroll</cite>.</p></li>
+<li><p>Updates <cite>self.pianoroll</cite> if pianoroll argument is passed.</p></li>
+<li><p>Updates <cite>self.intervals</cite>.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.get_intervals_from_RLE">
+<code class="sig-name descname">get_intervals_from_RLE</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">RLE_data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.get_intervals_from_RLE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.get_intervals_from_RLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uncompresses Run-Length Encoded intervals data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>RLE_data</strong><span class="classifier">ndarray, dtype=int32, shape=(?, interval.feature_dimensions + 1)</span></dt><dd><p>First dimension is compressed timesteps. The last element in the second dimension indicates number of repeatitions for the rest of the elements in the second dimension.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>ndarray, dtype=int8, shape=(?, interval.feature_dimensions)</dt><dd><p>First dimension is timesteps and second dimension is interval features.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Updates <cite>self.intervals</cite>.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.get_intervals_from_RLE_bulk">
+<code class="sig-name descname">get_intervals_from_RLE_bulk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bulk_RLE_data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.get_intervals_from_RLE_bulk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.get_intervals_from_RLE_bulk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bulk version of <a class="reference internal" href="#music_embedding.embedder.embedder.get_intervals_from_RLE" title="music_embedding.embedder.embedder.get_intervals_from_RLE"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_intervals_from_RLE()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>bulk_RLE_data</strong><span class="classifier">list</span></dt><dd><p>List of RLE_compressed data, see self.get_intervals_from_RLE.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>ndarray, dtype=int8, shape=(?, pixels_per_chunk, interval.feature_dimensions)</dt><dd><p>First dimension is chunks, second dimension is pixels in each chunk and, third dimension is interval features.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Infers output size from the first chunk.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.get_melodic_intervals_from_pianoroll">
+<code class="sig-name descname">get_melodic_intervals_from_pianoroll</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pianoroll</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.get_melodic_intervals_from_pianoroll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.get_melodic_intervals_from_pianoroll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates sequence of melodic intervals from pianoroll.</p>
+<p><strong>Example:</strong> Given the pianoroll of an SATB choir, returns melodic intervals of Soprano.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>pianoroll</strong><span class="classifier">ndarray, dtype=uint8, shape=(?, 128), optional</span></dt><dd><p>If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>ndarray, dtype=int8, shape=(?, interval.feature_dimensions)</dt><dd><p>First dimension is timesteps and second dimension is interval features.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Works on highest pitch notes in <cite>self.pianoroll</cite></p></li>
+<li><p>Updates <cite>self.pianoroll</cite> if pianoroll argument is passed.</p></li>
+<li><p>Updates <cite>self.intervals</cite>.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.get_pianoroll_from_barwise_intervals">
+<code class="sig-name descname">get_pianoroll_from_barwise_intervals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">intervals</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">origin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">velocity</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">leading_silence</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">pixels_per_bar</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.get_pianoroll_from_barwise_intervals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.get_pianoroll_from_barwise_intervals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates pianoroll from sequence of barwise intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>intervals</strong><span class="classifier">ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional</span></dt><dd><p>If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.</p>
+</dd>
+<dt><strong>origin: int, optional</strong></dt><dd><p>The reference note of the melody; when decoding the melody, this indicates the first note. The default is self.origin.</p>
+</dd>
+<dt><strong>velocity</strong><span class="classifier">int, optional</span></dt><dd><p>When creating pianorolls this value is used for notes’ velocities. The default is self.default_velocity.</p>
+</dd>
+<dt><strong>leading_silence: int, optional</strong></dt><dd><p>Number of silent pixels at the beginning of the melody.</p>
+</dd>
+<dt><strong>pixels_per_bar: int, optional</strong></dt><dd><p>Number of pixels in each bar. Equals time signature’s numarator multiplied by resolution per pixel. The default is self.pixels_per_bar.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>ndarray, dtype=uint8, shape=(?, 128)</dt><dd><p>First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Works on <cite>self.intervals</cite>.</p></li>
+<li><p>Updates <cite>self.intervals</cite> if intervals argument is passed.</p></li>
+<li><p>Updates <cite>self.pianoroll</cite>.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.get_pianoroll_from_harmonic_intervals">
+<code class="sig-name descname">get_pianoroll_from_harmonic_intervals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pianoroll</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">intervals</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">velocity</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.get_pianoroll_from_harmonic_intervals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.get_pianoroll_from_harmonic_intervals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates pianoroll from sequence of harmonic intervals.</p>
+<p>Extracts highest pitch notes from self.pianoroll first, then builds a new pianoroll based on the extracted notes and self.intervals(harmonic).</p>
+<p><strong>Example:</strong> Given ATB choir pianoroll and Soprano’s harmonic intervals with respect to Alto, returns Soprano’s pianoroll.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>pianoroll</strong><span class="classifier">ndarray, dtype=uint8, shape=(?, 128), optional</span></dt><dd><p>If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</p>
+</dd>
+<dt><strong>intervals</strong><span class="classifier">ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional</span></dt><dd><p>If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.</p>
+</dd>
+<dt><strong>velocity</strong><span class="classifier">int, optional</span></dt><dd><p>When creating pianorolls this value is used for notes’ velocities. The default is self.default_velocity.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>ndarray, dtype=uint8, shape=(?, 128)</dt><dd><p>First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Works on <cite>self.intervals</cite>.</p></li>
+<li><p>Updates <cite>self.intervals</cite> if intervals argument is passed.</p></li>
+<li><p>Updates <cite>self.pianoroll</cite>.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.get_pianoroll_from_melodic_intervals">
+<code class="sig-name descname">get_pianoroll_from_melodic_intervals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">intervals</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">origin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">velocity</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">leading_silence</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.get_pianoroll_from_melodic_intervals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.get_pianoroll_from_melodic_intervals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates pianoroll from sequence of melodic intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>intervals</strong><span class="classifier">ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional</span></dt><dd><p>If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.</p>
+</dd>
+<dt><strong>origin: int, optional</strong></dt><dd><p>The reference note of the melody; when decoding the melody, this indicates the first note. The default is self.origin.</p>
+</dd>
+<dt><strong>velocity</strong><span class="classifier">int, optional</span></dt><dd><p>When creating pianorolls this value is used for notes’ velocities. The default is self.default_velocity.</p>
+</dd>
+<dt><strong>leading_silence: int, optional</strong></dt><dd><p>Number of silent pixels at the beginning of the melody.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>ndarray, dtype=uint8, shape=(?, 128)</dt><dd><p>First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Works on <cite>self.intervals</cite></p></li>
+<li><p>Updates <cite>self.intervals</cite> if intervals argument is passed.</p></li>
+<li><p>Updates <cite>self.pianoroll</cite>.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.intervals2pianoroll_harmony">
+<code class="sig-name descname">intervals2pianoroll_harmony</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.intervals2pianoroll_harmony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.intervals2pianoroll_harmony" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is depricated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Call to function:</dt><dd><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_pianoroll_from_harmonic_intervals" title="music_embedding.embedder.embedder.get_pianoroll_from_harmonic_intervals"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_pianoroll_from_harmonic_intervals()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.intervals2pianoroll_melody">
+<code class="sig-name descname">intervals2pianoroll_melody</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.intervals2pianoroll_melody"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.intervals2pianoroll_melody" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is depricated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Call to function:</dt><dd><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_pianoroll_from_melodic_intervals" title="music_embedding.embedder.embedder.get_pianoroll_from_melodic_intervals"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_pianoroll_from_melodic_intervals()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.merge_chunked_intervals">
+<code class="sig-name descname">merge_chunked_intervals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">chunked_intervals</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.merge_chunked_intervals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.merge_chunked_intervals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merges chunks of interval sequence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>chunked_intervals</strong><span class="classifier">ndarray, dtype=int8, shape=(?, ?, interval.feature_dimensions)</span></dt><dd><p>Merging happens along the first dimension and removes the second dimension.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>ndarray, dtype=int8, shape=(?, interval.feature_dimensions)</dt><dd><p>First dimension is timesteps and second dimension is interval features.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Updates <cite>self.intervals</cite>.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.pianoroll2intervals_harmony">
+<code class="sig-name descname">pianoroll2intervals_harmony</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.pianoroll2intervals_harmony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.pianoroll2intervals_harmony" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is depricated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Call to function:</dt><dd><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_harmonic_intervals_from_pianoroll" title="music_embedding.embedder.embedder.get_harmonic_intervals_from_pianoroll"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_harmonic_intervals_from_pianoroll()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="music_embedding.embedder.embedder.pianoroll2intervals_melody">
+<code class="sig-name descname">pianoroll2intervals_melody</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.pianoroll2intervals_melody"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.pianoroll2intervals_melody" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is depricated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Call to function:</dt><dd><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_melodic_intervals_from_pianoroll" title="music_embedding.embedder.embedder.get_melodic_intervals_from_pianoroll"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_melodic_intervals_from_pianoroll()</span></code></a></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Music Embedding</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interval.html">Interval</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Embedder</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="interval.html" title="previous chapter">Interval</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, SeyyedPooya HekmatiAthar.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/embedder.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

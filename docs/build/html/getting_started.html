@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Getting Started &#8212; Music Embedding 0.1.7 alpha documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Interval" href="interval.html" />
+    <link rel="prev" title="Music Embedding" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to Pypianoroll! We will go through some basic concepts in this tutorial.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Be sure you have Pypianoroll installed. To install Pypianoroll, please run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pypianoroll</span></code>.</p>
+</div>
+<p>In the following example, we will use <a class="reference external" href="https://github.com/salu133445/pypianoroll/blob/main/tests/fur-elise.mid">this MIDI file</a> as an example.</p>
+<p>First of all, let’s import the Pypianoroll library.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pypianoroll</span>
+</pre></div>
+</div>
+<p>Now, let’s read the example MIDI file into a Multitrack object.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">multitrack</span> <span class="o">=</span> <span class="n">pypianoroll</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;fur-elise.mid&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">multitrack</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="test-header">
+<h2>Test header<a class="headerlink" href="#test-header" title="Permalink to this headline">¶</a></h2>
+<p>Here’s what we got.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Multitrack</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">tempo</span><span class="o">=</span><span class="n">array</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8976</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">downbeat</span><span class="o">=</span><span class="n">array</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8976</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">tracks</span><span class="o">=</span><span class="p">[</span><span class="n">StandardTrack</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">program</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_drum</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pianoroll</span><span class="o">=</span><span class="n">array</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8976</span><span class="p">,</span> <span class="mi">128</span><span class="p">))),</span> <span class="n">StandardTrack</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">program</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_drum</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pianoroll</span><span class="o">=</span><span class="n">array</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8976</span><span class="p">,</span> <span class="mi">128</span><span class="p">)))])</span>
+</pre></div>
+</div>
+<p>You can use dot notation to assess the data. For example, <code class="docutils literal notranslate"><span class="pre">multitrack.resolution</span></code> returns the temporal resolution (in time steps per quarter note) and <code class="docutils literal notranslate"><span class="pre">multitrack.tracks[0].pianoroll</span></code> returns the piano roll for the first track.</p>
+<p>Pypianoroll provides some functions for manipulating the multitrack piano roll. For example, we can trim and binarize the multitrack as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">multitrack</span><span class="o">.</span><span class="n">trim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span> <span class="o">*</span> <span class="n">multitrack</span><span class="o">.</span><span class="n">resolution</span><span class="p">)</span>
+<span class="n">multitrack</span><span class="o">.</span><span class="n">binarize</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Pypianoroll also provides visualization supports.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">multitrack</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="test-header-2">
+<h2>Test header 2<a class="headerlink" href="#test-header-2" title="Permalink to this headline">¶</a></h2>
+<p>This will give us the following plot.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Music Embedding</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interval.html">Interval</a></li>
+<li class="toctree-l1"><a class="reference internal" href="embedder.html">Embedder</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Music Embedding</a></li>
+      <li>Next: <a href="interval.html" title="next chapter">Interval</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, SeyyedPooya HekmatiAthar.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/getting_started.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
