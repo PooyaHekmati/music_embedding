@@ -22,11 +22,11 @@ Why Music Embedding
 Embedding is an underexplored area in the intersection of AI and music. While many works try to apply NLP-based embedding and automatic embedding (such as convolution), representing music data based on music theory is important. Music Embedding package aims to make employment of music theory easy to enhance the computationals music projects' results. Some potential usecases are:
 - Statistical and probabilistic analysis of music pieces,
 - Developing generative models to have AI-synthesized music,
-- Genre classificaion,
+- Genre classification,
 - Mood recognition,
 - Melody extraction,
 - Audio-to-Score alignment,
-- Structure analysis.
+- Score structure analysis.
 
 Installation
 ------------
