@@ -7,20 +7,20 @@ html {
 }
 
 .rst-content h1,h2,h3,h4,h5{
-  font-family: 'Garamond', 'Georgia', serif;
-  font-weight: normal;
+  font-family: 'Garamond', 'Georgia', serif !important;
+  font-weight: normal !important;
 }
 
 .rst-content h1 {
-  font-size: 240%;
+  font-size: 240% !important;
 }
 
 .rst-content h2 {
-  font-size: 180%;
+  font-size: 180% !important;
 }
 
 .rst-content h3 {
-  font-size: 160%;
+  font-size: 160% !important;
 }
 
 .wy-menu-vertical li ul li a,
