@@ -236,13 +236,13 @@
         <span class="n">pianoroll</span> <span class="o">=</span> <span class="n">multi_track</span><span class="o">.</span><span class="n">tracks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pianoroll</span>
 
         <span class="c1">#creating embedder object from music embedding package</span>
-        <span class="n">embedder</span> <span class="o">=</span> <span class="n">music_embedding</span><span class="o">.</span><span class="n">embedder</span><span class="p">()</span>
+        <span class="n">embedder</span> <span class="o">=</span> <span class="n">music_embedding</span><span class="o">.</span><span class="n">embedder</span><span class="o">.</span><span class="n">embedder</span><span class="p">()</span>
 
         <span class="c1">#extracting harmonic intervals</span>
         <span class="n">harmonic_intervals</span> <span class="o">=</span> <span class="n">embedder</span><span class="o">.</span><span class="n">get_harmonic_intervals_from_pianoroll</span><span class="p">(</span><span class="n">pianoroll</span><span class="o">=</span><span class="n">pianoroll</span><span class="p">,</span> <span class="n">ref_pianoroll</span><span class="o">=</span><span class="n">merged_piano_roll</span><span class="p">)</span>
 
         <span class="c1">#creating interval object from music embedding package</span>
-        <span class="n">interval</span> <span class="o">=</span> <span class="n">music_embedding</span><span class="o">.</span><span class="n">interval</span><span class="p">()</span>
+        <span class="n">interval</span> <span class="o">=</span> <span class="n">music_embedding</span><span class="o">.</span><span class="n">interval</span><span class="o">.</span><span class="n">interval</span><span class="p">()</span>
 
         <span class="c1">#printing the first 20 intervals</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>

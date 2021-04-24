@@ -67,13 +67,13 @@ if __name__ == '__main__':
     pianoroll = multi_track.tracks[0].pianoroll
     
     #creating embedder object from music embedding package
-    embedder = music_embedding.embedder()        
+    embedder = music_embedding.embedder.embedder()        
     
     #extracting harmonic intervals
     harmonic_intervals = embedder.get_harmonic_intervals_from_pianoroll(pianoroll=pianoroll, ref_pianoroll=merged_piano_roll)
     
     #creating interval object from music embedding package
-    interval = music_embedding.interval()
+    interval = music_embedding.interval.interval()
     
     #printing the first 20 intervals
     for i in range(20):
