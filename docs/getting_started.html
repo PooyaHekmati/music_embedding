@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Getting Started &mdash; Music Embedding 0.1.7 alpha documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/style.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #222" >
+          
+
+          
+            <a href="index.html">
+          
+
+          
+            
+            <img src="_static/music_embedding.jpg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+			  <li><a class="reference internal" href="index.html">Welcome!</a></li>
+				<li><a class="reference internal" href="#">Getting Started</a></li>
+				<li><a class="reference internal" href="interval.html">Interval class</a></li>
+				<li><a class="reference internal" href="embedder.html">Embedder class</a></li>
+				</ul>
+			</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Music Embedding</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Getting Started</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/getting_started.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to Music Embedding! We will go through some basic concepts in this short tutorial.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Be sure you have Music Embedding installed. To install Music Embedding, please run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">music_embedding</span></code>.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>In this tutorial, we will use Pypianoroll to convert MIDI files into pianorolls. To install Pypianoroll, please run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pypianoroll</span></code>.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>In the tutorial, we will use <a class="reference external" href="https://github.com/PooyaHekmati/music_embedding/blob/main/Tests/music%20embedding%20example.mid">this MIDI file</a> as an example.</p>
+</div>
+<p>First of all, let’s import the pypianoroll library and interval and embedder modules from music_embedding library.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">music_embedding</span> <span class="kn">import</span> <span class="n">interval</span><span class="p">,</span> <span class="n">embedder</span>
+    <span class="kn">import</span> <span class="nn">pypianoroll</span>
+</pre></div>
+</div>
+<p>Now, let’s read the example MIDI file into a Multitrack object.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">multitrack</span> <span class="o">=</span> <span class="n">pypianoroll</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;music embedding example.mid&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Let’s create an embedder object and use it to get the melodic intervals of the first track.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">embedder_object</span> <span class="o">=</span> <span class="n">embedder</span><span class="o">.</span><span class="n">embedder</span><span class="p">()</span>
+<span class="n">melodic_intervals</span> <span class="o">=</span> <span class="n">embedder_object</span><span class="o">.</span><span class="n">get_melodic_intervals_from_pianoroll</span><span class="p">(</span><span class="n">multitrack</span><span class="o">.</span><span class="n">tracks</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">melodic_intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here’s what we got:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">384</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The MIDI file we used has 4 4-beat bars. Pypianoroll assigns 24 pixels to each beat, so total number of pixels is <em>4*4*24 = 384</em>, which is the first dimension of our <code class="docutils literal notranslate"><span class="pre">melodic</span> <span class="pre">intervals</span></code>. Music Embedding implements intervals using 4-dimension vectors, which is the second dimension of <code class="docutils literal notranslate"><span class="pre">melodic_intervals</span></code>. These features are:</p>
+<dl class="simple">
+<dt>interval_order: int</dt><dd><p>first to seventh</p>
+</dd>
+<dt>interval_type: int</dt><dd><p>-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug</p>
+</dd>
+<dt>octave_offset<span class="classifier">int8</span></dt><dd><p>octave offset of a compound interval, 0 if interval is not compund</p>
+</dd>
+<dt>is_descending<span class="classifier">boolean</span></dt><dd><p>true if interval is descending</p>
+</dd>
+</dl>
+<p>Let’s create an interval object and use it to see the first <cite>30</cite> intervals in <code class="docutils literal notranslate"><span class="pre">melodic_intervals</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">interval_object</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">interval</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+        <span class="n">interval_object</span><span class="o">.</span><span class="n">set_specs_list</span><span class="p">(</span><span class="n">melodic_intervals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">interval_object</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Silence</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">Maj</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+</pre></div>
+</div>
+<p>Melodic intervals are defined as the relatation between two consequtive notes. Since there is no note before the very first note, the very first note is shown as <cite>silence</cite>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>When converting melodic intervals to pianorolls, argument <code class="docutils literal notranslate"><span class="pre">origin</span></code> defines the first note and everything will be calculated based on that.</p>
+</div>
+<p>Since each note is stretched through multiple pianoroll pixels, when converted into intervals, each note appears as its true interval followed by multiple <cite>perfect 1st</cite> intervals. Let’s fix this by applying Run-Length Encoding:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">melodic_intervals_rle</span> <span class="o">=</span> <span class="n">embedder_object</span><span class="o">.</span><span class="n">get_RLE_from_intervals</span><span class="p">(</span><span class="n">melodic_intervals</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">melodic_intervals_rle</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here’s what we got:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">46</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The first dimension is the compressed <cite>384</cite> that we had before. The second dimension contains the four features of an interval plus the fifth dimension which shows how many repeatitions are summerized into one. Let’s get a closer look:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Count </span><span class="se">\t</span><span class="s1"> interval&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">17</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">melodic_intervals_rle</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">interval_object</span><span class="o">.</span><span class="n">set_specs_list</span><span class="p">(</span><span class="n">melodic_intervals_rle</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">melodic_intervals_rle</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1"> </span><span class="se">\t\t</span><span class="s1"> </span><span class="si">{</span><span class="n">interval_object</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Count</span>    <span class="n">interval</span>
+<span class="o">-----------------</span>
+<span class="mi">1</span>        <span class="n">Silence</span>
+<span class="mi">23</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Maj</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">23</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Maj</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">23</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="nb">min</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">23</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Maj</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">23</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Maj</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">23</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Maj</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">23</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="nb">min</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">22</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Silence</span>
+<span class="mi">12</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Descending</span> <span class="n">perfect</span> <span class="mi">8</span><span class="n">th</span>
+<span class="mi">11</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Maj</span> <span class="mi">7</span><span class="n">th</span>
+<span class="mi">23</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Descending</span> <span class="n">Maj</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">11</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Descending</span> <span class="n">Maj</span> <span class="mi">6</span><span class="n">th</span>
+<span class="mi">11</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">perfect</span> <span class="mi">5</span><span class="n">th</span>
+<span class="mi">23</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Descending</span> <span class="n">Maj</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">11</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Descending</span> <span class="nb">min</span> <span class="mi">3</span><span class="n">rd</span>
+<span class="mi">11</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Maj</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">23</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Descending</span> <span class="n">Maj</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">11</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Descending</span> <span class="n">perfect</span> <span class="mi">5</span><span class="n">th</span>
+<span class="mi">5</span>        <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Maj</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">5</span>        <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Maj</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">5</span>        <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="nb">min</span> <span class="mi">3</span><span class="n">rd</span>
+<span class="mi">5</span>        <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+<span class="mi">1</span>        <span class="n">Descending</span> <span class="n">Maj</span> <span class="mi">2</span><span class="n">nd</span>
+<span class="mi">11</span>       <span class="n">perfect</span> <span class="mi">1</span><span class="n">st</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, SeyyedPooya HekmatiAthar.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

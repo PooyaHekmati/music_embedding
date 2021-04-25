@@ -47,7 +47,7 @@ Documentation is available [here](https://pooyahekmati.github.io/music_embedding
 
 Usage
 -----
-Please visit the [getting started](https://pooyahekmati.github.io/music_embedding/getting_started.html) page.
+Please visit the [Getting Started](https://pooyahekmati.github.io/music_embedding/getting_started.html) page.
 
 The following code snippet demonstrates how to convert a midi file into a sequence of harmonic intervals.
 
