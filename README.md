@@ -81,6 +81,11 @@ if __name__ == '__main__':
         print(interval)
 ```
 
+Citing
+------
+
+Please cite the [this paper](https://arxiv.org/abs/2104.11880) if you use Music Embedding in a published work.
+
 Issues
 ------
 
