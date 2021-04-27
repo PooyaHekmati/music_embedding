@@ -45,6 +45,11 @@ Documentation
 
 Documentation is available [here](https://pooyahekmati.github.io/music_embedding) and as docstrings with the code.
 
+Citing
+------
+
+Please cite the [this paper](https://arxiv.org/abs/2104.11880) if you use Music Embedding in a published work.
+
 Usage
 -----
 Please visit the [Getting Started](https://pooyahekmati.github.io/music_embedding/getting_started.html) page.
@@ -80,11 +85,6 @@ if __name__ == '__main__':
         interval.set_specs_list(harmonic_intervals[i])
         print(interval)
 ```
-
-Citing
-------
-
-Please cite the [this paper](https://arxiv.org/abs/2104.11880) if you use Music Embedding in a published work.
 
 Issues
 ------
