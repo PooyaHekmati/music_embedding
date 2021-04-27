@@ -48,7 +48,7 @@ Documentation is available [here](https://pooyahekmati.github.io/music_embedding
 Citing
 ------
 
-Please cite the [this paper](https://arxiv.org/abs/2104.11880) if you use Music Embedding in a published work.
+Please cite [this paper](https://arxiv.org/abs/2104.11880) if you use Music Embedding in a published work.
 
 Usage
 -----
