@@ -27,6 +27,14 @@ class embedder:
         self.default_velocity=default_velocity 
         self.origin=origin
         self.pixels_per_bar=pixels_per_bar
+        
+    @staticmethod
+    def _get_none_error_message(var_name):
+        return f"Both {var_name} argument and self.{var_name} are None."
+    
+    @staticmethod
+    def _get_range_error_message():
+        return "Attempted to assign an out of range value. MIDI accepts values in the range 0-127."
     
     def extract_highest_pitch_notes_from_pianoroll(self, preserve_pianoroll=True): 
         """
@@ -43,11 +51,18 @@ class embedder:
         preserve_pianoroll : boolean
             Determines if self.pianoroll needs to be preserved. Setting it to False slightly increases the performance.  
             
+        Raises
+        --------    
+        Type Error: if self.pianoroll is None.
+            
         Returns
         -------
         array, dtype=int64, shape=(?)
             Contains the highest pitch note at each timestep. Indicates silence with 0.
         """
+        if self.pianoroll is None:
+            raise TypeError("self.pianoroll is None.")
+            
         if preserve_pianoroll:
             pianoroll=np.copy(self.pianoroll)   #to make the process non-destructive and presereve the pianoroll
         else:
@@ -77,16 +92,23 @@ class embedder:
         pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional
             If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.
             
+        Raises
+        --------    
+        Type Error: if both pianoroll argument and self.pianoroll are None.
+        
         Returns
         -------
         ndarray, dtype=int8, shape=(?, interval.feature_dimensions)
             First dimension is timesteps and second dimension is interval features.
             
         """        
-        if pianoroll is not None:
+        if pianoroll is not None:            
             self.pianoroll=pianoroll
+        else:
+            if self.pianoroll is None:
+                raise TypeError(self._get_none_error_message("pianoroll"))
         
-        notes=self.extract_highest_pitch_notes_from_pianoroll(self) #first get the notes of the melody
+        notes=self.extract_highest_pitch_notes_from_pianoroll() #first get the notes of the melody
         
         self.intervals=np.zeros((len(notes),interval.feature_dimensions),dtype=np.int8) #create the placeholder of intervals.
         curser=interval()
@@ -138,7 +160,15 @@ class embedder:
            When creating pianorolls this value is used for notes' velocities. The default is self.default_velocity.
            
         leading_silence: int, optional
-            Number of silent pixels at the beginning of the melody.
+            Number of silent pixels at the beginning of the melody. Must be less than number of intervals.
+            
+        Raises
+        --------    
+        Type Error: if both intervals argument and self.intervals are None.
+        Value Error: if leading_silence >= len(intervals) or [if intervals=None then raises if leading_silence >= len(self.intervals)]
+        Index Error: if origin > 127 or origin < 0. If origin is None then self.origin is substituted.
+        Index Error: if velocity > 127 or velocity < 0. If velocity is None then self.default_velocity is substituted.                     
+        Index Error: if the sequence of the given intervals leads to to a note which is out of MIDI range (0-127).
 
         Returns
         -------
@@ -148,12 +178,22 @@ class embedder:
         """
         if intervals is not None:
             self.intervals=intervals
+        else:            
+            if self.intervals is None:
+                raise TypeError(self._get_none_error_message("intervals"))
+                
+        if leading_silence >= len(self.intervals):
+            raise ValueError("Leading silences must be less than intervals.")
             
         if origin is None:
             origin=self.origin
+        if origin > 127 or origin < 0:
+            raise IndexError(self._get_range_error_message())
             
         if velocity is None:
             velocity=self.default_velocity
+        if velocity > 127 or velocity < 0:
+            raise IndexError(self._get_range_error_message())
             
         self.intervals=self.intervals[1:,:]         #removing the first row of zeros. This is becuase melody is calcualted with respect to the previous note.
         
@@ -164,6 +204,8 @@ class embedder:
         curser.set_specs_list(self.intervals[leading_silence])
         if not curser.is_silence():
             origin += curser.interval2semitone()
+            if origin > 127 or origin < 0:
+                raise IndexError(self._get_range_error_message())
             self.pianoroll [ leading_silence + 1, origin ] = velocity
             
         for i in range(leading_silence + 1, len(self.intervals)):
@@ -171,6 +213,8 @@ class embedder:
             if not curser.is_silence():   
                 if not np.array_equal(self.intervals[i],self.intervals[i-1]):       #if they are different
                     origin+=curser.interval2semitone()
+                    if origin > 127 or origin < 0:
+                        raise IndexError(self._get_range_error_message())
                 self.pianoroll[i+1,origin]=velocity        
             
         return self.pianoroll
@@ -205,6 +249,10 @@ class embedder:
             
         ref_pianoroll : ndarray, dtype=uint8, shape=(?, 128)
             Harmonic intervals are calculated with reference to this pianoroll.
+            
+        Raises
+        --------    
+        Type Error: if both pianoroll argument and self.pianoroll are None.
 
         Returns
         -------
@@ -213,8 +261,11 @@ class embedder:
         """
         if pianoroll is not None:
             self.pianoroll=pianoroll
+        else:
+            if self.pianoroll is None:
+                raise TypeError(self._get_none_error_message("pianoroll"))
             
-        notes=self.extract_highest_pitch_notes_from_pianoroll(self)
+        notes=self.extract_highest_pitch_notes_from_pianoroll()
         self.intervals=np.zeros((len(notes),interval.feature_dimensions),dtype=np.int8)
         curser=interval()
         
@@ -251,7 +302,7 @@ class embedder:
     def get_pianoroll_from_harmonic_intervals(self, pianoroll=None, intervals=None, velocity=None):
         """Creates pianoroll from sequence of harmonic intervals.
         
-        Extracts highest pitch notes from self.pianoroll first, then builds a new pianoroll based on the extracted notes and self.intervals(harmonic).
+        Extracts highest pitch notes from pianoroll first, then builds a new pianoroll based on the extracted notes and self.intervals(harmonic).
         
         **Example:** Given ATB choir pianoroll and Soprano's harmonic intervals with respect to Alto, returns Soprano's pianoroll.
         
@@ -272,6 +323,13 @@ class embedder:
         velocity : int, optional
            When creating pianorolls this value is used for notes' velocities. The default is self.default_velocity.
 
+        Raises
+        --------    
+        Type Error: if both intervals argument and self.intervals are None.
+        Type Error: if both pianoroll argument and self.pianoroll are None.
+        Index Error: if velocity > 127 or velocity < 0. If velocity is None then self.default_velocity is substituted.                     
+        Index Error: if adding the interval to the pianoroll leads to to a note which is out of MIDI range (0-127).
+        
         Returns
         -------
         ndarray, dtype=uint8, shape=(?, 128)
@@ -280,20 +338,30 @@ class embedder:
         """
         if pianoroll is not None:
             self.pianoroll=pianoroll
+        else:
+            if self.pianoroll is None:
+                raise TypeError(self._get_none_error_message("pianoroll"))
             
         if intervals is not None:
             self.intervals=intervals
+        else:
+            if self.intervals is None:
+                raise TypeError(self._get_none_error_message("intervals"))
             
         if velocity is None:
             velocity=self.default_velocity
+        if velocity > 127 or velocity < 0:
+            raise IndexError(self._get_range_error_message())
             
-        ref_notes=self.extract_highest_pitch_notes_from_pianoroll(self)
+        ref_notes=self.extract_highest_pitch_notes_from_pianoroll()
         self.pianoroll=np.zeros((len(self.intervals),128),dtype=np.uint8)   #128 is the number of notes in MIDI
         curser=interval()
         for i in range (len(ref_notes)):
             if ref_notes[i] != 0:                               #if it is not silence
                 curser.set_specs_list(self.intervals[i])
                 note=curser.interval2semitone()
+                if ref_notes[i] + note > 127 or ref_notes[i] + note < 0:
+                    raise IndexError(self._get_range_error_message())
                 self.pianoroll[i, ref_notes[i] + note]=velocity
         return self.pianoroll
     def intervals2pianoroll_harmony(self):
@@ -328,6 +396,11 @@ class embedder:
         pixels_per_bar: int, optional
             Number of pixels in each bar. Equals time signature's numarator multiplied by resolution per pixel. The default is self.pixels_per_bar.
             
+        Raises
+        --------    
+        Type Error: if both pianoroll argument and self.pianoroll are None.
+        Value Error: if pixels_per_bar < 1. If pixels_per_bar is None then self.pixels_per_bar is substituted.                     
+            
         Returns
         -------
         ndarray, dtype=int8, shape=(?, interval.feature_dimensions)
@@ -336,11 +409,16 @@ class embedder:
         """     
         if pianoroll is not None:
             self.pianoroll=pianoroll
+        else:
+            if self.pianoroll is None:
+                raise TypeError(self._get_none_error_message("pianoroll"))
         
         if pixels_per_bar is None:
             pixels_per_bar=self.pixels_per_bar
+        if pixels_per_bar < 1:
+            raise ValueError("Number of pixels in bar must be a positive integer.")
             
-        notes=self.extract_highest_pitch_notes_from_pianoroll(self) #get the notes of the melody
+        notes=self.extract_highest_pitch_notes_from_pianoroll() #get the notes of the melody
         self.intervals=np.zeros((len(notes),interval.feature_dimensions),dtype=np.int8) #create the placeholder of intervals. 
                 
         last_bar_ref_note = -1      #init with an impossible value
@@ -410,26 +488,49 @@ class embedder:
             
         pixels_per_bar: int, optional
             Number of pixels in each bar. Equals time signature's numarator multiplied by resolution per pixel. The default is self.pixels_per_bar.
+            
+        Raises
+        --------    
+        Type Error: if both intervals argument and self.intervals are None.        
+        Value Error: if leading_silence >= len(intervals) or [if intervals=None then raises if leading_silence >= len(self.intervals)]
+        Value Error: if pixels_per_bar < 1. If pixels_per_bar is None then self.pixels_per_bar is substituted.                     
+        Index Error: if origin > 127 or origin < 0. If origin is None then self.origin is substituted.
+        Index Error: if velocity > 127 or velocity < 0. If velocity is None then self.default_velocity is substituted.                     
+        Index Error: if the sequence of the given intervals leads to to a note which is out of MIDI range (0-127).
 
         Returns
         -------
         ndarray, dtype=uint8, shape=(?, 128)
             First dimension is timesteps and second dimension is fixed 128 per MIDI standard.
 
-        """
+        """            
+        if pixels_per_bar is None:
+            pixels_per_bar=self.pixels_per_bar
+        if pixels_per_bar < 1:
+            raise ValueError("Number of pixels in bar must be a positive integer.")
+            
         if intervals is not None:
             self.intervals=intervals
-        
+        else:            
+            if self.intervals is None:
+                raise TypeError(self._get_none_error_message("intervals"))
+                
+        if leading_silence >= len(self.intervals):
+            raise ValueError("Leading silences must be less than intervals.")
+            
         if origin is None:
             origin=self.origin
+        if origin > 127 or origin < 0:
+            raise IndexError(self._get_range_error_message())
             
         if velocity is None:
             velocity=self.default_velocity
-            
-        if pixels_per_bar is None:
-            pixels_per_bar=self.pixels_per_bar
+        if velocity > 127 or velocity < 0:
+            raise IndexError(self._get_range_error_message())
         
         self.pianoroll=np.zeros((len(self.intervals),128),dtype=np.uint8)   #128 is the number of notes in MIDI        
+        if origin > 127 or origin < 0:
+            raise IndexError(self._get_range_error_message())
         self.pianoroll [ leading_silence, origin]=velocity
        
         curser=interval()            
@@ -444,13 +545,17 @@ class embedder:
                 if not curser.is_silence():       #skip silences
                     origin = last_known_origin + curser.interval2semitone()     #finding the first note of the current bar
                     last_known_origin = origin
-
+                    if origin > 127 or origin < 0:
+                        raise IndexError(self._get_range_error_message())
                     self.pianoroll [ i, origin ] = velocity
                     origin_is_unkown = False
             else: 
                 curser.set_specs_list(self.intervals[i])
-                if not curser.is_silence():      #skip silences                    
-                    self.pianoroll [ i, origin + curser.interval2semitone() ] = velocity            
+                if not curser.is_silence():      #skip silences  
+                    note = origin + curser.interval2semitone()
+                    if note > 127 or note < 0:
+                        raise IndexError(self._get_range_error_message())                
+                    self.pianoroll [ i, note] = velocity            
         return self.pianoroll
     
     def chunk_sequence_of_intervals(self, intervals=None, pixels_per_chunk=None):
@@ -468,6 +573,11 @@ class embedder:
             
         pixels_per_chunk: int, optional
             Number of pixels in each chunk. Set it to time signature's numarator multiplied by resolution per pixel to get chunk_per-bar. The default is self.pixels_per_bar.
+            
+        Raises
+        --------    
+        Type Error: if both intervals argument and self.intervals are None.
+        Value Error: if pixels_per_chunk < 1. If pixels_per_chunk is None then self.pixels_per_bar is substituted.                     
 
         Returns
         -------
@@ -477,9 +587,14 @@ class embedder:
         """
         if intervals is not None:
             self.intervals=intervals
+        else:
+            if self.intervals is None:
+                raise TypeError(self._get_none_error_message("intervals"))
             
         if pixels_per_chunk is None:
             pixels_per_chunk=self.pixels_per_bar
+        if pixels_per_chunk < 1:
+            raise ValueError("Number of pixels in chunk must be a positive integer.")
             
         return np.reshape(self.intervals, (self.intervals.shape[0]//pixels_per_chunk , pixels_per_chunk, self.intervals.shape[1] ))
     
@@ -517,6 +632,10 @@ class embedder:
         ----------
         intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional
             If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.
+            
+        Raises
+        --------    
+        Type Error: if both intervals argument and self.intervals are None.
 
         Returns
         -------
@@ -526,6 +645,9 @@ class embedder:
         """
         if intervals is not None:
             self.intervals=intervals
+        else:
+            if self.intervals is None:
+                raise TypeError(self._get_none_error_message("intervals"))
         
         RLE=np.zeros((self.intervals.shape[0], self.intervals.shape[1] + 1), dtype=int)
         
