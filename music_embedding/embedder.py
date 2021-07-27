@@ -140,17 +140,7 @@ class embedder:
                 self.intervals[i]=curser.get_specs_list()
                 last_voice_index=i
         return self.intervals        
-    def pianoroll2intervals_melody(self):
-        """
-        This method is depricated.
 
-        Returns
-        -------
-        Call to function:
-            :func:`get_melodic_intervals_from_pianoroll`
-            
-        """
-        return self.get_melodic_intervals_from_pianoroll()
     
     def get_pianoroll_from_melodic_intervals(self, intervals=None, origin=None, velocity=None, leading_silence=0):
         """Creates pianoroll from sequence of melodic intervals.
@@ -233,20 +223,9 @@ class embedder:
                         raise IndexError(self._get_range_error_message())
                 self.pianoroll[i+1,origin]=velocity        
             
-        return self.pianoroll
-    def intervals2pianoroll_melody(self):
-        """
-        This method is depricated.
-
-        Returns
-        -------
-        Call to function:
-            :func:`get_pianoroll_from_melodic_intervals`
-
-        """
-        return self.get_pianoroll_from_melodic_intervals()
-        
+        return self.pianoroll        
           
+    
     def get_harmonic_intervals_from_pianoroll(self, ref_pianoroll, pianoroll=None): 
         """Creates sequence of harmonic intervals from pianoroll.
         
@@ -309,17 +288,6 @@ class embedder:
                     self.intervals[i]=silent_interval 
                 
         return self.intervals
-    def pianoroll2intervals_harmony(self):    
-        """
-        This method is depricated.
-
-        Returns
-        -------
-        Call to function:
-            :func:`get_harmonic_intervals_from_pianoroll`
-
-        """
-        return self.get_harmonic_intervals_from_pianoroll()
 
     
     def get_pianoroll_from_harmonic_intervals(self, pianoroll=None, intervals=None, velocity=None):
@@ -393,17 +361,6 @@ class embedder:
                     raise IndexError(self._get_range_error_message())
                 self.pianoroll[i, ref_notes[i] + note]=velocity
         return self.pianoroll
-    def intervals2pianoroll_harmony(self):
-        """
-        This method is depricated.
-
-        Returns
-        -------
-        Call to function:
-            :func:`get_pianoroll_from_harmonic_intervals`
-
-        """
-        return self.get_pianoroll_from_harmonic_intervals()
 
     
     def get_barwise_intervals_from_pianoroll(self, pianoroll=None, pixels_per_bar=None):
