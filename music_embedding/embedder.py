@@ -36,6 +36,13 @@ class embedder:
     def _get_range_error_message():
         return "Attempted to assign an out of range value. MIDI accepts values in the range 0-127."
     
+    @staticmethod
+    def _get_incompatible_dimension_error_message(variable_name):
+        if variable_name == "pianoroll":
+            return "Wrong pianoroll shape, second dimension must be 128."
+        elif variable_name == "intervals":
+            return "Wrong intervals shape, second dimension must be interval.feature_dimensions ({interval().feature_dimensions})."
+    
     def extract_highest_pitch_notes_from_pianoroll(self, preserve_pianoroll=True): 
         """
         Extracts highest pitch note at each timestep from pianoroll.
@@ -54,6 +61,7 @@ class embedder:
         Raises
         --------    
         Type Error: if self.pianoroll is None.
+        Index Error: if self.pianoroll.shape[1] != 128
             
         Returns
         -------
@@ -62,6 +70,8 @@ class embedder:
         """
         if self.pianoroll is None:
             raise TypeError("self.pianoroll is None.")
+        if self.pianoroll.shape[1]!=128:
+            raise IndexError(self._get_incompatible_dimension_error_message("pianoroll"))
             
         if preserve_pianoroll:
             pianoroll=np.copy(self.pianoroll)   #to make the process non-destructive and presereve the pianoroll
@@ -95,6 +105,7 @@ class embedder:
         Raises
         --------    
         Type Error: if both pianoroll argument and self.pianoroll are None.
+        Index Error: if pianoroll.shape[1] != 128 [if pianoroll=None then raises if self.pianoroll.shape[1] != 128]
         
         Returns
         -------
@@ -107,6 +118,8 @@ class embedder:
         else:
             if self.pianoroll is None:
                 raise TypeError(self._get_none_error_message("pianoroll"))
+        if self.pianoroll.shape[1]!=128:
+            raise IndexError(self._get_incompatible_dimension_error_message("pianoroll"))
         
         notes=self.extract_highest_pitch_notes_from_pianoroll() #first get the notes of the melody
         
@@ -165,7 +178,8 @@ class embedder:
         Raises
         --------    
         Type Error: if both intervals argument and self.intervals are None.
-        Value Error: if leading_silence >= len(intervals) or [if intervals=None then raises if leading_silence >= len(self.intervals)]
+        Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions] 
+        Value Error: if leading_silence >= len(intervals) [if intervals=None then raises if leading_silence >= len(self.intervals)]
         Index Error: if origin > 127 or origin < 0. If origin is None then self.origin is substituted.
         Index Error: if velocity > 127 or velocity < 0. If velocity is None then self.default_velocity is substituted.                     
         Index Error: if the sequence of the given intervals leads to to a note which is out of MIDI range (0-127).
@@ -181,6 +195,8 @@ class embedder:
         else:            
             if self.intervals is None:
                 raise TypeError(self._get_none_error_message("intervals"))
+        if self.intervals.shape[1]!=interval().feature_dimensions:
+            raise IndexError(self._get_incompatible_dimension_error_message("intervals"))
                 
         if leading_silence >= len(self.intervals):
             raise ValueError("Leading silences must be less than intervals.")
@@ -253,6 +269,8 @@ class embedder:
         Raises
         --------    
         Type Error: if both pianoroll argument and self.pianoroll are None.
+        Index Error: if pianoroll.shape[1] != 128 [if pianoroll=None then raises if self.pianoroll.shape[1] != 128]
+        Index Error: if ref_pianoroll.shape[1] != 128 
 
         Returns
         -------
@@ -264,6 +282,11 @@ class embedder:
         else:
             if self.pianoroll is None:
                 raise TypeError(self._get_none_error_message("pianoroll"))
+        if self.pianoroll.shape[1]!=128:
+            raise IndexError(self._get_incompatible_dimension_error_message("pianoroll"))
+        
+        if ref_pianoroll.shape[1]!=128:
+            raise IndexError(self._get_incompatible_dimension_error_message("pianoroll"))
             
         notes=self.extract_highest_pitch_notes_from_pianoroll()
         self.intervals=np.zeros((len(notes),interval.feature_dimensions),dtype=np.int8)
@@ -326,7 +349,9 @@ class embedder:
         Raises
         --------    
         Type Error: if both intervals argument and self.intervals are None.
+        Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions] 
         Type Error: if both pianoroll argument and self.pianoroll are None.
+        Index Error: if pianoroll.shape[1] != 128 [if pianoroll=None then raises if self.pianoroll.shape[1] != 128]
         Index Error: if velocity > 127 or velocity < 0. If velocity is None then self.default_velocity is substituted.                     
         Index Error: if adding the interval to the pianoroll leads to to a note which is out of MIDI range (0-127).
         
@@ -341,12 +366,16 @@ class embedder:
         else:
             if self.pianoroll is None:
                 raise TypeError(self._get_none_error_message("pianoroll"))
+        if self.pianoroll.shape[1]!=128:
+            raise IndexError(self._get_incompatible_dimension_error_message("pianoroll"))
             
         if intervals is not None:
             self.intervals=intervals
         else:
             if self.intervals is None:
                 raise TypeError(self._get_none_error_message("intervals"))
+        if self.intervals.shape[1]!=interval().feature_dimensions:
+            raise IndexError(self._get_incompatible_dimension_error_message("intervals"))
             
         if velocity is None:
             velocity=self.default_velocity
@@ -399,6 +428,7 @@ class embedder:
         Raises
         --------    
         Type Error: if both pianoroll argument and self.pianoroll are None.
+        Index Error: if pianoroll.shape[1] != 128 [if pianoroll=None then raises if self.pianoroll.shape[1] != 128]
         Value Error: if pixels_per_bar < 1. If pixels_per_bar is None then self.pixels_per_bar is substituted.                     
             
         Returns
@@ -412,6 +442,8 @@ class embedder:
         else:
             if self.pianoroll is None:
                 raise TypeError(self._get_none_error_message("pianoroll"))
+        if self.pianoroll.shape[1]!=128:
+            raise IndexError(self._get_incompatible_dimension_error_message("pianoroll"))
         
         if pixels_per_bar is None:
             pixels_per_bar=self.pixels_per_bar
@@ -492,7 +524,8 @@ class embedder:
         Raises
         --------    
         Type Error: if both intervals argument and self.intervals are None.        
-        Value Error: if leading_silence >= len(intervals) or [if intervals=None then raises if leading_silence >= len(self.intervals)]
+        Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions] 
+        Value Error: if leading_silence >= len(intervals) [if intervals=None then raises if leading_silence >= len(self.intervals)]
         Value Error: if pixels_per_bar < 1. If pixels_per_bar is None then self.pixels_per_bar is substituted.                     
         Index Error: if origin > 127 or origin < 0. If origin is None then self.origin is substituted.
         Index Error: if velocity > 127 or velocity < 0. If velocity is None then self.default_velocity is substituted.                     
@@ -514,7 +547,9 @@ class embedder:
         else:            
             if self.intervals is None:
                 raise TypeError(self._get_none_error_message("intervals"))
-                
+        if self.intervals.shape[1]!=interval().feature_dimensions:
+            raise IndexError(self._get_incompatible_dimension_error_message("intervals"))               
+                          
         if leading_silence >= len(self.intervals):
             raise ValueError("Leading silences must be less than intervals.")
             
@@ -577,6 +612,7 @@ class embedder:
         Raises
         --------    
         Type Error: if both intervals argument and self.intervals are None.
+        Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions] 
         Value Error: if pixels_per_chunk < 1. If pixels_per_chunk is None then self.pixels_per_bar is substituted.                     
 
         Returns
@@ -590,6 +626,8 @@ class embedder:
         else:
             if self.intervals is None:
                 raise TypeError(self._get_none_error_message("intervals"))
+        if self.intervals.shape[1]!=interval().feature_dimensions:
+            raise IndexError(self._get_incompatible_dimension_error_message("intervals"))
             
         if pixels_per_chunk is None:
             pixels_per_chunk=self.pixels_per_bar
@@ -636,6 +674,7 @@ class embedder:
         Raises
         --------    
         Type Error: if both intervals argument and self.intervals are None.
+        Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions] 
 
         Returns
         -------
@@ -648,6 +687,8 @@ class embedder:
         else:
             if self.intervals is None:
                 raise TypeError(self._get_none_error_message("intervals"))
+        if self.intervals.shape[1]!=interval().feature_dimensions:
+            raise IndexError(self._get_incompatible_dimension_error_message("intervals"))
         
         RLE=np.zeros((self.intervals.shape[0], self.intervals.shape[1] + 1), dtype=int)
         
