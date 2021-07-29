@@ -264,21 +264,49 @@ class interval(object):
 
         Parameters
         ----------
-        specs : array, dtype=int, shape=(4)
+        specs : array or dict, dtype=int, shape=(4)
             - interval_order=specs[0] (first to seventh)
             - interval_type=specs[1] (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug )
             - is_descending=specs[2]
             - octave_offset=specs[3] 
+            
+        Raises
+        -------  
+        Value Error: if interval_order > 7 or interval_order < 0
+        Value Error: if interval_type > 2 or interval_type < -2
+        Value Error: if is_descending < 0 or is_descending > 1
+        Value Error: if octave_offset < 0 or octave_offset > 9
 
         Returns
         -------
         None.
 
         """
-        self.interval_order=specs[0]
-        self.interval_type=specs[1]
-        self.is_descending=specs[2]
-        self.octave_offset=specs[3]
+        if type(specs) is dict:
+            interval_order=specs['interval_order']
+            interval_type=specs['interval_type']
+            is_descending=specs['is_descending']
+            octave_offset=specs['octave_offset']
+        else:
+            interval_order=specs[0]
+            interval_type=specs[1]
+            is_descending=specs[2]
+            octave_offset=specs[3]
+       
+        if interval_order > 7 or interval_order < 0:
+            raise ValueError("interval_order must be between 0 and 7 (inclusive).")
+        if interval_type > 2 or interval_type < -2:
+            raise ValueError("interval_type must be between -2 and 2 (inclusive).")
+        if is_descending < 0 or is_descending > 1:
+            raise ValueError("is_descending must be either 0 or 1.")
+        if octave_offset < 0 or octave_offset > 9:
+            raise ValueError("octave_offset must be between 0 and 9 (inclusive).")
+            
+        self.interval_order=interval_order
+        self.interval_type=interval_type
+        self.is_descending=is_descending
+        self.octave_offset=octave_offset
+        
         
     def get_one_hot_specs_list(self):
         """Provides one-hot-encoding of the interval's order, type, and is decending. Octave offset is represented as an integer.
@@ -313,10 +341,9 @@ class interval(object):
         None.
 
         """
-        self.interval_order=np.argmax(interval_order)+1 #1 is added to get the index; index starts at 0 while order starts at 1
-        self.interval_type=np.argmax(interval_type)-2   #2 is subtracted to get the index; index starts at 0 while type starts at -2
-        self.is_descending=is_descending
-        self.octave_offset=octave_offset
+        interval_order=np.argmax(interval_order)+1 #1 is added to get the index; index starts at 0 while order starts at 1
+        interval_type=np.argmax(interval_type)-2   #2 is subtracted to get the index; index starts at 0 while type starts at -2
+        self.set_specs_list([interval_order, interval_type, is_descending, octave_offset])
     
     @staticmethod
     def get_silence_specs_list():
