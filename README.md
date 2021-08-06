@@ -10,7 +10,7 @@ Music Embedding
 ![Lines of Code](https://img.shields.io/tokei/lines/github/pooyahekmati/music_embedding)
 ![Repo Size](https://img.shields.io/github/repo-size/pooyahekmati/music_embedding)
 ![Code Size](https://img.shields.io/github/languages/code-size/pooyahekmati/music_embedding)
-[![CodeFactor](https://www.codefactor.io/repository/github/pooyahekmati/music_embedding/badge/main)](https://www.codefactor.io/repository/github/pooyahekmati/music_embedding/overview/main)
+[![CodeFactor](https://img.shields.io/codefactor/grade/github/pooyahekmati/music_embedding)](https://www.codefactor.io/repository/github/pooyahekmati/music_embedding/overview/main)
 
 By SeyyedPooya HekmatiAthar 2021
 
