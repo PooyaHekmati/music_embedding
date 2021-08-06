@@ -180,7 +180,7 @@ table.indextable ul {
 }
 
 table.indextable > tbody > tr > td > ul {
-    padding-left: 0em;
+    padding-left: 0;
 }
 
 table.indextable tr.pcap {
@@ -201,14 +201,14 @@ img.toggler {
 div.modindex-jumpbox {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    margin: 1em 0 1em 0;
+    margin: 1em 0;
     padding: 0.4em;
 }
 
 div.genindex-jumpbox {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    margin: 1em 0 1em 0;
+    margin: 1em 0;
     padding: 0.4em;
 }
 
@@ -343,7 +343,7 @@ div.admonition, div.topic, blockquote {
 div.topic {
     border: 1px solid #ccc;
     padding: 7px;
-    margin: 10px 0 10px 0;
+    margin: 10px 0;
 }
 
 p.topic-title {
@@ -365,7 +365,7 @@ div.admonition dt {
 }
 
 p.admonition-title {
-    margin: 0px 10px 5px 0px;
+    margin: 0 10px 5px 0;
     font-weight: bold;
 }
 
@@ -445,12 +445,12 @@ table.citation td {
 
 th > :first-child,
 td > :first-child {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 th > :last-child,
 td > :last-child {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 /* -- figures --------------------------------------------------------------- */
@@ -528,12 +528,12 @@ ol.upperroman {
 
 :not(li) > ol > li:first-child > :first-child,
 :not(li) > ul > li:first-child > :first-child {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 :not(li) > ol > li:last-child > :last-child,
 :not(li) > ul > li:last-child > :last-child {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 ol.simple ol p,
@@ -561,7 +561,7 @@ dl.citation > dt {
 
 dl.footnote > dd,
 dl.citation > dd {
-    margin-bottom: 0em;
+    margin-bottom: 0;
 }
 
 dl.footnote > dd:after,
@@ -588,9 +588,9 @@ dl.field-list > dt:after {
 
 dl.field-list > dd {
     padding-left: 0.5em;
-    margin-top: 0em;
-    margin-left: 0em;
-    margin-bottom: 0em;
+    margin-top: 0;
+    margin-left: 0;
+    margin-bottom: 0;
 }
 
 dl {
@@ -598,7 +598,7 @@ dl {
 }
 
 dd > :first-child {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 dd ul, dd table {
