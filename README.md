@@ -6,6 +6,11 @@ Music Embedding
 [![Codecov](https://img.shields.io/codecov/c/github/PooyaHekmati/music_embedding)](https://codecov.io/gh/PooyaHekmati/music_embedding)
 [![GitHub license](https://img.shields.io/github/license/PooyaHekmati/music_embedding)](https://github.com/PooyaHekmati/music_embedding/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/PooyaHekmati/music_embedding?include_prereleases)](https://github.com/PooyaHekmati/music_embedding/releases)
+[![GitHub Stars](https://img.shields.io/github/stars/pooyahekmati/music_embedding)](https://github.com/PooyaHekmati/music_embedding/stargazers)
+![Lines of Code](https://img.shields.io/tokei/lines/github/pooyahekmati/music_embedding)
+![Repo Size](https://img.shields.io/github/repo-size/pooyahekmati/music_embedding)
+![Code Size](https://img.shields.io/github/languages/code-size/pooyahekmati/music_embedding)
+[![CodeFactor](https://img.shields.io/codefactor/grade/github/pooyahekmati/music_embedding)](https://www.codefactor.io/repository/github/pooyahekmati/music_embedding/overview/main)
 
 By SeyyedPooya HekmatiAthar 2021
 

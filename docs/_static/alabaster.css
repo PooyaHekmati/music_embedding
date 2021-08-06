@@ -14,7 +14,7 @@ body {
 
 div.document {
     width: 940px;
-    margin: 30px auto 0 auto;
+    margin: 30px auto 0;
 }
 
 div.documentwrapper {
@@ -39,7 +39,7 @@ hr {
 div.body {
     background-color: #fff;
     color: #3E4349;
-    padding: 0 30px 0 30px;
+    padding: 0 30px;
 }
 
 div.body > .section {
@@ -48,7 +48,7 @@ div.body > .section {
 
 div.footer {
     width: 940px;
-    margin: 20px auto 30px auto;
+    margin: 20px auto 30px;
     font-size: 14px;
     color: #888;
     text-align: right;
@@ -85,7 +85,7 @@ div.sphinxsidebarwrapper {
 
 div.sphinxsidebarwrapper p.logo {
     padding: 0;
-    margin: -10px 0 0 0px;
+    margin: -10px 0 0;
     text-align: center;
 }
 
@@ -97,7 +97,7 @@ div.sphinxsidebarwrapper h1.logo {
 }
 
 div.sphinxsidebarwrapper h1.logo-name {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 div.sphinxsidebarwrapper p.blurb {
@@ -111,7 +111,7 @@ div.sphinxsidebar h4 {
     color: #444;
     font-size: 24px;
     font-weight: normal;
-    margin: 0 0 5px 0;
+    margin: 0 0 5px;
     padding: 0;
 }
 
@@ -199,7 +199,7 @@ div.body h5,
 div.body h6 {
     font-family: Georgia, serif;
     font-weight: normal;
-    margin: 30px 0px 10px 0px;
+    margin: 30px 0 10px;
     padding: 0;
 }
 
@@ -226,7 +226,7 @@ div.body p, div.body dd, div.body li {
 }
 
 div.admonition {
-    margin: 20px 0px;
+    margin: 20px 0;
     padding: 10px 30px;
     background-color: #EEE;
     border: 1px solid #CCC;
@@ -241,7 +241,7 @@ div.admonition p.admonition-title {
     font-family: Georgia, serif;
     font-weight: normal;
     font-size: 24px;
-    margin: 0 0 10px 0;
+    margin: 0 0 10px;
     padding: 0;
     line-height: 1;
 }
@@ -441,7 +441,7 @@ ul, ol {
 pre {
     background: #EEE;
     padding: 7px 30px;
-    margin: 15px 0px;
+    margin: 15px 0;
     line-height: 1.3em;
 }
 
@@ -571,7 +571,7 @@ a:hover tt, a:hover code {
         display: block;
         float: none;
         width: 102.5%;
-        margin: 50px -30px -20px -30px;
+        margin: 50px -30px -20px;
         padding: 10px 20px;
         background: #333;
         color: #FFF;
