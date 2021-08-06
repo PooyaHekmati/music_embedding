@@ -1,8 +1,12 @@
 from distutils.core import setup
 from pathlib import Path
 
+def _get_long_description():
+    with open(str(Path(__file__).parent / "README.md"), "r") as f:
+        return f.read()
+
 def _get_version():
-    with open(str(Path(__file__).parent / "pypianoroll/version.py"), "r") as f:
+    with open(str(Path(__file__).parent / "music_embedding/version.py"), "r") as f:
         for line in f:
             if line.startswith("__version__"):
                 delimeter = '"' if '"' in line else "'"
@@ -20,22 +24,23 @@ setup(
   author = 'SeyyedPooya HekmatiAthar',
   author_email = 's.pooyahekmati.a@gmail.com', 
   url = 'https://github.com/PooyaHekmati', 
-  download_url = 'https://github.com/PooyaHekmati/music_embedding/archive/PyPI_v0.1.7.tar.gz',
+  long_description=_get_long_description(),
+  long_description_content_type="text/markdown",
+  download_url = f'https://github.com/PooyaHekmati/music_embedding/archive/PyPI_v{VERSION}.tar.gz',
+  project_urls={"Documentation": "https://pooyahekmati.github.io/music_embedding/"},
   keywords = ['music', 'interval', 'pianoroll', 'embedding', 'knowledge representation'], 
   install_requires=[
           'numpy',
       ],
+  extras_require={
+        "test": ["pytest>=6.0", "pytest-cov>=2.0"],
+    },
   classifiers=[
     'Development Status :: 3 - Alpha',      # "3 - Alpha", "4 - Beta" or "5 - Production/Stable" 
     'Intended Audience :: Developers',    
     'Topic :: Software Development :: Build Tools',
     'License :: OSI Approved :: MIT License', 
-    'Programming Language :: Python :: 3',   
-    'Programming Language :: Python :: 3.4',
-    'Programming Language :: Python :: 3.5',
-    'Programming Language :: Python :: 3.6',
-    'Programming Language :: Python :: 3.7',
-    'Programming Language :: Python :: 3.8',
-    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3',
   ],
+  python_requires=">=3.6",
 )
