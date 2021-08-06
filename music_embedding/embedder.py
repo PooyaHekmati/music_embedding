@@ -28,6 +28,8 @@ class embedder:
         self.origin=origin
         self.pixels_per_bar=pixels_per_bar
         
+    #TODO implement a function that checks the variables for any problems.
+    
     @staticmethod
     def _get_none_error_message(var_name):
         return f"Both {var_name} argument and self.{var_name} are None."
@@ -41,7 +43,9 @@ class embedder:
         if variable_name == "pianoroll":
             return "Wrong pianoroll shape, second dimension must be 128."
         elif variable_name == "intervals":
-            return "Wrong intervals shape, second dimension must be interval.feature_dimensions ({interval().feature_dimensions})."
+            return f"Wrong intervals shape, second dimension must be interval.feature_dimensions ({interval().feature_dimensions})."
+        else:
+            raise ValueError("Unrecognized variable name")
     
     def extract_highest_pitch_notes_from_pianoroll(self, preserve_pianoroll=True): 
         """
