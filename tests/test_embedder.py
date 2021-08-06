@@ -3,6 +3,7 @@ from music_embedding.embedder import embedder
 import pytest
 import numpy as np
 
+#TODO implement a function that checks the variables for any problems.
 def test__get_none_error_message():
     assert embedder()._get_none_error_message("test") == "Both test argument and self.test are None."
 
