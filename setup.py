@@ -2,7 +2,7 @@ from distutils.core import setup
 from pathlib import Path
 
 def _get_version():
-    with open(str(Path(__file__).parent / "pypianoroll/version.py"), "r") as f:
+    with open(str(Path(__file__).parent / "music_embedding/version.py"), "r") as f:
         for line in f:
             if line.startswith("__version__"):
                 delimeter = '"' if '"' in line else "'"
@@ -30,9 +30,6 @@ setup(
     'Intended Audience :: Developers',    
     'Topic :: Software Development :: Build Tools',
     'License :: OSI Approved :: MIT License', 
-    'Programming Language :: Python :: 3',   
-    'Programming Language :: Python :: 3.4',
-    'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
     'Programming Language :: Python :: 3.7',
     'Programming Language :: Python :: 3.8',
