@@ -1,4 +1,4 @@
-from ..music_embedding.interval import interval
+from music_embedding.interval import interval
 import pytest
 
 def test_interval2semitone():
