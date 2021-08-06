@@ -3,9 +3,9 @@ Music Embedding
 
 [![GitHub workflow](https://img.shields.io/github/workflow/status/PooyaHekmati/music_embedding/Testing)](https://github.com/PooyaHekmati/music_embedding/actions)
 [![Travis CI](https://www.travis-ci.com/PooyaHekmati/music_embedding.svg?branch=main)](https://www.travis-ci.com/github/PooyaHekmati/music_embedding)
+[![Codecov](https://img.shields.io/codecov/c/gh/PooyaHekmati/music_embedding](https://app.codecov.io/gh/PooyaHekmati/music_embedding)
 [![GitHub license](https://img.shields.io/github/license/PooyaHekmati/music_embedding)](https://github.com/PooyaHekmati/music_embedding/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/PooyaHekmati/music_embedding?include_prereleases)](https://github.com/PooyaHekmati/music_embedding/releases)
-
 
 By SeyyedPooya HekmatiAthar 2021
 
