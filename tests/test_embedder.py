@@ -69,7 +69,7 @@ def test_get_pianoroll_from_melodic_intervals():
     intervals = emb.get_melodic_intervals_from_pianoroll(expected)  
     actual = emb.get_pianoroll_from_melodic_intervals(intervals,origin=0)
     np.testing.assert_array_equal(actual, expected, verbose=True)      
-test_get_pianoroll_from_melodic_intervals()     
+
 def test_get_harmonic_intervals_from_pianoroll(): 
     assert True
     
