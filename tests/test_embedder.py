@@ -23,17 +23,53 @@ def test_extract_highest_pitch_notes_from_pianoroll_error_handling():
     
     emb.pianoroll = np.zeros((1,1))
     with pytest.raises(IndexError):
-        emb.extract_highest_pitch_notes_from_pianoroll()
+        emb.extract_highest_pitch_notes_from_pianoroll()  
+
     
 def test_extract_highest_pitch_notes_from_pianoroll(): 
-    assert True      
+    emb = embedder()
+    pianoroll = np.zeros((128,128),dtype=np.int8)
+    for i in range(128):
+        pianoroll[i,0] = i      
+        pianoroll[i,i] = 127-i 
+    emb.pianoroll = pianoroll
+    actual = emb.extract_highest_pitch_notes_from_pianoroll()
+    expected = np.arange(0,128)
+    expected[-1] = 0
+    np.testing.assert_array_equal(actual, expected, verbose=True)    
     
 def test_get_melodic_intervals_from_pianoroll():
-    assert True 
+    emb = embedder()
+    pianoroll = np.zeros((128,128),dtype=np.int8)
+    for i in range(128):    
+        pianoroll[i,i] = 100
+    
+    csum = 0
+    for i in range(15):
+        csum += i 
+        for j in range(i):
+            pianoroll[csum+j,csum+j] = 0
+    
+    actual = emb.get_melodic_intervals_from_pianoroll( pianoroll)  
+    expected = np.asarray([[0,0,0,0],[0,0,0,0],[2,1,0,0],[0,0,0,0],[0,0,0,0],[3,-1,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[3,1,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[4,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[5,-2,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[5,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[6,-1,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[6,1,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[7,-1,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[7,1,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[1,0,0,1],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[2,-1,0,1],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[2,1,0,1],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[3,-1,0,1],[2,-1,0,0],[2,-1,0,0],[2,-1,0,0],[2,-1,0,0],[2,-1,0,0],[2,-1,0,0],[2,-1,0,0],[2,-1,0,0]],dtype=np.int8)
+    np.testing.assert_array_equal(actual, expected, verbose=True)              
 
 def test_get_pianoroll_from_melodic_intervals():
-    assert True    
-     
+    emb = embedder()
+    expected = np.zeros((128,128),dtype=np.int8)
+    for i in range(128):    
+        expected[i,i] = 100
+    
+    csum = 0
+    for i in range(15):
+        csum += i 
+        for j in range(i):
+            expected[csum+j,csum+j] = 0
+    
+    intervals = emb.get_melodic_intervals_from_pianoroll(expected)  
+    actual = emb.get_pianoroll_from_melodic_intervals(intervals,origin=0)
+    np.testing.assert_array_equal(actual, expected, verbose=True)      
+test_get_pianoroll_from_melodic_intervals()     
 def test_get_harmonic_intervals_from_pianoroll(): 
     assert True
     

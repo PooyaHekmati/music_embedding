@@ -79,7 +79,9 @@ class embedder:
             pianoroll=np.copy(self.pianoroll)   #to make the process non-destructive and presereve the pianoroll
         else:
             pianoroll=self.pianoroll            #to make the process faster but in a destructive manner
-
+        
+        pianoroll=pianoroll.astype(np.uint8)    #to prevent overflowing
+        
         np.clip(pianoroll,0,1,out=pianoroll)    #clipping is applied to ensure coef works as expected.
         
         coef=np.arange(1,129,dtype=np.uint32)   #128 is the number of notes in MIDI, arange's stop is exclusive so it has to be 129                               
