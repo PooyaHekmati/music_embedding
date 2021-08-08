@@ -218,16 +218,18 @@ class embedder:
                 raise IndexError(self._get_range_error_message())
             self.pianoroll [ leading_silence + 1, origin ] = velocity
             
+        semitones = 0
         for i in range(leading_silence + 1, len(self.intervals)):
             curser.set_specs_list(self.intervals[i])
             if not curser.is_silence():   
-                if not np.array_equal(self.intervals[i],self.intervals[i-1]):       #if they are different
-                    origin+=curser.interval2semitone()
-                    if origin > 127 or origin < 0:
-                        raise IndexError(self._get_range_error_message())
+                if not np.array_equal(self.intervals[i],self.intervals[i-1]):       #if they are different calculate semitones, otherwise use prev value
+                    semitones = curser.interval2semitone()
+                origin += semitones
+                if origin > 127 or origin < 0:
+                    raise IndexError(self._get_range_error_message())
                 self.pianoroll[i+1,origin]=velocity        
             
-        return self.pianoroll        
+        return self.pianoroll       
           
     
     def get_harmonic_intervals_from_pianoroll(self, ref_pianoroll, pianoroll=None): 
