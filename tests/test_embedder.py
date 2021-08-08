@@ -66,38 +66,35 @@ def test_get_pianoroll_from_melodic_intervals():
         for j in range(i):
             expected[csum+j,csum+j] = 0
     
-    intervals = emb.get_melodic_intervals_from_pianoroll(expected)  
+    intervals = emb.get_melodic_intervals_from_pianoroll(expected) 
     actual = emb.get_pianoroll_from_melodic_intervals(intervals,origin=0)
     np.testing.assert_array_equal(actual, expected, verbose=True)      
 
 def test_get_harmonic_intervals_from_pianoroll(): 
-    assert True
-    
+    emb = embedder()
+    pianoroll = np.zeros((15,128),dtype=np.int8)
+    for i in range(2,15):    
+        pianoroll[i,0] = 100
+        pianoroll[i,i] = 100
+    actual = emb.get_harmonic_intervals_from_pianoroll(pianoroll,pianoroll)
+    expected = [[0,0,0,0],[0,0,0,0],[2,1,0,0],[3,-1,0,0],[3,1,0,0],[4,0,0,0],[5,-2,0,0],[5,0,0,0],[6,-1,0,0],[6,1,0,0],[7,-1,0,0],[7,1,0,0],[1,0,0,1],[2,-1,0,1],[2,1,0,1]]
+    np.testing.assert_array_equal(actual, expected, verbose=True)  
 
 def test_get_pianoroll_from_harmonic_intervals():
-    assert True
+    emb = embedder()
+    pianoroll = np.zeros((15,128),dtype=np.int8)
+    for i in range(1,15):    
+        pianoroll[i,1] = 100
+        pianoroll[i,i] = 100
+    intervals = emb.get_harmonic_intervals_from_pianoroll(pianoroll,pianoroll)
     
-
-def test_get_barwise_intervals_from_pianoroll():
-    assert True
-
-def test_get_pianoroll_from_barwise_intervals():
-    assert True
-
-def test_chunk_sequence_of_intervals():
-    assert True
-
-def test_merge_chunked_intervals():
-    assert True
-
-def test_get_RLE_from_intervals():
-    assert True
-
-def test_get_intervals_from_RLE():
-    assert True
-
-def test_get_RLE_from_intervals_bulk():
-    assert True
-    
-def test_get_intervals_from_RLE_bulk():
-    assert True
+    ref_pianoroll = np.zeros((15,128),dtype=np.int8)
+    for i in range(2,15):    
+        ref_pianoroll[i,1] = 100
+        
+    expected = np.zeros((15,128),dtype=np.int8)
+    for i in range(2,15):    
+        expected[i,i] = 100
+        
+    actual = emb.get_pianoroll_from_harmonic_intervals(pianoroll=ref_pianoroll,intervals=intervals)
+    np.testing.assert_array_equal(actual, expected, verbose=True)  
