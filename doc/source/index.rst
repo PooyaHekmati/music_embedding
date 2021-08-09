@@ -16,7 +16,17 @@ Music Embedding
 .. image:: https://img.shields.io/github/v/release/PooyaHekmati/music_embedding?include_prereleases
     :target: https://github.com/PooyaHekmati/music_embedding/releases
     :alt: GitHub release
-
+.. image:: https://img.shields.io/github/stars/pooyahekmati/music_embedding
+    :target: https://github.com/PooyaHekmati/music_embedding/stargazers
+    :alt: GitHub Stars
+.. image:: https://img.shields.io/github/repo-size/pooyahekmati/music_embedding
+    :alt: Repo Size
+.. image:: https://img.shields.io/github/languages/code-size/pooyahekmati/music_embedding
+    :alt: Code Size
+.. image:: https://img.shields.io/codefactor/grade/github/pooyahekmati/music_embedding
+    :target: https://www.codefactor.io/repository/github/pooyahekmati/music_embedding/overview/main
+    :alt: Code Quality
+    
 Music Embedding is an open source python package for representing music data based on music theory. It provides tools to convert melodic and harmonic sequences to and from pianorolls.
 
 Features
