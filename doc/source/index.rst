@@ -20,8 +20,10 @@ Music Embedding
     :target: https://github.com/PooyaHekmati/music_embedding/stargazers
     :alt: GitHub Stars
 .. image:: https://img.shields.io/github/repo-size/pooyahekmati/music_embedding
+    :target:
     :alt: Repo Size
 .. image:: https://img.shields.io/github/languages/code-size/pooyahekmati/music_embedding
+    :target:
     :alt: Code Size
 .. image:: https://img.shields.io/codefactor/grade/github/pooyahekmati/music_embedding
     :target: https://www.codefactor.io/repository/github/pooyahekmati/music_embedding/overview/main
