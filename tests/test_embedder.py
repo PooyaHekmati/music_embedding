@@ -98,3 +98,26 @@ def test_get_pianoroll_from_harmonic_intervals():
         
     actual = emb.get_pianoroll_from_harmonic_intervals(pianoroll=ref_pianoroll,intervals=intervals)
     np.testing.assert_array_equal(actual, expected, verbose=True)  
+    
+def test_chunk():
+    emb = embedder()
+    expected = np.random.randint(low = -2, high = 2, size=(960,4), dtype=np.int8)
+    chunked_intervals = emb.chunk_sequence_of_intervals(expected)
+    actual = emb.merge_chunked_intervals(chunked_intervals)
+    np.testing.assert_array_equal(actual, expected, verbose=True)    
+    
+def test_RLE():
+    emb = embedder()
+    expected = np.random.randint(low = -2, high = 2, size=(960,4), dtype=np.int8)
+    RLE = emb.get_RLE_from_intervals(expected)
+    actual = emb.get_intervals_from_RLE(RLE)
+    np.testing.assert_array_equal(actual, expected, verbose=True)  
+    
+def test_RLE_bulk():
+    emb = embedder()
+    expected = np.random.randint(low = -2, high = 2, size=(960,4), dtype=np.int8)
+    chunked_intervals = emb.chunk_sequence_of_intervals(expected)
+    RLE_bulk = emb.get_RLE_from_intervals_bulk(chunked_intervals)
+    intervals_bulk = emb.get_intervals_from_RLE_bulk(RLE_bulk)
+    actual = emb.merge_chunked_intervals(intervals_bulk)
+    np.testing.assert_array_equal(actual, expected, verbose=True)  
