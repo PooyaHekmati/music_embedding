@@ -9,7 +9,7 @@ Music Embedding
 [![GitHub Stars](https://img.shields.io/github/stars/pooyahekmati/music_embedding)](https://github.com/PooyaHekmati/music_embedding/stargazers)
 ![Repo Size](https://img.shields.io/github/repo-size/pooyahekmati/music_embedding)
 ![Code Size](https://img.shields.io/github/languages/code-size/pooyahekmati/music_embedding)
-[![CodeFactor](https://img.shields.io/codefactor/grade/github/pooyahekmati/music_embedding)](https://www.codefactor.io/repository/github/pooyahekmati/music_embedding/overview/main)
+[![Code Quality](https://img.shields.io/codefactor/grade/github/pooyahekmati/music_embedding)](https://www.codefactor.io/repository/github/pooyahekmati/music_embedding/overview/main)
 
 By SeyyedPooya HekmatiAthar 2021
 
