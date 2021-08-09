@@ -282,7 +282,7 @@ class interval(object):
         None.
 
         """
-        if type(specs) is dict:
+        if isinstance(specs, dict):
             interval_order=specs['interval_order']
             interval_type=specs['interval_type']
             is_descending=specs['is_descending']
