@@ -279,15 +279,16 @@ class embedder:
         
         silent_interval = interval.get_silence_specs_list()
         
-        for i in range(len(notes)):
-            if notes[i]==0:                     #it is silence
+        # for i in range(len(notes)):
+        for i, note in enumerate(notes):
+            if note==0:                     #it is silence
                 self.intervals[i]=silent_interval   
             else:
-                ref_note=notes[i]-1
+                ref_note=note-1
                 while ref_note >= 0 and ref_pianoroll[i,ref_note] == 0:
                     ref_note-=1
                 if ref_note >= 0:                    
-                    curser.semitones=notes[i]-ref_note
+                    curser.semitones=note-ref_note
                     curser.semitone2interval()
                     self.intervals[i]=curser.get_specs_list()
                 else:
@@ -359,13 +360,14 @@ class embedder:
         ref_notes=self.extract_highest_pitch_notes_from_pianoroll()
         self.pianoroll=np.zeros((len(self.intervals),128),dtype=np.uint8)   #128 is the number of notes in MIDI
         curser=interval()
-        for i in range (len(ref_notes)):
-            if ref_notes[i] != 0:                               #if it is not silence
+        # for i in range (len(ref_notes)):
+        for i, ref_note in enumerate(ref_notes):
+            if ref_note != 0:                               #if it is not silence
                 curser.set_specs_list(self.intervals[i])
-                note=curser.interval2semitone()
-                if ref_notes[i] + note > 127 or ref_notes[i] + note < 0:
+                note = curser.interval2semitone()
+                if ref_note + note > 127 or ref_note + note < 0:
                     raise IndexError(self._get_range_error_message())
-                self.pianoroll[i, ref_notes[i] + note]=velocity
+                self.pianoroll[i, ref_note + note]=velocity
         return self.pianoroll
 
     
@@ -739,7 +741,8 @@ class embedder:
         tmp=self.get_intervals_from_RLE(bulk_RLE_data[0])        #just to identify the shape
         bulk_intervals=np.zeros((len(bulk_RLE_data), tmp.shape[0], tmp.shape[1]))
         
-        for i in range(len(bulk_RLE_data)):
-            bulk_intervals[i]=self.get_intervals_from_RLE(bulk_RLE_data[i])
+        # for i in range(len(bulk_RLE_data)):
+        for i, RLE_data in enumerate(bulk_RLE_data):
+            bulk_intervals[i]=self.get_intervals_from_RLE(RLE_data)
         
         return bulk_intervals
