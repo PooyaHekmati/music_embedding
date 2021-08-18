@@ -2,8 +2,8 @@ from distutils.core import setup
 from pathlib import Path
 
 def _get_long_description():
-    with open(str(Path(__file__).parent / "README.md"), "r") as f:
-        return f.read()
+    with open("README.md", "r", encoding="utf-8") as fh:
+        return fh.read()
 
 def _get_version():
     with open(str(Path(__file__).parent / "music_embedding/version.py"), "r") as f:
