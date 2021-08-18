@@ -83,7 +83,11 @@
         
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-
+            
+            
+              
+            
+            
               <!-- Local TOC -->
               <div class="local-toc"><ul>
 			  <li><a class="reference internal" href="index.html">Welcome!</a></li>
@@ -91,7 +95,7 @@
 				<li><a class="reference internal" href="interval.html">Interval class</a></li>
 				<li><a class="reference internal" href="#">Embedder class</a></li>
 				</ul>
-			</div>
+</div>
             
           
         </div>
@@ -223,20 +227,8 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_pianoroll_from_melodic_intervals" title="music_embedding.embedder.embedder.get_pianoroll_from_melodic_intervals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pianoroll_from_melodic_intervals</span></code></a>([…])</p></td>
 <td><p>Creates pianoroll from sequence of melodic intervals.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.intervals2pianoroll_harmony" title="music_embedding.embedder.embedder.intervals2pianoroll_harmony"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intervals2pianoroll_harmony</span></code></a>()</p></td>
-<td><p>This method is depricated.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.intervals2pianoroll_melody" title="music_embedding.embedder.embedder.intervals2pianoroll_melody"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intervals2pianoroll_melody</span></code></a>()</p></td>
-<td><p>This method is depricated.</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.merge_chunked_intervals" title="music_embedding.embedder.embedder.merge_chunked_intervals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_chunked_intervals</span></code></a>(chunked_intervals)</p></td>
 <td><p>Merges chunks of interval sequence.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.pianoroll2intervals_harmony" title="music_embedding.embedder.embedder.pianoroll2intervals_harmony"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pianoroll2intervals_harmony</span></code></a>()</p></td>
-<td><p>This method is depricated.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.embedder.embedder.pianoroll2intervals_melody" title="music_embedding.embedder.embedder.pianoroll2intervals_melody"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pianoroll2intervals_melody</span></code></a>()</p></td>
-<td><p>This method is depricated.</p></td>
 </tr>
 </tbody>
 </table>
@@ -257,6 +249,13 @@
 <dd class="field-even"><dl class="simple">
 <dt>ndarray, dtype=int8, shape=(?, pixels_per_chunk, interval.feature_dimensions)</dt><dd><p>First dimension is bars, second dimension is pixels in each chunk and, third dimension is interval features.</p>
 </dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Type Error: if both intervals argument and self.intervals are None.</dt><dd></dd>
+<dt>Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions]</dt><dd></dd>
+<dt>Value Error: if pixels_per_chunk &lt; 1. If pixels_per_chunk is None then self.pixels_per_bar is substituted.</dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -285,6 +284,12 @@
 </dd>
 </dl>
 </dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Type Error: if self.pianoroll is None.</dt><dd></dd>
+<dt>Index Error: if self.pianoroll.shape[1] != 128</dt><dd></dd>
+</dl>
+</dd>
 </dl>
 <p class="rubric">Notes</p>
 <ul class="simple">
@@ -307,6 +312,12 @@
 <dd class="field-even"><dl class="simple">
 <dt>ndarray, dtype=int32, shape=(?, interval.feature_dimensions + 1)</dt><dd><p>First dimension is compressed timesteps. The last element in the second dimension indicates number of repeatitions for the rest of the elements in the second dimension.</p>
 </dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Type Error: if both intervals argument and self.intervals are None.</dt><dd></dd>
+<dt>Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions]</dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -357,6 +368,13 @@
 </dd>
 </dl>
 </dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Type Error: if both pianoroll argument and self.pianoroll are None.</dt><dd></dd>
+<dt>Index Error: if pianoroll.shape[1] != 128 [if pianoroll=None then raises if self.pianoroll.shape[1] != 128]</dt><dd></dd>
+<dt>Value Error: if pixels_per_bar &lt; 1. If pixels_per_bar is None then self.pixels_per_bar is substituted.</dt><dd></dd>
+</dl>
+</dd>
 </dl>
 <p class="rubric">Notes</p>
 <ul class="simple">
@@ -384,6 +402,13 @@
 <dd class="field-even"><dl class="simple">
 <dt>ndarray, dtype=int8, shape=(?, interval.feature_dimensions)</dt><dd><p>First dimension is timesteps and second dimension is interval features.</p>
 </dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Type Error: if both pianoroll argument and self.pianoroll are None.</dt><dd></dd>
+<dt>Index Error: if pianoroll.shape[1] != 128 [if pianoroll=None then raises if self.pianoroll.shape[1] != 128]</dt><dd></dd>
+<dt>Index Error: if ref_pianoroll.shape[1] != 128</dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -461,6 +486,12 @@
 </dd>
 </dl>
 </dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Type Error: if both pianoroll argument and self.pianoroll are None.</dt><dd></dd>
+<dt>Index Error: if pianoroll.shape[1] != 128 [if pianoroll=None then raises if self.pianoroll.shape[1] != 128]</dt><dd></dd>
+</dl>
+</dd>
 </dl>
 <p class="rubric">Notes</p>
 <ul class="simple">
@@ -495,6 +526,17 @@
 </dd>
 </dl>
 </dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Type Error: if both intervals argument and self.intervals are None.</dt><dd></dd>
+<dt>Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions]</dt><dd></dd>
+<dt>Value Error: if leading_silence &gt;= len(intervals) [if intervals=None then raises if leading_silence &gt;= len(self.intervals)]</dt><dd></dd>
+<dt>Value Error: if pixels_per_bar &lt; 1. If pixels_per_bar is None then self.pixels_per_bar is substituted.</dt><dd></dd>
+<dt>Index Error: if origin &gt; 127 or origin &lt; 0. If origin is None then self.origin is substituted.</dt><dd></dd>
+<dt>Index Error: if velocity &gt; 127 or velocity &lt; 0. If velocity is None then self.default_velocity is substituted.</dt><dd></dd>
+<dt>Index Error: if the sequence of the given intervals leads to to a note which is out of MIDI range (0-127).</dt><dd></dd>
+</dl>
+</dd>
 </dl>
 <p class="rubric">Notes</p>
 <ul class="simple">
@@ -508,7 +550,7 @@
 <dt id="music_embedding.embedder.embedder.get_pianoroll_from_harmonic_intervals">
 <code class="sig-name descname">get_pianoroll_from_harmonic_intervals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pianoroll</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">intervals</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">velocity</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.get_pianoroll_from_harmonic_intervals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.get_pianoroll_from_harmonic_intervals" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates pianoroll from sequence of harmonic intervals.</p>
-<p>Extracts highest pitch notes from self.pianoroll first, then builds a new pianoroll based on the extracted notes and self.intervals(harmonic).</p>
+<p>Extracts highest pitch notes from pianoroll first, then builds a new pianoroll based on the extracted notes and self.intervals(harmonic).</p>
 <p><strong>Example:</strong> Given ATB choir pianoroll and Soprano’s harmonic intervals with respect to Alto, returns Soprano’s pianoroll.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -525,6 +567,16 @@
 <dd class="field-even"><dl class="simple">
 <dt>ndarray, dtype=uint8, shape=(?, 128)</dt><dd><p>First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</p>
 </dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Type Error: if both intervals argument and self.intervals are None.</dt><dd></dd>
+<dt>Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions]</dt><dd></dd>
+<dt>Type Error: if both pianoroll argument and self.pianoroll are None.</dt><dd></dd>
+<dt>Index Error: if pianoroll.shape[1] != 128 [if pianoroll=None then raises if self.pianoroll.shape[1] != 128]</dt><dd></dd>
+<dt>Index Error: if velocity &gt; 127 or velocity &lt; 0. If velocity is None then self.default_velocity is substituted.</dt><dd></dd>
+<dt>Index Error: if adding the interval to the pianoroll leads to to a note which is out of MIDI range (0-127).</dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -549,7 +601,7 @@
 </dd>
 <dt><strong>velocity</strong><span class="classifier">int, optional</span></dt><dd><p>When creating pianorolls this value is used for notes’ velocities. The default is self.default_velocity.</p>
 </dd>
-<dt><strong>leading_silence: int, optional</strong></dt><dd><p>Number of silent pixels at the beginning of the melody.</p>
+<dt><strong>leading_silence: int, optional</strong></dt><dd><p>Number of silent pixels at the beginning of the melody. Must be less than number of intervals.</p>
 </dd>
 </dl>
 </dd>
@@ -559,6 +611,16 @@
 </dd>
 </dl>
 </dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Type Error: if both intervals argument and self.intervals are None.</dt><dd></dd>
+<dt>Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions]</dt><dd></dd>
+<dt>Value Error: if leading_silence &gt;= len(intervals) [if intervals=None then raises if leading_silence &gt;= len(self.intervals)]</dt><dd></dd>
+<dt>Index Error: if origin &gt; 127 or origin &lt; 0. If origin is None then self.origin is substituted.</dt><dd></dd>
+<dt>Index Error: if velocity &gt; 127 or velocity &lt; 0. If velocity is None then self.default_velocity is substituted.</dt><dd></dd>
+<dt>Index Error: if the sequence of the given intervals leads to to a note which is out of MIDI range (0-127).</dt><dd></dd>
+</dl>
+</dd>
 </dl>
 <p class="rubric">Notes</p>
 <ul class="simple">
@@ -566,34 +628,6 @@
 <li><p>Updates <cite>self.intervals</cite> if intervals argument is passed.</p></li>
 <li><p>Updates <cite>self.pianoroll</cite>.</p></li>
 </ul>
-</dd></dl>
-
-<dl class="py method">
-<dt id="music_embedding.embedder.embedder.intervals2pianoroll_harmony">
-<code class="sig-name descname">intervals2pianoroll_harmony</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.intervals2pianoroll_harmony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.intervals2pianoroll_harmony" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method is depricated.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><dl class="simple">
-<dt>Call to function:</dt><dd><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_pianoroll_from_harmonic_intervals" title="music_embedding.embedder.embedder.get_pianoroll_from_harmonic_intervals"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_pianoroll_from_harmonic_intervals()</span></code></a></p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="music_embedding.embedder.embedder.intervals2pianoroll_melody">
-<code class="sig-name descname">intervals2pianoroll_melody</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.intervals2pianoroll_melody"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.intervals2pianoroll_melody" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method is depricated.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><dl class="simple">
-<dt>Call to function:</dt><dd><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_pianoroll_from_melodic_intervals" title="music_embedding.embedder.embedder.get_pianoroll_from_melodic_intervals"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_pianoroll_from_melodic_intervals()</span></code></a></p>
-</dd>
-</dl>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -618,34 +652,6 @@
 <ul class="simple">
 <li><p>Updates <cite>self.intervals</cite>.</p></li>
 </ul>
-</dd></dl>
-
-<dl class="py method">
-<dt id="music_embedding.embedder.embedder.pianoroll2intervals_harmony">
-<code class="sig-name descname">pianoroll2intervals_harmony</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.pianoroll2intervals_harmony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.pianoroll2intervals_harmony" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method is depricated.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><dl class="simple">
-<dt>Call to function:</dt><dd><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_harmonic_intervals_from_pianoroll" title="music_embedding.embedder.embedder.get_harmonic_intervals_from_pianoroll"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_harmonic_intervals_from_pianoroll()</span></code></a></p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="music_embedding.embedder.embedder.pianoroll2intervals_melody">
-<code class="sig-name descname">pianoroll2intervals_melody</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/embedder.html#embedder.pianoroll2intervals_melody"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.embedder.embedder.pianoroll2intervals_melody" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method is depricated.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><dl class="simple">
-<dt>Call to function:</dt><dd><p><a class="reference internal" href="#music_embedding.embedder.embedder.get_melodic_intervals_from_pianoroll" title="music_embedding.embedder.embedder.get_melodic_intervals_from_pianoroll"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_melodic_intervals_from_pianoroll()</span></code></a></p>
-</dd>
-</dl>
-</dd>
-</dl>
 </dd></dl>
 
 </dd></dl>

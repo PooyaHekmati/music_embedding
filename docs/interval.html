@@ -19,6 +19,7 @@
   
     <link rel="shortcut icon" href="_static/favicon.png"/>
   
+
   
   
 
@@ -82,7 +83,11 @@
         
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-
+            
+            
+              
+            
+            
               <!-- Local TOC -->
               <div class="local-toc"><ul>
 			  <li><a class="reference internal" href="index.html">Welcome!</a></li>
@@ -90,7 +95,7 @@
 				<li><a class="reference internal" href="#">Interval class</a></li>
 				<li><a class="reference internal" href="embedder.html">Embedder class</a></li>
 				</ul>
-			</div>
+</div>
             
           
         </div>
@@ -444,7 +449,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>specs</strong><span class="classifier">array, dtype=int, shape=(4)</span></dt><dd><ul class="simple">
+<dt><strong>specs</strong><span class="classifier">array or dict, dtype=int, shape=(4)</span></dt><dd><ul class="simple">
 <li><p>interval_order=specs[0] (first to seventh)</p></li>
 <li><p>interval_type=specs[1] (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug )</p></li>
 <li><p>is_descending=specs[2]</p></li>
@@ -456,6 +461,14 @@
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
 <dt>None.</dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Value Error: if interval_order &gt; 7 or interval_order &lt; 0</dt><dd></dd>
+<dt>Value Error: if interval_type &gt; 2 or interval_type &lt; -2</dt><dd></dd>
+<dt>Value Error: if is_descending &lt; 0 or is_descending &gt; 1</dt><dd></dd>
+<dt>Value Error: if octave_offset &lt; 0 or octave_offset &gt; 9</dt><dd></dd>
 </dl>
 </dd>
 </dl>
