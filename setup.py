@@ -2,8 +2,8 @@ from distutils.core import setup
 from pathlib import Path
 
 def _get_long_description():
-    with open("README.md", "r", encoding="utf-8") as fh:
-        return fh.read()
+    with open(str(Path(__file__).parent / "doc" / "source" / "index.rst"), "r") as f:
+        return f.read()
 
 def _get_version():
     with open(str(Path(__file__).parent / "music_embedding/version.py"), "r") as f:
@@ -25,7 +25,7 @@ setup(
   author_email = 's.pooyahekmati.a@gmail.com', 
   url = 'https://github.com/PooyaHekmati', 
   long_description=_get_long_description(),
-  long_description_content_type="text/markdown",
+  #long_description_content_type="text/markdown",
   download_url = f'https://github.com/PooyaHekmati/music_embedding/archive/PyPI_v{VERSION}.tar.gz',
   project_urls={"Documentation": "https://pooyahekmati.github.io/music_embedding/"},
   keywords = ['music', 'interval', 'pianoroll', 'embedding', 'knowledge representation'], 
