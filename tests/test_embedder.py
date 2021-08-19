@@ -99,6 +99,16 @@ def test_get_pianoroll_from_harmonic_intervals():
     actual = emb.get_pianoroll_from_harmonic_intervals(pianoroll=ref_pianoroll,intervals=intervals)
     np.testing.assert_array_equal(actual, expected, verbose=True)  
     
+def test_barwise_embedding():
+    emb = embedder()
+    expected = np.zeros((128*12,128), dtype=np.int8)
+    for i in range(1, 128*12):        
+        expected[i,i%64+32]=100
+
+    intervals = emb.get_barwise_intervals_from_pianoroll(expected,96)
+    actual = emb.get_pianoroll_from_barwise_intervals(intervals,origin=1+32,velocity=100,leading_silence=1)
+    np.testing.assert_array_equal(actual, expected, verbose=True)               
+
 def test_chunk():
     emb = embedder()
     expected = np.random.randint(low = -2, high = 2, size=(960,4), dtype=np.int8)
