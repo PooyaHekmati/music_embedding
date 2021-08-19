@@ -62,7 +62,7 @@ To install Music Embedding, please run ``pip install music_embedding``. To build
 Semantic Versioning Policy
 --------------------------
 
-Music Embedding uses x.y.z format to indicate the version where x is major versin number, y is minor version number, and z is the patch number. A stable version of Music Embedding is not released yet so x is 0. Also, prior to version numbers, a PyPI tag might apear which means this version is availble using pip.
+Music Embedding uses x.y.z format to indicate the version where x is major versin number, y is minor version number, and z is the patch number. 
 
 Classes Documentation
 ---------------------

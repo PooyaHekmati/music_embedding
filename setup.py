@@ -26,7 +26,7 @@ setup(
   url = 'https://github.com/PooyaHekmati', 
   long_description=_get_long_description(),
   #long_description_content_type="text/markdown",
-  download_url = f'https://github.com/PooyaHekmati/music_embedding/archive/PyPI_v{VERSION}.tar.gz',
+  download_url = f'https://github.com/PooyaHekmati/music_embedding/archive/v{VERSION}.tar.gz',
   project_urls={"Documentation": "https://pooyahekmati.github.io/music_embedding/"},
   keywords = ['music', 'interval', 'pianoroll', 'embedding', 'knowledge representation'], 
   install_requires=[
@@ -36,7 +36,7 @@ setup(
         "test": ["pytest>=6.0", "pytest-cov>=2.0"],
     },
   classifiers=[
-    'Development Status :: 3 - Alpha',      # "3 - Alpha", "4 - Beta" or "5 - Production/Stable" 
+    'Development Status :: 5 - Production/Stable',      # "3 - Alpha", "4 - Beta" or "5 - Production/Stable" 
     'Intended Audience :: Developers',    
     'Topic :: Software Development :: Build Tools',
     'License :: OSI Approved :: MIT License', 
