@@ -16,7 +16,8 @@ def test__get_incompatible_dimension_error_message():
     with pytest.raises(ValueError):
         embedder._get_incompatible_dimension_error_message("invalid_input")
         
-def test_extract_highest_pitch_notes_from_pianoroll_error_handling(): 
+def test_invalid_argument_handling(): 
+    #extract_highest_pitch_notes_from_pianoroll
     emb = embedder()
     with pytest.raises(TypeError):
         emb.extract_highest_pitch_notes_from_pianoroll()
@@ -24,8 +25,196 @@ def test_extract_highest_pitch_notes_from_pianoroll_error_handling():
     emb.pianoroll = np.zeros((1,1))
     with pytest.raises(IndexError):
         emb.extract_highest_pitch_notes_from_pianoroll()  
-
     
+    #get_melodic_intervals_from_pianoroll
+    emb.pianoroll = None
+    with pytest.raises(TypeError):
+        emb.get_melodic_intervals_from_pianoroll()
+        
+    emb.pianoroll = np.zeros((1,1))
+    with pytest.raises(IndexError):
+        emb.get_melodic_intervals_from_pianoroll()  
+        
+    emb.pianoroll = np.zeros((1,150))
+    with pytest.raises(IndexError):
+        emb.get_melodic_intervals_from_pianoroll() 
+        
+    #get_pianoroll_from_melodic_intervals
+    emb.intervals=None
+    with pytest.raises(TypeError):
+        emb.get_pianoroll_from_melodic_intervals()
+        
+    emb.intervals=np.zeros((1,interval.feature_dimensions-1))
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_melodic_intervals()
+        
+    emb.intervals=np.zeros((1,interval.feature_dimensions+1))
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_melodic_intervals()
+        
+    emb.intervals=np.zeros((1,interval.feature_dimensions))
+    with pytest.raises(ValueError):
+        emb.get_pianoroll_from_melodic_intervals(leading_silence=2)
+        
+    emb.origin = 128
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_melodic_intervals()
+    
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_melodic_intervals(origin=-1)
+        
+    emb.velocity = 128
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_melodic_intervals()
+    
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_melodic_intervals(velocity=-1)
+     
+    #get_harmonic_intervals_from_pianoroll
+    emb.pianoroll = None
+    with pytest.raises(TypeError):
+        emb.get_harmonic_intervals_from_pianoroll(ref_pianoroll = np.zeros((1,128)))
+        
+    emb.pianoroll = np.zeros((1,1))
+    with pytest.raises(IndexError):
+        emb.get_harmonic_intervals_from_pianoroll(ref_pianoroll = np.zeros((1,128)))  
+        
+    emb.pianoroll = np.zeros((1,150))
+    with pytest.raises(IndexError):
+        emb.get_harmonic_intervals_from_pianoroll(ref_pianoroll = np.zeros((1,128))) 
+        
+    emb.pianoroll = np.zeros((1,128))
+    with pytest.raises(IndexError):
+        emb.get_harmonic_intervals_from_pianoroll(ref_pianoroll = np.zeros((1,1))) 
+    with pytest.raises(IndexError):
+        emb.get_harmonic_intervals_from_pianoroll(ref_pianoroll = np.zeros((1,150))) 
+        
+    #get_pianoroll_from_harmonic_intervals
+    emb.intervals=None
+    with pytest.raises(TypeError):
+        emb.get_pianoroll_from_harmonic_intervals()
+        
+    emb.intervals=np.zeros((1,interval.feature_dimensions-1))
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_harmonic_intervals()
+        
+    emb.intervals=np.zeros((1,interval.feature_dimensions+1))
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_harmonic_intervals()        
+        
+    emb.velocity = 128
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_harmonic_intervals()
+    
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_harmonic_intervals(velocity=-1)
+    
+    emb.pianoroll = None
+    with pytest.raises(TypeError):
+        emb.get_pianoroll_from_harmonic_intervals()
+        
+    emb.pianoroll = np.zeros((1,1))
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_harmonic_intervals()  
+        
+    emb.pianoroll = np.zeros((1,150))
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_harmonic_intervals() 
+        
+    #get_barwise_intervals_from_pianoroll
+    emb.pianoroll = None
+    with pytest.raises(TypeError):
+        emb.get_barwise_intervals_from_pianoroll()
+        
+    emb.pianoroll = np.zeros((1,1))
+    with pytest.raises(IndexError):
+        emb.get_barwise_intervals_from_pianoroll()  
+        
+    emb.pianoroll = np.zeros((1,150))
+    with pytest.raises(IndexError):
+        emb.get_barwise_intervals_from_pianoroll() 
+        
+    emb.pixels_per_bar = 0
+    emb.pianoroll = np.zeros((1,128))
+    with pytest.raises(ValueError):
+        emb.get_barwise_intervals_from_pianoroll()
+    
+    with pytest.raises(ValueError):
+        emb.get_barwise_intervals_from_pianoroll(pixels_per_bar=-1)
+        
+    #get_pianoroll_from_barwise_intervals
+    emb.pixels_per_bar = 0
+    with pytest.raises(ValueError):
+        emb.get_pianoroll_from_barwise_intervals()
+    
+    with pytest.raises(ValueError):
+        emb.get_pianoroll_from_barwise_intervals(pixels_per_bar=-1)
+     
+    emb.intervals=None
+    emb.pixels_per_bar = 96
+    with pytest.raises(TypeError):
+        emb.get_pianoroll_from_barwise_intervals()
+        
+    emb.intervals=np.zeros((1,interval.feature_dimensions-1))
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_barwise_intervals()
+        
+    emb.intervals=np.zeros((1,interval.feature_dimensions+1))
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_barwise_intervals()  
+        
+    emb.intervals=np.zeros((1,interval.feature_dimensions))
+    with pytest.raises(ValueError):
+        emb.get_pianoroll_from_barwise_intervals(leading_silence=2)
+        
+    emb.origin = 128
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_barwise_intervals()
+    
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_barwise_intervals(origin=-1)
+        
+    emb.velocity = 128
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_barwise_intervals()
+    
+    with pytest.raises(IndexError):
+        emb.get_pianoroll_from_barwise_intervals(velocity=-1)
+        
+    #chunk_sequence_of_intervals
+    emb.intervals=None
+    with pytest.raises(TypeError):
+        emb.chunk_sequence_of_intervals()
+        
+    emb.intervals=np.zeros((1,interval.feature_dimensions-1))
+    with pytest.raises(IndexError):
+        emb.chunk_sequence_of_intervals()
+        
+    emb.intervals=np.zeros((1,interval.feature_dimensions+1))
+    with pytest.raises(IndexError):
+        emb.chunk_sequence_of_intervals()  
+      
+    emb.pixels_per_bar = 0
+    emb.intervals=np.zeros((1,interval.feature_dimensions))
+    with pytest.raises(ValueError):
+        emb.chunk_sequence_of_intervals()
+    
+    with pytest.raises(ValueError):
+        emb.chunk_sequence_of_intervals(pixels_per_chunk =-1)
+        
+    #get_RLE_from_intervals
+    emb.intervals=None
+    with pytest.raises(TypeError):
+        emb.get_RLE_from_intervals()
+        
+    emb.intervals=np.zeros((1,interval.feature_dimensions-1))
+    with pytest.raises(IndexError):
+        emb.get_RLE_from_intervals()
+        
+    emb.intervals=np.zeros((1,interval.feature_dimensions+1))
+    with pytest.raises(IndexError):
+        emb.get_RLE_from_intervals()  
+        
 def test_extract_highest_pitch_notes_from_pianoroll(): 
     emb = embedder()
     pianoroll = np.zeros((128,128),dtype=np.int8)
