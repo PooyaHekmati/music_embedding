@@ -16,7 +16,13 @@ def test_interval2semitone():
     assert interval().interval2semitone([7,1,0,0]) == 11
     assert interval().interval2semitone([0,0,0,1]) == 12
     assert interval().interval2semitone([0,0,1,1]) == -12
-    
+    expected = [-1,0,0,0,1,0,1,2,2,3,2,3,4,4,5,4,5,5,5,6,6,7,7,7,8,7,8,9,9,10,9,10,11,11,12]
+    cnt = 0
+    for order in range(1,8):
+        for ttype in range (-2,3):
+            assert interval().interval2semitone([order, ttype, 0, 0]) == expected[cnt]
+            cnt+=1
+            
 def test_semitone2interval():
     for i in range(-30, 30):
         assert interval().interval2semitone(interval().semitone2interval(i)) == i
