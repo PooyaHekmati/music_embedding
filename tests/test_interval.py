@@ -71,7 +71,11 @@ def test_get_silence_specs_list():
     interval_obj.set_specs_list(interval_obj.get_silence_specs_list())
     assert interval_obj.is_silence()
     
-# def test_get_name():
-#     assert True
+def test_get_name():
+    interval_obj = interval()
+    interval_obj.set_specs_list(interval_obj.get_silence_specs_list())
+    assert str(interval_obj) == "Silence"
     
-    
+    expected = ["Descending min 2nd","perfect 1st","min 2nd","Maj 2nd","min 3rd","Maj 3rd","perfect 4th","dim 5th","perfect 5th","min 6th","Maj 6th","min 7th","Maj 7th","perfect 8th"]
+    for i in range(-1,13):
+        assert interval_obj.get_name(i) == expected[i+1]
