@@ -79,3 +79,6 @@ def test_get_name():
     expected = ["Descending min 2nd","perfect 1st","min 2nd","Maj 2nd","min 3rd","Maj 3rd","perfect 4th","dim 5th","perfect 5th","min 6th","Maj 6th","min 7th","Maj 7th","perfect 8th"]
     for i in range(-1,13):
         assert interval_obj.get_name(i) == expected[i+1]
+        
+    interval_obj.set_specs_list([5,2,0,0])
+    assert interval_obj.get_name() == "Aug 5th"
