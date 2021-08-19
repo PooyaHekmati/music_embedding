@@ -64,6 +64,7 @@ def test_invalid_argument_handling():
         emb.get_pianoroll_from_melodic_intervals(origin=-1)
         
     emb.default_velocity = 128
+    emb.intervals=np.zeros((1,interval.feature_dimensions))
     with pytest.raises(IndexError):
         emb.get_pianoroll_from_melodic_intervals()
     
@@ -176,6 +177,7 @@ def test_invalid_argument_handling():
         emb.get_pianoroll_from_barwise_intervals(origin=-1)
         
     emb.default_velocity = 128
+    emb.intervals=np.zeros((1,interval.feature_dimensions))
     with pytest.raises(IndexError):
         emb.get_pianoroll_from_barwise_intervals()
     
