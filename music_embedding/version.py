@@ -1,2 +1,2 @@
 """music embedding library version."""
-__version__ = "0.9"
+__version__ = "1.0.0"
