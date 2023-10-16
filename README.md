@@ -1,7 +1,6 @@
 Music Embedding
 ===============
 
-[![GitHub workflow](https://img.shields.io/github/workflow/status/PooyaHekmati/music_embedding/Testing)](https://github.com/PooyaHekmati/music_embedding/actions)
 [![Travis CI](https://www.travis-ci.com/PooyaHekmati/music_embedding.svg?branch=main)](https://www.travis-ci.com/github/PooyaHekmati/music_embedding)
 [![Codecov](https://img.shields.io/codecov/c/github/PooyaHekmati/music_embedding)](https://codecov.io/gh/PooyaHekmati/music_embedding)
 [![GitHub license](https://img.shields.io/github/license/PooyaHekmati/music_embedding)](https://github.com/PooyaHekmati/music_embedding/blob/main/LICENSE)
