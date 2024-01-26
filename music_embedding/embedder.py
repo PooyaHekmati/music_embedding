@@ -2,6 +2,8 @@ from typing import List
 import numpy as np
 from .interval import interval
 
+NOTES_IN_MIDI = 128
+
 
 class embedder:
     """
@@ -103,7 +105,7 @@ class embedder:
 
         if self.pianoroll is None:
             raise TypeError("self.pianoroll is None.")
-        if self.pianoroll.shape[1] != 128:
+        if self.pianoroll.shape[1] != NOTES_IN_MIDI:
             raise IndexError(
                 self._get_incompatible_dimension_error_message("pianoroll")
             )
@@ -123,9 +125,7 @@ class embedder:
             pianoroll, 0, 1, out=pianoroll
         )  # clipping is applied to ensure coef works as expected.
 
-        coef = np.arange(
-            1, 129, dtype=np.uint32
-        )  # 128 is the number of notes in MIDI, arange's stop is exclusive so it has to be 129
+        coef = np.arange(1, NOTES_IN_MIDI + 1, dtype=np.uint32)
         for i in range(pianoroll.shape[0]):
             pianoroll[i, :] *= coef
             # coef is a constantly growing series. Its multiplication is needed to ensure the note with
@@ -170,7 +170,7 @@ class embedder:
         else:
             if self.pianoroll is None:
                 raise TypeError(self._get_none_error_message("pianoroll"))
-        if self.pianoroll.shape[1] != 128:
+        if self.pianoroll.shape[1] != NOTES_IN_MIDI:
             raise IndexError(
                 self._get_incompatible_dimension_error_message("pianoroll")
             )
@@ -275,8 +275,8 @@ class embedder:
         ]  # removing the first row of zeros. This is becuase melody is calcualted with respect to the previous note.
 
         self.pianoroll = np.zeros(
-            (len(self.intervals) + 1, 128), dtype=np.uint8
-        )  # 128 is the number of notes in MIDI
+            (len(self.intervals) + 1, NOTES_IN_MIDI), dtype=np.uint8
+        )
         self.pianoroll[leading_silence, origin] = velocity
 
         curser = interval()
@@ -338,12 +338,12 @@ class embedder:
         else:
             if self.pianoroll is None:
                 raise TypeError(self._get_none_error_message("pianoroll"))
-        if self.pianoroll.shape[1] != 128:
+        if self.pianoroll.shape[1] != NOTES_IN_MIDI:
             raise IndexError(
                 self._get_incompatible_dimension_error_message("pianoroll")
             )
 
-        if ref_pianoroll.shape[1] != 128:
+        if ref_pianoroll.shape[1] != NOTES_IN_MIDI:
             raise IndexError(
                 self._get_incompatible_dimension_error_message("pianoroll")
             )
@@ -418,7 +418,7 @@ class embedder:
         else:
             if self.pianoroll is None:
                 raise TypeError(self._get_none_error_message("pianoroll"))
-        if self.pianoroll.shape[1] != 128:
+        if self.pianoroll.shape[1] != NOTES_IN_MIDI:
             raise IndexError(
                 self._get_incompatible_dimension_error_message("pianoroll")
             )
@@ -439,9 +439,7 @@ class embedder:
             raise IndexError(self._get_range_error_message())
 
         ref_notes = self.extract_highest_pitch_notes_from_pianoroll()
-        self.pianoroll = np.zeros(
-            (len(self.intervals), 128), dtype=np.uint8
-        )  # 128 is the number of notes in MIDI
+        self.pianoroll = np.zeros((len(self.intervals), NOTES_IN_MIDI), dtype=np.uint8)
         curser = interval()
         for i, ref_note in enumerate(ref_notes):
             if ref_note != 0:  # if it is not silence
@@ -491,7 +489,7 @@ class embedder:
         else:
             if self.pianoroll is None:
                 raise TypeError(self._get_none_error_message("pianoroll"))
-        if self.pianoroll.shape[1] != 128:
+        if self.pianoroll.shape[1] != NOTES_IN_MIDI:
             raise IndexError(
                 self._get_incompatible_dimension_error_message("pianoroll")
             )
@@ -637,9 +635,7 @@ class embedder:
         if velocity > 127 or velocity < 0:
             raise IndexError(self._get_range_error_message())
 
-        self.pianoroll = np.zeros(
-            (len(self.intervals), 128), dtype=np.uint8
-        )  # 128 is the number of notes in MIDI
+        self.pianoroll = np.zeros((len(self.intervals), NOTES_IN_MIDI), dtype=np.uint8)
         if origin > 127 or origin < 0:
             raise IndexError(self._get_range_error_message())
         self.pianoroll[leading_silence, origin] = velocity
