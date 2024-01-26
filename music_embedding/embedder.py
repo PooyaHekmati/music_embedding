@@ -727,22 +727,25 @@ class embedder:
             ),
         )
 
-    def merge_chunked_intervals(self, chunked_intervals):
-        """Merges chunks of interval sequence.
+    def merge_chunked_intervals(self, chunked_intervals: np.ndarray) -> np.ndarray:
+        """
+        Merges chunks of interval sequences into a single sequence.
 
-        Notes
-        -----
-        - Updates `self.intervals`.
+        This method flattens a 3D array of chunked intervals into a 2D array, where the first dimension represents
+        the total timesteps and the second dimension represents interval features. It is useful for reassembling
+        interval data that was previously divided into chunks.
 
         Parameters
         ----------
-        chunked_intervals : ndarray, dtype=int8, shape=(?, ?, interval.feature_dimensions)
-            Merging happens along the first dimension and removes the second dimension.
+        chunked_intervals : ndarray
+            A 3D array of chunked intervals, with shape (num_chunks, chunk_size, interval.feature_dimensions).
+            Each chunk represents a portion of the interval sequence.
 
         Returns
         -------
-        ndarray, dtype=int8, shape=(?, interval.feature_dimensions)
-            First dimension is timesteps and second dimension is interval features.
+        ndarray
+            A 2D array of merged intervals, with shape (num_timesteps, interval.feature_dimensions). Represents the
+            entire sequence of intervals as a single continuous array.
 
         """
         self.intervals = np.reshape(
