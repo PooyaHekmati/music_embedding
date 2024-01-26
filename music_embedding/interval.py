@@ -408,13 +408,17 @@ class interval:
         )
 
     @staticmethod
-    def get_silence_specs_list():
-        """Representaion of a silence.
+    def get_silence_specs_list() -> List[int]:
+        """
+        Provides a representation of silence in the interval format. 
+
+        Silence is represented as a list of zeros with a length equal to the number of feature dimensions
+        of the interval class.
 
         Returns
         -------
-        array, dtype=int8, shape=(interval.feature_dimensions)
-            All zeros.
+        List[int]
+            A list of integers representing silence, with all elements set to zero.
 
         """
         return [0] * interval().feature_dimensions
