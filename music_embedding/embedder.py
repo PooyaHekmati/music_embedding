@@ -757,28 +757,33 @@ class embedder:
         )
         return self.intervals
 
-    def get_RLE_from_intervals(self, intervals=None):
-        """Compresses sequence of intervals using Run-Length Encoding.
+    def get_RLE_from_intervals(self, intervals: np.ndarray | None = None) -> np.ndarray:
+        """
+        Compresses a sequence of intervals using Run-Length Encoding (RLE).
 
-        Notes
-        -----
-        - Works on `self.intervals`.
-        - Updates `self.intervals` if `intervals` argument is passed.
+        This method takes a sequence of intervals and compresses it using RLE, which is useful
+        for reducing the size of repetitive data. The output is an array where each row represents
+        a compressed sequence of intervals, and the last column in each row indicates the number
+        of repetitions.
 
         Parameters
         ----------
-        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional
-            If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.
-
-        Raises
-        --------
-        Type Error: if both intervals argument and self.intervals are None.
-        Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions]
+        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions) | None, optional
+            The sequence of intervals to be compressed. If None, uses self.intervals.
 
         Returns
         -------
         ndarray, dtype=int32, shape=(?, interval.feature_dimensions + 1)
-            First dimension is compressed timesteps. The last element in the second dimension indicates number of repeatitions for the rest of the elements in the second dimension.
+            The RLE compressed intervals. Each row contains the compressed interval data with
+            the last element indicating the count of repetitions.
+
+        Raises
+        ------
+        TypeError
+            If both intervals argument and self.intervals are None.
+        IndexError
+            If intervals.shape[1] != interval.feature_dimensions (if intervals is None,
+            then self.intervals.shape[1] is checked).
 
         """
         if intervals is not None:
