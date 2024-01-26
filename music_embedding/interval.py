@@ -135,31 +135,33 @@ class interval:
             "is_descending": self.is_descending,
         }
 
-    def interval2semitone(self, specs=None):
-        """Returns the distance between the two notes of the interval in semitones.
+    def interval2semitone(self, specs: list[int] | None = None) -> int:
+        """
+        Returns the distance between the two notes of the interval in semitones.
 
         Notes
         -----
-        - Updates intervals parameters if specs is passed.
-
-        Faulty interval representation handling:
-            - if interval is 1st, 4th, or 5th and interval type is set to m or M, calculates P interval.
-            - if interval is 2nd, 3rd, 6th, or 7th and interval type is set to P, calculates M interval.
-
+        - Updates interval parameters if `specs` is passed.
+        - Faulty interval representation handling:
+            * If the interval is 1st, 4th, or 5th and the interval type is set to minor (m) or Major (M),
+            calculates the perfect (P) interval.
+            * If the interval is 2nd, 3rd, 6th, or 7th and the interval type is set to perfect (P),
+            calculates the Major (M) interval.
 
         Parameters
         ----------
-        specs : array, dtype=int, shape=(4), optional
-            - interval_order=specs[0] (first to seventh)
-            - interval_type=specs[1] (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug )
-            - is_descending=specs[2]
-            - octave_offset=specs[3]
+        specs : list[int] | None, optional
+            A list containing the interval characteristics in the following order:
+            - interval_order (first to seventh)
+            - interval_type (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug)
+            - is_descending (0 for ascending, 1 for descending)
+            - octave_offset (octave offset of the interval, 0 if not compound)
+            If None, uses the current interval's properties.
 
         Returns
         -------
         int
-            Number of semitones in the interval
-
+            Number of semitones in the interval.
         """
 
         if specs is not None:
