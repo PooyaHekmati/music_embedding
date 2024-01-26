@@ -1,13 +1,34 @@
 Music Embedding
 ===============
 
+.. image:: https://img.shields.io/github/workflow/status/PooyaHekmati/music_embedding/Testing
+    :target: https://github.com/PooyaHekmati/music_embedding/actions
+    :alt: GitHub workflow
+.. image:: https://www.travis-ci.com/PooyaHekmati/music_embedding.svg?branch=main
+    :target: https://www.travis-ci.com/github/PooyaHekmati/music_embedding
+    :alt: Travis CI
+.. image:: https://img.shields.io/codecov/c/github/PooyaHekmati/music_embedding
+    :target: https://codecov.io/gh/PooyaHekmati/music_embedding
+    :alt: Codecov
 .. image:: https://img.shields.io/github/license/PooyaHekmati/music_embedding
     :target: https://github.com/PooyaHekmati/music_embedding/blob/main/LICENSE
     :alt: GitHub license
 .. image:: https://img.shields.io/github/v/release/PooyaHekmati/music_embedding?include_prereleases
     :target: https://github.com/PooyaHekmati/music_embedding/releases
     :alt: GitHub release
-
+.. image:: https://img.shields.io/github/stars/pooyahekmati/music_embedding
+    :target: https://github.com/PooyaHekmati/music_embedding/stargazers
+    :alt: GitHub Stars
+.. image:: https://img.shields.io/github/repo-size/pooyahekmati/music_embedding
+    :target: #
+    :alt: Repo Size
+.. image:: https://img.shields.io/github/languages/code-size/pooyahekmati/music_embedding
+    :target: #
+    :alt: Code Size
+.. image:: https://img.shields.io/codefactor/grade/github/pooyahekmati/music_embedding
+    :target: https://www.codefactor.io/repository/github/pooyahekmati/music_embedding/overview/main
+    :alt: Code Quality
+    
 Music Embedding is an open source python package for representing music data based on music theory. It provides tools to convert melodic and harmonic sequences to and from pianorolls.
 
 Features
@@ -41,7 +62,7 @@ To install Music Embedding, please run ``pip install music_embedding``. To build
 Semantic Versioning Policy
 --------------------------
 
-Music Embedding uses x.y.z format to indicate the version where x is major versin number, y is minor version number, and z is the patch number. A stable version of Music Embedding is not released yet so x is 0. Also, prior to version numbers, a PyPI tag might apear which means this version is availble using pip.
+Music Embedding uses x.y.z format to indicate the version where x is major versin number, y is minor version number, and z is the patch number. 
 
 Classes Documentation
 ---------------------
