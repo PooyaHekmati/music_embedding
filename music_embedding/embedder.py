@@ -442,7 +442,6 @@ class embedder:
             (len(self.intervals), 128), dtype=np.uint8
         )  # 128 is the number of notes in MIDI
         curser = interval()
-        # for i in range (len(ref_notes)):
         for i, ref_note in enumerate(ref_notes):
             if ref_note != 0:  # if it is not silence
                 curser.set_specs_list(self.intervals[i])
