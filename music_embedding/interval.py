@@ -1,32 +1,41 @@
 import numpy as np
 
 
-class interval(object):
-    """Implementation of interval concept in music theory.
+class interval:
+    """
+    A class representing musical intervals, offering functionality to handle
+    interval characteristics, conversions, and descriptions within music theory.
 
     Attributes
     ----------
-    interval_order: int
-        first to seventh
-    interval_type: int
-        -2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug
-    octave_offset : int8
-        octave offset of a compound interval, 0 if interval is not compund.
-    is_descending : boolean
-            true if interval is descending.
-    semitones: int
-        Number of semitones in the interval.
+    interval_order : int
+        The ordinal number of the interval, ranging from 1 (unison) to 7 (seventh).
+    interval_type : int
+        The quality of the interval, represented by integers:
+        -2 (diminished), -1 (minor), 0 (perfect), 1 (major), 2 (augmented).
+    octave_offset : int
+        The octave offset for compound intervals; 0 if the interval is within a single octave.
+    is_descending : int
+        Indicates the direction of the interval: 0 for ascending, 1 for descending.
+    semitones : int
+        The number of semitones in the interval.
+
+    Notes
+    -----
+    The class provides both numerical and one-hot-encoded methods for
+    representing interval characteristics, and it includes methods for
+    converting between semitone distances and interval qualities.
     """
 
     feature_dimensions = 4
 
     def __init__(
         self,
-        interval_order=1,
-        interval_type=0,
-        octave_offset=0,
-        is_descending=0,
-        semitones=0,
+        interval_order: int = 1,
+        interval_type: int = 0,
+        octave_offset: int = 0,
+        is_descending: int = 0,
+        semitones: int = 0,
     ):
         self.interval_order = interval_order
         self.interval_type = interval_type
@@ -34,12 +43,10 @@ class interval(object):
         self.is_descending = is_descending
         self.semitones = semitones
 
-    def semitone2interval(self, semitones=None):
-        """Calculates the interval characterisics based on their semitone distance.
-
-        Notes
-        -----
-        - Updates `self.semitones` if semitones is passed.
+    def semitone2interval(self, semitones: int | None = None) -> dict:
+        """
+        Calculates the interval characteristics based on their semitone distance. If the 'semitones' argument
+        is provided, it updates the instance's 'semitones' attribute before calculating the interval.
 
         Semitone-interval Q-Table
             =========   ===============
@@ -62,14 +69,14 @@ class interval(object):
 
         Parameters
         ----------
-        semitones : int, optional
-            Number of semitones in the interval.
+        semitones : int | None, default=None
+            The number of semitones in the interval. If provided, updates the instance's 'semitones' attribute.
 
         Returns
         -------
-        dict, shape=(4)
-            {'interval_order', 'interval_type', 'octave_offset', 'is_descending'}
-
+        dict
+            A dictionary with the updated interval characteristics: 'interval_order', 'interval_type',
+            'octave_offset', and 'is_descending'.
         """
         if semitones is not None:
             self.semitones = semitones
