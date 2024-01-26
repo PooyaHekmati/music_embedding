@@ -451,37 +451,40 @@ class embedder:
                 self.pianoroll[i, ref_note + note] = velocity
         return self.pianoroll
 
-    def get_barwise_intervals_from_pianoroll(self, pianoroll=None, pixels_per_bar=None):
-        """Creates sequence of barwise intervals from pianoroll.
-
-        Calculates intervals with respect to the first note of the current bar. For first notes of bars, the interval is calculated with respect to the first note of the last bar.
-
-        Notes
-        -----
-        - Works on highest pitch notes in `self.pianoroll`.
-        - Updates `self.pianoroll` if pianoroll argument is passed.
-        - Updates `self.intervals`.
+    def get_barwise_intervals_from_pianoroll(
+        self, pianoroll: np.ndarray | None = None, pixels_per_bar: int | None = None
+    ) -> np.ndarray:
+        """
+        Creates a sequence of barwise intervals from a pianoroll, calculating intervals with respect to the first note
+        of each bar. For the first notes of bars, intervals are calculated with respect to the first note of the
+        previous bar.
 
         Parameters
         ----------
-        pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional
-            If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.
-
-        pixels_per_bar: int, optional
-            Number of pixels in each bar. Equals time signature's numarator multiplied by resolution per pixel. The default is self.pixels_per_bar.
-
-        Raises
-        --------
-        Type Error: if both pianoroll argument and self.pianoroll are None.
-        Index Error: if pianoroll.shape[1] != 128 [if pianoroll=None then raises if self.pianoroll.shape[1] != 128]
-        Value Error: if pixels_per_bar < 1. If pixels_per_bar is None then self.pixels_per_bar is substituted.
+        pianoroll : ndarray, dtype=uint8, shape=(?, 128) | None, optional
+            Pianoroll representation of musical data. If not provided, `self.pianoroll` is used. The first dimension
+            represents timesteps, and the second dimension has a fixed size of 128, corresponding to MIDI standards.
+        pixels_per_bar : int | None, optional
+            Number of pixels in each bar, equal to the time signature's numerator multiplied by the resolution per
+            pixel. If not provided, `self.pixels_per_bar` is used.
 
         Returns
         -------
         ndarray, dtype=int8, shape=(?, interval.feature_dimensions)
-            First dimension is timesteps and second dimension is interval features.
+            Interval representation of musical data. The first dimension represents timesteps, and the second dimension
+            corresponds to interval features.
+
+        Raises
+        ------
+        TypeError
+            If both `pianoroll` argument and `self.pianoroll` are None.
+        IndexError
+            If `pianoroll.shape[1]` != 128.
+        ValueError
+            If `pixels_per_bar` < 1 or if `pixels_per_bar` is None and `self.pixels_per_bar` < 1.
 
         """
+
         if pianoroll is not None:
             self.pianoroll = pianoroll
         else:
