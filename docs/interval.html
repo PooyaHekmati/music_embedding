@@ -1,262 +1,196 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Interval &mdash; Music Embedding 0.1.7 alpha documentation</title>
-  
+  <title>Interval &mdash; Music Embedding 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
 
-  
-  <link rel="stylesheet" href="_static/css/style.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
-
-  
   
     <link rel="shortcut icon" href="_static/favicon.png"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=fc837d61"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #222" >
-          
 
           
-            <a href="index.html">
           
-
-          
+          <a href="index.html">
             
-            <img src="_static/music_embedding.jpg" class="logo" alt="Logo"/>
-          
+              <img src="_static/music_embedding.jpg" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <!-- Local TOC -->
               <div class="local-toc"><ul>
-			  <li><a class="reference internal" href="index.html">Welcome!</a></li>
-				<li><a class="reference internal" href="getting_started.html">Getting Started</a></li>
-				<li><a class="reference internal" href="#">Interval class</a></li>
-				<li><a class="reference internal" href="embedder.html">Embedder class</a></li>
-				</ul>
+<li><a class="reference internal" href="#">Interval</a><ul>
+<li><a class="reference internal" href="#music_embedding.interval.interval"><code class="docutils literal notranslate"><span class="pre">interval</span></code></a><ul>
+<li><a class="reference internal" href="#music_embedding.interval.interval.feature_dimensions"><code class="docutils literal notranslate"><span class="pre">interval.feature_dimensions</span></code></a></li>
+<li><a class="reference internal" href="#music_embedding.interval.interval.get_name"><code class="docutils literal notranslate"><span class="pre">interval.get_name()</span></code></a></li>
+<li><a class="reference internal" href="#music_embedding.interval.interval.get_one_hot_specs_list"><code class="docutils literal notranslate"><span class="pre">interval.get_one_hot_specs_list()</span></code></a></li>
+<li><a class="reference internal" href="#music_embedding.interval.interval.get_silence_specs_list"><code class="docutils literal notranslate"><span class="pre">interval.get_silence_specs_list()</span></code></a></li>
+<li><a class="reference internal" href="#music_embedding.interval.interval.get_specs_list"><code class="docutils literal notranslate"><span class="pre">interval.get_specs_list()</span></code></a></li>
+<li><a class="reference internal" href="#music_embedding.interval.interval.interval2semitone"><code class="docutils literal notranslate"><span class="pre">interval.interval2semitone()</span></code></a></li>
+<li><a class="reference internal" href="#music_embedding.interval.interval.is_silence"><code class="docutils literal notranslate"><span class="pre">interval.is_silence()</span></code></a></li>
+<li><a class="reference internal" href="#music_embedding.interval.interval.semitone2interval"><code class="docutils literal notranslate"><span class="pre">interval.semitone2interval()</span></code></a></li>
+<li><a class="reference internal" href="#music_embedding.interval.interval.set_one_hot_specs_list"><code class="docutils literal notranslate"><span class="pre">interval.set_one_hot_specs_list()</span></code></a></li>
+<li><a class="reference internal" href="#music_embedding.interval.interval.set_specs_list"><code class="docutils literal notranslate"><span class="pre">interval.set_specs_list()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 </div>
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #222" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Music Embedding</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>Interval</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Interval</li>
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/interval.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="module-music_embedding.interval">
-<span id="interval"></span><h1>Interval<a class="headerlink" href="#module-music_embedding.interval" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="module-music_embedding.interval">
+<span id="interval"></span><h1>Interval<a class="headerlink" href="#module-music_embedding.interval" title="Link to this heading"></a></h1>
 <dl class="py class">
-<dt id="music_embedding.interval.interval">
-<em class="property">class </em><code class="sig-prename descclassname">music_embedding.interval.</code><code class="sig-name descname">interval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interval_order</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">interval_type</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">octave_offset</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">is_descending</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">semitones</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/interval.html#interval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.interval.interval" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="music_embedding.interval.interval">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">music_embedding.interval.</span></span><span class="sig-name descname"><span class="pre">interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval_order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">octave_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_descending</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">semitones</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/interval.html#interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#music_embedding.interval.interval" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Implementation of interval concept in music theory.</p>
+<p>A class representing musical intervals, offering functionality to handle
+interval characteristics, conversions, and descriptions within music theory.</p>
+<p class="rubric">Notes</p>
+<p>The class provides both numerical and one-hot-encoded methods for
+representing interval characteristics, and it includes methods for
+converting between semitone distances and interval qualities.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Attributes</dt>
+<dt class="field-odd">Attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>interval_order: int</strong></dt><dd><p>first to seventh</p>
+<dt><strong>interval_order</strong><span class="classifier">int</span></dt><dd><p>The ordinal number of the interval, ranging from 1 (unison) to 7 (seventh).</p>
 </dd>
-<dt><strong>interval_type: int</strong></dt><dd><p>-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug</p>
+<dt><strong>interval_type</strong><span class="classifier">int</span></dt><dd><p>The quality of the interval, represented by integers:
+-2 (diminished), -1 (minor), 0 (perfect), 1 (major), 2 (augmented).</p>
 </dd>
-<dt><strong>octave_offset</strong><span class="classifier">int8</span></dt><dd><p>octave offset of a compound interval, 0 if interval is not compund.</p>
+<dt><strong>octave_offset</strong><span class="classifier">int</span></dt><dd><p>The octave offset for compound intervals; 0 if the interval is within a single octave.</p>
 </dd>
-<dt><strong>is_descending</strong><span class="classifier">boolean</span></dt><dd><p>true if interval is descending.</p>
+<dt><strong>is_descending</strong><span class="classifier">int</span></dt><dd><p>Indicates the direction of the interval: 0 for ascending, 1 for descending.</p>
 </dd>
-<dt><strong>semitones: int</strong></dt><dd><p>Number of semitones in the interval.</p>
+<dt><strong>semitones</strong><span class="classifier">int</span></dt><dd><p>The number of semitones in the interval.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+<table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.interval.interval.get_name" title="music_embedding.interval.interval.get_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_name</span></code></a>([semitones])</p></td>
-<td><p>Generates interval’s name from inner representation.</p></td>
+<td><p>Generates the interval's name from its internal representation.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.interval.interval.get_one_hot_specs_list" title="music_embedding.interval.interval.get_one_hot_specs_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_one_hot_specs_list</span></code></a>()</p></td>
-<td><p>Provides one-hot-encoding of the interval’s order, type, and is decending.</p></td>
+<td><p>Provides a one-hot encoding of the interval's order and type, and represents the descending status and octave offset as an integer and boolean, respectively.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.interval.interval.get_silence_specs_list" title="music_embedding.interval.interval.get_silence_specs_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_silence_specs_list</span></code></a>()</p></td>
-<td><p>Representaion of a silence.</p></td>
+<td><p>Provides a representation of silence in the interval format.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.interval.interval.get_specs_list" title="music_embedding.interval.interval.get_specs_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_specs_list</span></code></a>()</p></td>
-<td><p>Returns interval’s characteristics.</p></td>
+<td><p>Returns the interval's characteristics as a list of integers.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.interval.interval.interval2semitone" title="music_embedding.interval.interval.interval2semitone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interval2semitone</span></code></a>([specs])</p></td>
 <td><p>Returns the distance between the two notes of the interval in semitones.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.interval.interval.is_silence" title="music_embedding.interval.interval.is_silence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_silence</span></code></a>()</p></td>
-<td><p>Determines if the interval represents silence.</p></td>
+<td><p>Determines if the interval represents silence, based on its specifications.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.interval.interval.semitone2interval" title="music_embedding.interval.interval.semitone2interval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">semitone2interval</span></code></a>([semitones])</p></td>
-<td><p>Calculates the interval characterisics based on their semitone distance.</p></td>
+<td><p>Calculates the interval characteristics based on their semitone distance.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.interval.interval.set_one_hot_specs_list" title="music_embedding.interval.interval.set_one_hot_specs_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_one_hot_specs_list</span></code></a>(interval_order, …)</p></td>
-<td><p>Sets interval’s characteristics.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#music_embedding.interval.interval.set_one_hot_specs_list" title="music_embedding.interval.interval.set_one_hot_specs_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_one_hot_specs_list</span></code></a>(interval_order, ...)</p></td>
+<td><p>Sets the interval's characteristics based on one-hot encoded representations and integer values.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#music_embedding.interval.interval.set_specs_list" title="music_embedding.interval.interval.set_specs_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_specs_list</span></code></a>(specs)</p></td>
-<td><p>Sets interval’s characteristics.</p></td>
+<td><p>Sets the interval's characteristics from a list or dictionary.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py attribute">
-<dt id="music_embedding.interval.interval.feature_dimensions">
-<code class="sig-name descname">feature_dimensions</code><em class="property"> = 4</em><a class="headerlink" href="#music_embedding.interval.interval.feature_dimensions" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="music_embedding.interval.interval.feature_dimensions">
+<span class="sig-name descname"><span class="pre">feature_dimensions</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#music_embedding.interval.interval.feature_dimensions" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="music_embedding.interval.interval.get_name">
-<code class="sig-name descname">get_name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">semitones</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.get_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.interval.interval.get_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates interval’s name from inner representation.</p>
+<dt class="sig sig-object py" id="music_embedding.interval.interval.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">semitones</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.get_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#music_embedding.interval.interval.get_name" title="Link to this definition"></a></dt>
+<dd><p>Generates the interval’s name from its internal representation. If <cite>semitones</cite> is provided, the interval
+characteristics are updated accordingly before generating the name.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>semitones</strong><span class="classifier">int8, optional</span></dt><dd><p>If passed, is used to generate the name. The default is None.</p>
+<dt><strong>semitones</strong><span class="classifier">int | None, default=None</span></dt><dd><p>If provided, the number of semitones is used to update the interval characteristics.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>output</strong><span class="classifier">string</span></dt><dd><p>Name of the interval.</p>
+<dt>str</dt><dd><p>The name of the interval, including its quality, ordinal number, and direction (ascending/descending).</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>Updates all <cite>self parameters</cite> if semitones is passed.</p></li>
-</ul>
+<p>Returns “Silence” if the interval represents silence. The name includes the interval’s quality (diminished,
+minor, perfect, major, augmented), its ordinal number (1st, 2nd, etc.), and its direction
+(ascending or descending) if applicable.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="music_embedding.interval.interval.get_one_hot_specs_list">
-<code class="sig-name descname">get_one_hot_specs_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.get_one_hot_specs_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.interval.interval.get_one_hot_specs_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Provides one-hot-encoding of the interval’s order, type, and is decending. Octave offset is represented as an integer.</p>
+<dt class="sig sig-object py" id="music_embedding.interval.interval.get_one_hot_specs_list">
+<span class="sig-name descname"><span class="pre">get_one_hot_specs_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.get_one_hot_specs_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#music_embedding.interval.interval.get_one_hot_specs_list" title="Link to this definition"></a></dt>
+<dd><p>Provides a one-hot encoding of the interval’s order and type, and represents the descending status and
+octave offset as an integer and boolean, respectively.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt>dict, shape=(4)</dt><dd><p>interval order (one-hot), interval type(one hot), is decending (boolean), octave offset (integer)</p>
+<dt>Dict[str, List[int] | int, bool]]</dt><dd><p>A dictionary containing one-hot encoded representations of the interval order and type, the descending
+status as a boolean, and the octave offset as an integer. Keys are ‘interval_order’, ‘interval_type’,
+‘is_descending’, and ‘octave_offset’.</p>
 </dd>
 </dl>
 </dd>
@@ -264,13 +198,15 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="music_embedding.interval.interval.get_silence_specs_list">
-<em class="property">static </em><code class="sig-name descname">get_silence_specs_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.get_silence_specs_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.interval.interval.get_silence_specs_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Representaion of a silence.</p>
+<dt class="sig sig-object py" id="music_embedding.interval.interval.get_silence_specs_list">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_silence_specs_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.get_silence_specs_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#music_embedding.interval.interval.get_silence_specs_list" title="Link to this definition"></a></dt>
+<dd><p>Provides a representation of silence in the interval format.</p>
+<p>Silence is represented as a list of zeros with a length equal to the number of feature dimensions
+of the interval class.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt>array, dtype=int8, shape=(interval.feature_dimensions)</dt><dd><p>All zeros.</p>
+<dt>List[int]</dt><dd><p>A list of integers representing silence, with all elements set to zero.</p>
 </dd>
 </dl>
 </dd>
@@ -278,13 +214,14 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="music_embedding.interval.interval.get_specs_list">
-<code class="sig-name descname">get_specs_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.get_specs_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.interval.interval.get_specs_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns interval’s characteristics.</p>
+<dt class="sig sig-object py" id="music_embedding.interval.interval.get_specs_list">
+<span class="sig-name descname"><span class="pre">get_specs_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.get_specs_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#music_embedding.interval.interval.get_specs_list" title="Link to this definition"></a></dt>
+<dd><p>Returns the interval’s characteristics as a list of integers.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt>list, dtype=int, shape=(4)</dt><dd><p>[interval_order, interval_type, is_descending, octave_offset]</p>
+<dt>List[int]</dt><dd><p>A list containing the interval’s characteristics in the following order:
+[interval_order, interval_type, is_descending, octave_offset]</p>
 </dd>
 </dl>
 </dd>
@@ -292,83 +229,66 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="music_embedding.interval.interval.interval2semitone">
-<code class="sig-name descname">interval2semitone</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">specs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.interval2semitone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.interval.interval.interval2semitone" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="music_embedding.interval.interval.interval2semitone">
+<span class="sig-name descname"><span class="pre">interval2semitone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.interval2semitone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#music_embedding.interval.interval.interval2semitone" title="Link to this definition"></a></dt>
 <dd><p>Returns the distance between the two notes of the interval in semitones.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>specs</strong><span class="classifier">array, dtype=int, shape=(4), optional</span></dt><dd><ul class="simple">
-<li><p>interval_order=specs[0] (first to seventh)</p></li>
-<li><p>interval_type=specs[1] (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug )</p></li>
-<li><p>is_descending=specs[2]</p></li>
-<li><p>octave_offset=specs[3]</p></li>
-</ul>
+<dt><strong>specs</strong><span class="classifier">List[int] | None, optional</span></dt><dd><p>A list containing the interval characteristics in the following order:
+- interval_order (first to seventh)
+- interval_type (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug)
+- is_descending (0 for ascending, 1 for descending)
+- octave_offset (octave offset of the interval, 0 if not compound)
+If None, uses the current interval’s properties.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>int</dt><dd><p>Number of semitones in the interval</p>
+<dt>int</dt><dd><p>Number of semitones in the interval.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>Updates intervals parameters if specs is passed.</p></li>
+<ul>
+<li><p>Updates interval parameters if <cite>specs</cite> is passed.</p></li>
+<li><dl>
+<dt>Faulty interval representation handling:</dt><dd><ul class="simple">
+<li><p>If the interval is 1st, 4th, or 5th and the interval type is set to minor (m) or Major (M),</p></li>
 </ul>
-<dl class="simple">
-<dt>Faulty interval representation handling: </dt><dd><ul class="simple">
-<li><p>if interval is 1st, 4th, or 5th and interval type is set to m or M, calculates P interval.</p></li>
-<li><p>if interval is 2nd, 3rd, 6th, or 7th and interval type is set to P, calculates M interval.</p></li>
+<p>calculates the perfect (P) interval.
+* If the interval is 2nd, 3rd, 6th, or 7th and the interval type is set to perfect (P),
+calculates the Major (M) interval.</p>
+</dd>
+</dl>
+</li>
 </ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="music_embedding.interval.interval.is_silence">
+<span class="sig-name descname"><span class="pre">is_silence</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.is_silence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#music_embedding.interval.interval.is_silence" title="Link to this definition"></a></dt>
+<dd><p>Determines if the interval represents silence, based on its specifications.</p>
+<p>Silence is represented by an interval with all attributes set to zero values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>bool</dt><dd><p>True if the interval represents silence, False otherwise.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="music_embedding.interval.interval.is_silence">
-<code class="sig-name descname">is_silence</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.is_silence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.interval.interval.is_silence" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines if the interval represents silence.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><dl class="simple">
-<dt>boolean</dt><dd><p>True if interval is silenmce, False otherwise.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="music_embedding.interval.interval.semitone2interval">
-<code class="sig-name descname">semitone2interval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">semitones</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.semitone2interval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.interval.interval.semitone2interval" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the interval characterisics based on their semitone distance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>semitones</strong><span class="classifier">int, optional</span></dt><dd><p>Number of semitones in the interval.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>dict, shape=(4)</dt><dd><p>{‘interval_order’, ‘interval_type’, ‘octave_offset’, ‘is_descending’}</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>Updates <cite>self.semitones</cite> if semitones is passed.</p></li>
-</ul>
+<dt class="sig sig-object py" id="music_embedding.interval.interval.semitone2interval">
+<span class="sig-name descname"><span class="pre">semitone2interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">semitones</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.semitone2interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#music_embedding.interval.interval.semitone2interval" title="Link to this definition"></a></dt>
+<dd><p>Calculates the interval characteristics based on their semitone distance. If the ‘semitones’ argument
+is provided, it updates the instance’s ‘semitones’ attribute before calculating the interval.</p>
 <dl>
 <dt>Semitone-interval Q-Table</dt><dd><table class="docutils align-default">
-<colgroup>
-<col style="width: 38%" />
-<col style="width: 63%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Semitones</p></th>
 <th class="head"><p>Interval</p></th>
@@ -415,111 +335,105 @@
 </table>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="music_embedding.interval.interval.set_one_hot_specs_list">
-<code class="sig-name descname">set_one_hot_specs_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interval_order</span></em>, <em class="sig-param"><span class="n">interval_type</span></em>, <em class="sig-param"><span class="n">is_descending</span></em>, <em class="sig-param"><span class="n">octave_offset</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.set_one_hot_specs_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.interval.interval.set_one_hot_specs_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets interval’s characteristics.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>interval_order</strong><span class="classifier">array, dtype=int8, shape=(7)</span></dt><dd><p>One-hot encoding representation of interval’s order: 1st to 7th</p>
-</dd>
-<dt><strong>interval_type</strong><span class="classifier">array, dtype=int8, shape=(5)</span></dt><dd><p>One-hot encoding representation of interval’s type: 0: dim,-1: min, 2: perfect, 3: Maj, 4: Aug</p>
-</dd>
-<dt><strong>is_descending</strong><span class="classifier">boolean</span></dt><dd><p>true if interval is descending.</p>
-</dd>
-<dt><strong>octave_offset</strong><span class="classifier">int8</span></dt><dd><p>octave offset of a compound interval, 0 if interval is not compund.</p>
+<dt><strong>semitones</strong><span class="classifier">int | None, default=None</span></dt><dd><p>The number of semitones in the interval. If provided, updates the instance’s ‘semitones’ attribute.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>None.</dt><dd></dd>
+<dt>dict</dt><dd><p>A dictionary with the updated interval characteristics: ‘interval_order’, ‘interval_type’,
+‘octave_offset’, and ‘is_descending’.</p>
+</dd>
 </dl>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="music_embedding.interval.interval.set_specs_list">
-<code class="sig-name descname">set_specs_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">specs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.set_specs_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#music_embedding.interval.interval.set_specs_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets interval’s characteristics.</p>
+<dt class="sig sig-object py" id="music_embedding.interval.interval.set_one_hot_specs_list">
+<span class="sig-name descname"><span class="pre">set_one_hot_specs_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval_order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_descending</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">octave_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.set_one_hot_specs_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#music_embedding.interval.interval.set_one_hot_specs_list" title="Link to this definition"></a></dt>
+<dd><p>Sets the interval’s characteristics based on one-hot encoded representations and integer values.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>specs</strong><span class="classifier">array or dict, dtype=int, shape=(4)</span></dt><dd><ul class="simple">
-<li><p>interval_order=specs[0] (first to seventh)</p></li>
-<li><p>interval_type=specs[1] (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug )</p></li>
-<li><p>is_descending=specs[2]</p></li>
-<li><p>octave_offset=specs[3]</p></li>
-</ul>
+<dt><strong>interval_order</strong><span class="classifier">List[int]</span></dt><dd><p>One-hot encoding representation of the interval’s order: 1st to 7th. A list of 7 integers,
+where exactly one element is 1, and the others are 0, indicating the order of the interval.</p>
+</dd>
+<dt><strong>interval_type</strong><span class="classifier">List[int]</span></dt><dd><p>One-hot encoding representation of the interval’s type: -2 (diminished) to 2 (augmented).
+A list of 5 integers, where exactly one element is 1, and the others are 0, indicating the
+type of the interval.</p>
+</dd>
+<dt><strong>is_descending</strong><span class="classifier">int</span></dt><dd><p>Indicates the direction of the interval: 0 for ascending, 1 for descending.</p>
+</dd>
+<dt><strong>octave_offset</strong><span class="classifier">int</span></dt><dd><p>The octave offset for compound intervals; 0 if the interval is within a single octave.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns</dt>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="music_embedding.interval.interval.set_specs_list">
+<span class="sig-name descname"><span class="pre">set_specs_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/music_embedding/interval.html#interval.set_specs_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#music_embedding.interval.interval.set_specs_list" title="Link to this definition"></a></dt>
+<dd><p>Sets the interval’s characteristics from a list or dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>specs</strong><span class="classifier">List[int] | Dict[str, int] | None</span></dt><dd><p>A list or dictionary containing the interval’s characteristics, or None. The list or dictionary should
+contain the following elements in order: interval_order (int), interval_type (int), is_descending (int),
+and octave_offset (int).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>None.</dt><dd></dd>
-</dl>
+<dt>ValueError</dt><dd><p>If any of the provided values for interval_order, interval_type, is_descending, or octave_offset are out of
+their valid ranges.</p>
 </dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><dl class="simple">
-<dt>Value Error: if interval_order &gt; 7 or interval_order &lt; 0</dt><dd></dd>
-<dt>Value Error: if interval_type &gt; 2 or interval_type &lt; -2</dt><dd></dd>
-<dt>Value Error: if is_descending &lt; 0 or is_descending &gt; 1</dt><dd></dd>
-<dt>Value Error: if octave_offset &lt; 0 or octave_offset &gt; 9</dt><dd></dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>The valid ranges for the attributes are as follows:
+- interval_order: between 0 and 7 (inclusive)
+- interval_type: between -2 and 2 (inclusive)
+- is_descending: either 0 or 1
+- octave_offset: between 0 and 9 (inclusive)</p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, SeyyedPooya HekmatiAthar.
-
-    </p>
+    <p>&#169; Copyright 2021-24, SeyyedPooya HekmatiAthar.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

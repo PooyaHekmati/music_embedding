@@ -1,821 +1,1074 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>music_embedding.embedder &mdash; Music Embedding 0.1.7 alpha documentation</title>
-  
+  <title>music_embedding.embedder &mdash; Music Embedding 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
 
-  
-  <link rel="stylesheet" href="../../_static/css/style.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
-
-  
   
     <link rel="shortcut icon" href="../../_static/favicon.png"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-    
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=fc837d61"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #222" >
-          
 
           
-            <a href="../../index.html">
           
-
-          
+          <a href="../../index.html">
             
-            <img src="../../_static/music_embedding.jpg" class="logo" alt="Logo"/>
-          
+              <img src="../../_static/music_embedding.jpg" class="logo" alt="Logo"/>
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <!-- Local TOC -->
               <div class="local-toc"></div>
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #222" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">Music Embedding</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-        
-      <li>music_embedding.embedder</li>
-    
-    
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">music_embedding.embedder</li>
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Source code for music_embedding.embedder</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.interval</span> <span class="kn">import</span> <span class="n">interval</span>       
-    
-<div class="viewcode-block" id="embedder"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder">[docs]</a><span class="k">class</span> <span class="nc">embedder</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot; The embedding class for musical data. Provides functionallities to convert pianorolls into intervals and vice versa (embedding). </span>
-<span class="sd">    </span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.interval</span> <span class="kn">import</span> <span class="n">interval</span>
+
+<span class="n">NOTES_IN_MIDI</span> <span class="o">=</span> <span class="mi">128</span>
+
+
+<div class="viewcode-block" id="embedder">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder">[docs]</a>
+<span class="k">class</span> <span class="nc">embedder</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class for embedding musical data, providing functionalities to convert between pianoroll representations</span>
+<span class="sd">    and interval-based representations.</span>
+
+<span class="sd">    This class handles various operations related to musical data manipulation, including extracting notes from</span>
+<span class="sd">    pianorolls, converting pianoroll data to melodic, harmonic, and barwise intervals, and vice versa. Additionally,</span>
+<span class="sd">    it supports Run-Length Encoding (RLE) compression for intervals.</span>
+
+<span class="sd">    The constant `NOTES_IN_MIDI` is set to 128, reflecting the total number of MIDI notes in the standard MIDI range.</span>
+<span class="sd">    This constant is used throughout the class to standardize the size of the second dimension in pianoroll arrays,</span>
+<span class="sd">    ensuring they conform to MIDI standards. The pianoroll arrays are therefore structured with a shape of (?, 128),</span>
+<span class="sd">    where each column represents a possible MIDI note, allowing for a consistent representation of musical data.</span>
+
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional</span>
-<span class="sd">        First dimension is timesteps and second dimension is fixed 128 per MIDI standard. The default is None.</span>
-<span class="sd">            </span>
+<span class="sd">        Pianoroll representation of musical data. The first dimension represents timesteps, and the second dimension</span>
+<span class="sd">        has a fixed size of 128, corresponding to MIDI standards.</span>
 <span class="sd">    intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional</span>
-<span class="sd">        First dimension is timesteps and second dimension is interval features. The default is None.</span>
-<span class="sd">            </span>
+<span class="sd">        Interval representation of musical data. The first dimension represents timesteps, and the second dimension</span>
+<span class="sd">        corresponds to interval features.</span>
 <span class="sd">    default_velocity : int</span>
-<span class="sd">        When creating pianorolls this value is used for notes&#39; velocities. The default is 100.</span>
-<span class="sd">            </span>
+<span class="sd">        Default velocity used for notes in pianoroll representation. Defaults to 100.</span>
 <span class="sd">    origin : int</span>
-<span class="sd">        The reference note of a melody; when decoding a melody, this indicates the first note. The default is 60.</span>
-<span class="sd">            </span>
+<span class="sd">        Reference note for melody, used as the starting note when decoding a melody. Defaults to 60 (Middle C in MIDI)</span>
 <span class="sd">    pixels_per_bar : int</span>
-<span class="sd">        Number of pixels in each bar. Equals time signature&#39;s numarator multiplied by resolution per pixel. The default is 96.</span>
+<span class="sd">        Number of pixels representing each bar in a pianoroll, calculated as the time signature&#39;s numerator multiplied</span>
+<span class="sd">        by the resolution per pixel. Defaults to 96.</span>
+
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    interval : Class used for interval-related calculations.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pianoroll</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default_velocity</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">pixels_per_bar</span><span class="o">=</span><span class="mi">96</span><span class="p">):</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="o">=</span><span class="n">pianoroll</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">=</span><span class="n">intervals</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_velocity</span><span class="o">=</span><span class="n">default_velocity</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="o">=</span><span class="n">origin</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pixels_per_bar</span><span class="o">=</span><span class="n">pixels_per_bar</span>
-    
-<div class="viewcode-block" id="embedder.extract_highest_pitch_notes_from_pianoroll"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.extract_highest_pitch_notes_from_pianoroll">[docs]</a>    <span class="k">def</span> <span class="nf">extract_highest_pitch_notes_from_pianoroll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preserve_pianoroll</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> 
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Extracts highest pitch note at each timestep from pianoroll.</span>
-<span class="sd">        </span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pianoroll</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">intervals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">default_velocity</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">origin</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+        <span class="n">pixels_per_bar</span><span class="o">=</span><span class="mi">96</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="o">=</span> <span class="n">pianoroll</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="n">intervals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_velocity</span> <span class="o">=</span> <span class="n">default_velocity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">origin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pixels_per_bar</span> <span class="o">=</span> <span class="n">pixels_per_bar</span>
+
+    <span class="k">def</span> <span class="nf">_get_none_error_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Both </span><span class="si">{</span><span class="n">var_name</span><span class="si">}</span><span class="s2"> argument and self.</span><span class="si">{</span><span class="n">var_name</span><span class="si">}</span><span class="s2"> are None.&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_get_range_error_message</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;Attempted to assign an out of range value. MIDI accepts values in the range 0-127.&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_get_incompatible_dimension_error_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">variable_name</span> <span class="o">==</span> <span class="s2">&quot;pianoroll&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;Wrong pianoroll shape, second dimension must be 128.&quot;</span>
+        <span class="k">if</span> <span class="n">variable_name</span> <span class="o">==</span> <span class="s2">&quot;intervals&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="s2">&quot;Wrong intervals shape, second dimension must be interval.feature_dimensions &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">interval</span><span class="p">()</span><span class="o">.</span><span class="n">feature_dimensions</span><span class="si">}</span><span class="s2">).&quot;</span>
+            <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognized variable name&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="embedder.extract_highest_pitch_notes_from_pianoroll">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.extract_highest_pitch_notes_from_pianoroll">[docs]</a>
+    <span class="k">def</span> <span class="nf">extract_highest_pitch_notes_from_pianoroll</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">preserve_pianoroll</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extracts the highest pitch note at each timestep from the pianoroll attribute.</span>
+
+<span class="sd">        This method processes the `self.pianoroll` array to find the highest pitch note for each timestep.</span>
+<span class="sd">        It can operate in either a non-destructive mode, preserving the original pianoroll, or a faster,</span>
+<span class="sd">        destructive mode that alters the original data.</span>
+
 <span class="sd">        **Example:** Given the pianoroll of an SATB choir, returns Soprano notes.</span>
-<span class="sd">        </span>
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - Works on `self.pianoroll`, fill it before calling this function.  </span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        preserve_pianoroll : boolean</span>
-<span class="sd">            Determines if self.pianoroll needs to be preserved. Setting it to False slightly increases the performance.  </span>
-<span class="sd">            </span>
+<span class="sd">        preserve_pianoroll : bool, optional</span>
+<span class="sd">            Determines if `self.pianoroll` should be preserved.</span>
+<span class="sd">            Setting it to False increases performance by avoiding data copying. Default is True.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If `self.pianoroll` is None.</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            If `self.pianoroll` does not have the second dimension size of 128.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        array, dtype=int64, shape=(?)</span>
-<span class="sd">            Contains the highest pitch note at each timestep. Indicates silence with 0.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">preserve_pianoroll</span><span class="p">:</span>
-            <span class="n">pianoroll</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="p">)</span>   <span class="c1">#to make the process non-destructive and presereve the pianoroll</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">pianoroll</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span>            <span class="c1">#to make the process faster but in a destructive manner</span>
+<span class="sd">        ndarray, dtype=int64, shape=(?)</span>
+<span class="sd">            An array containing the highest pitch note at each timestep. Indicates silence with a value of 0.</span>
 
-        <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">pianoroll</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">out</span><span class="o">=</span><span class="n">pianoroll</span><span class="p">)</span>    <span class="c1">#clipping is applied to ensure coef works as expected.</span>
-        
-        <span class="n">coef</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">129</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>   <span class="c1">#128 is the number of notes in MIDI, arange&#39;s stop is exclusive so it has to be 129                               </span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pianoroll</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="n">pianoroll</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span><span class="o">*=</span><span class="n">coef</span>                <span class="c1">#coef is a constantly growing series. Its multiplication is needed to ensure the note with the highest pitch is selected in a chord.</span>
-        
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">pianoroll</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>        </div>
-        
-<div class="viewcode-block" id="embedder.get_melodic_intervals_from_pianoroll"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_melodic_intervals_from_pianoroll">[docs]</a>    <span class="k">def</span> <span class="nf">get_melodic_intervals_from_pianoroll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pianoroll</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates sequence of melodic intervals from pianoroll.</span>
-<span class="sd">        </span>
-<span class="sd">        **Example:** Given the pianoroll of an SATB choir, returns melodic intervals of Soprano.</span>
-<span class="sd">        </span>
 <span class="sd">        Notes</span>
-<span class="sd">        -----        </span>
-<span class="sd">        - Works on highest pitch notes in `self.pianoroll`</span>
-<span class="sd">        - Updates `self.pianoroll` if pianoroll argument is passed.</span>
-<span class="sd">        - Updates `self.intervals`.</span>
-<span class="sd">     </span>
+<span class="sd">        -----</span>
+<span class="sd">        The method operates on `self.pianoroll` and requires it to be filled before calling.</span>
+<span class="sd">        The pianoroll format is expected to conform to MIDI standards with 128 pitches.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;self.pianoroll is None.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NOTES_IN_MIDI</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_incompatible_dimension_error_message</span><span class="p">(</span><span class="s2">&quot;pianoroll&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">preserve_pianoroll</span><span class="p">:</span>
+            <span class="n">pianoroll</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span>
+            <span class="p">)</span>  <span class="c1"># to make the process non-destructive and presereve the pianoroll</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pianoroll</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span>
+            <span class="p">)</span>  <span class="c1"># to make the process faster but in a destructive manner</span>
+
+        <span class="n">pianoroll</span> <span class="o">=</span> <span class="n">pianoroll</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>  <span class="c1"># to prevent overflowing</span>
+
+        <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+            <span class="n">pianoroll</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">pianoroll</span>
+        <span class="p">)</span>  <span class="c1"># clipping is applied to ensure coef works as expected.</span>
+
+        <span class="n">coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">NOTES_IN_MIDI</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pianoroll</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">pianoroll</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*=</span> <span class="n">coef</span>
+            <span class="c1"># coef is a constantly growing series. Its multiplication is needed to ensure the note with</span>
+            <span class="c1"># the highest pitch is selected in a chord.</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">pianoroll</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="embedder.get_melodic_intervals_from_pianoroll">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_melodic_intervals_from_pianoroll">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_melodic_intervals_from_pianoroll</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">pianoroll</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a sequence of melodic intervals from a pianoroll.</span>
+
+<span class="sd">        This method calculates the melodic intervals of the highest pitch notes in the pianoroll.</span>
+<span class="sd">        If a pianoroll is provided as an argument, it updates `self.pianoroll` with this new data.</span>
+<span class="sd">        The resulting intervals are stored in `self.intervals`.</span>
+
+<span class="sd">        **Example:** Given the pianoroll of an SATB choir, returns melodic intervals of Soprano.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional</span>
-<span class="sd">            If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</span>
-<span class="sd">            </span>
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        ndarray, dtype=int8, shape=(?, interval.feature_dimensions)</span>
-<span class="sd">            First dimension is timesteps and second dimension is interval features.</span>
-<span class="sd">            </span>
-<span class="sd">        &quot;&quot;&quot;</span>        
-        <span class="k">if</span> <span class="n">pianoroll</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="o">=</span><span class="n">pianoroll</span>
-        
-        <span class="n">notes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extract_highest_pitch_notes_from_pianoroll</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1">#first get the notes of the melody</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">notes</span><span class="p">),</span><span class="n">interval</span><span class="o">.</span><span class="n">feature_dimensions</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span> <span class="c1">#create the placeholder of intervals.</span>
-        <span class="n">curser</span><span class="o">=</span><span class="n">interval</span><span class="p">()</span>
-        <span class="n">last_voice_index</span><span class="o">=</span><span class="mi">0</span>
-        
-        <span class="n">silent_interval</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">get_silence_specs_list</span><span class="p">()</span>
-        
-        <span class="k">if</span> <span class="n">notes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>                         <span class="c1">#if the first pixel is silence there is no interval to calculate</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">silent_interval</span>   <span class="c1">#The first melodic interval is always zeros. This is becuase melody is calcualted with respect to the previous note.</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">notes</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>                     <span class="c1">#it is silence and there is no interval to calculate</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">silent_interval</span>   
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">curser</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">notes</span><span class="p">[</span><span class="n">last_voice_index</span><span class="p">]</span>
-                <span class="n">curser</span><span class="o">.</span><span class="n">semitone2interval</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">curser</span><span class="o">.</span><span class="n">get_specs_list</span><span class="p">()</span>
-                <span class="n">last_voice_index</span><span class="o">=</span><span class="n">i</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span>        </div>
-<div class="viewcode-block" id="embedder.pianoroll2intervals_melody"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.pianoroll2intervals_melody">[docs]</a>    <span class="k">def</span> <span class="nf">pianoroll2intervals_melody</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This method is depricated.</span>
+<span class="sd">            Pianoroll to be processed. If not provided, the method uses `self.pianoroll`. The first dimension represents</span>
+<span class="sd">            timesteps, and the second dimension is fixed to 128, corresponding to MIDI standards.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Call to function:</span>
-<span class="sd">            :func:`get_melodic_intervals_from_pianoroll`</span>
-<span class="sd">            </span>
+<span class="sd">        ndarray, dtype=int8, shape=(?, interval.feature_dimensions)</span>
+<span class="sd">            Array of melodic intervals. The first dimension represents timesteps, and the second dimension corresponds</span>
+<span class="sd">            to interval features.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If both the pianoroll argument and `self.pianoroll` are None.</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            If the provided pianoroll (or `self.pianoroll` if pianoroll is None) does not have a second dimension of</span>
+<span class="sd">            size 128.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_melodic_intervals_from_pianoroll</span><span class="p">()</span></div>
-    
-<div class="viewcode-block" id="embedder.get_pianoroll_from_melodic_intervals"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_pianoroll_from_melodic_intervals">[docs]</a>    <span class="k">def</span> <span class="nf">get_pianoroll_from_melodic_intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">velocity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">leading_silence</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates pianoroll from sequence of melodic intervals.</span>
-<span class="sd">        </span>
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - Works on `self.intervals`</span>
-<span class="sd">        - Updates `self.intervals` if intervals argument is passed.</span>
-<span class="sd">        - Updates `self.pianoroll`.</span>
+        <span class="k">if</span> <span class="n">pianoroll</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="o">=</span> <span class="n">pianoroll</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_none_error_message</span><span class="p">(</span><span class="s2">&quot;pianoroll&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NOTES_IN_MIDI</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_incompatible_dimension_error_message</span><span class="p">(</span><span class="s2">&quot;pianoroll&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">notes</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extract_highest_pitch_notes_from_pianoroll</span><span class="p">()</span>
+        <span class="p">)</span>  <span class="c1"># first get the notes of the melody</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">notes</span><span class="p">),</span> <span class="n">interval</span><span class="o">.</span><span class="n">feature_dimensions</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span>
+        <span class="p">)</span>  <span class="c1"># create the placeholder of intervals.</span>
+        <span class="n">curser</span> <span class="o">=</span> <span class="n">interval</span><span class="p">()</span>
+        <span class="n">last_voice_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">silent_interval</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">get_silence_specs_list</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">notes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="p">):</span>  <span class="c1"># if the first pixel is silence there is no interval to calculate</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">silent_interval</span>
+            <span class="c1"># The first melodic interval is always zeros. This is becuase melody is calcualted with</span>
+            <span class="c1"># respect to the previous note.</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">notes</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># it is silence and there is no interval to calculate</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">silent_interval</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">curser</span><span class="o">.</span><span class="n">semitones</span> <span class="o">=</span> <span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">notes</span><span class="p">[</span><span class="n">last_voice_index</span><span class="p">]</span>
+                <span class="n">curser</span><span class="o">.</span><span class="n">semitone2interval</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">curser</span><span class="o">.</span><span class="n">get_specs_list</span><span class="p">()</span>
+                <span class="n">last_voice_index</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span></div>
+
+
+<div class="viewcode-block" id="embedder.get_pianoroll_from_melodic_intervals">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_pianoroll_from_melodic_intervals">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_pianoroll_from_melodic_intervals</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">intervals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">origin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">velocity</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">leading_silence</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a pianoroll from a sequence of melodic intervals.</span>
+
+<span class="sd">        This method generates a pianoroll representation of a melody based on the provided sequence of melodic</span>
+<span class="sd">        intervals. The origin note is used as the starting point for the melody, and the specified velocity is</span>
+<span class="sd">        applied to the notes.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional</span>
-<span class="sd">            If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.</span>
-<span class="sd">            </span>
-<span class="sd">        origin: int, optional</span>
-<span class="sd">            The reference note of the melody; when decoding the melody, this indicates the first note. The default is self.origin.</span>
-<span class="sd">            </span>
+<span class="sd">            Sequence of melodic intervals. If None, the method uses self.intervals.</span>
+<span class="sd">            Each row represents interval features for a timestep.</span>
+<span class="sd">        origin : int, optional</span>
+<span class="sd">            The reference note of the melody; used as the starting note for decoding the melody.</span>
+<span class="sd">            Defaults to self.origin if None.</span>
 <span class="sd">        velocity : int, optional</span>
-<span class="sd">           When creating pianorolls this value is used for notes&#39; velocities. The default is self.default_velocity.</span>
-<span class="sd">           </span>
-<span class="sd">        leading_silence: int, optional</span>
-<span class="sd">            Number of silent pixels at the beginning of the melody.</span>
+<span class="sd">            Velocity used for notes in the pianoroll. Defaults to self.default_velocity if None.</span>
+<span class="sd">        leading_silence : int, optional</span>
+<span class="sd">            Number of silent pixels at the beginning of the melody. Defaults to 0.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If both intervals argument and self.intervals are None.</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            If intervals.shape[1] != interval.feature_dimensions or if the sequence of given intervals leads to a</span>
+<span class="sd">            note outside the MIDI range (0-127).</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If leading_silence is greater than or equal to the number of intervals.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ndarray, dtype=uint8, shape=(?, 128)</span>
-<span class="sd">            First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</span>
-
+<span class="sd">            Pianoroll representation of the melody. The first dimension represents timesteps, and the second dimension</span>
+<span class="sd">            is fixed to 128, corresponding to MIDI standards.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">if</span> <span class="n">intervals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">=</span><span class="n">intervals</span>
-            
+            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="n">intervals</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_none_error_message</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">interval</span><span class="p">()</span><span class="o">.</span><span class="n">feature_dimensions</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_incompatible_dimension_error_message</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">leading_silence</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Leading silences must be less than intervals.&quot;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">origin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">origin</span>
-            
+            <span class="n">origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span>
+        <span class="k">if</span> <span class="n">origin</span> <span class="o">&gt;</span> <span class="mi">127</span> <span class="ow">or</span> <span class="n">origin</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_range_error_message</span><span class="p">())</span>
+
         <span class="k">if</span> <span class="n">velocity</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">velocity</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">default_velocity</span>
-            
-        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="mi">1</span><span class="p">:,:]</span>         <span class="c1">#removing the first row of zeros. This is becuase melody is calcualted with respect to the previous note.</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">128</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>   <span class="c1">#128 is the number of notes in MIDI        </span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="p">[</span> <span class="n">leading_silence</span><span class="p">,</span> <span class="n">origin</span> <span class="p">]</span><span class="o">=</span><span class="n">velocity</span>        
-        
-        <span class="n">curser</span><span class="o">=</span><span class="n">interval</span><span class="p">()</span>
+            <span class="n">velocity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_velocity</span>
+        <span class="k">if</span> <span class="n">velocity</span> <span class="o">&gt;</span> <span class="mi">127</span> <span class="ow">or</span> <span class="n">velocity</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_range_error_message</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span>
+            <span class="mi">1</span><span class="p">:,</span> <span class="p">:</span>
+        <span class="p">]</span>  <span class="c1"># removing the first row of zeros. This is becuase melody is calcualted with respect to the previous note.</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NOTES_IN_MIDI</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="p">[</span><span class="n">leading_silence</span><span class="p">,</span> <span class="n">origin</span><span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span>
+
+        <span class="n">curser</span> <span class="o">=</span> <span class="n">interval</span><span class="p">()</span>
         <span class="n">curser</span><span class="o">.</span><span class="n">set_specs_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">leading_silence</span><span class="p">])</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">curser</span><span class="o">.</span><span class="n">is_silence</span><span class="p">():</span>
             <span class="n">origin</span> <span class="o">+=</span> <span class="n">curser</span><span class="o">.</span><span class="n">interval2semitone</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="p">[</span> <span class="n">leading_silence</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">origin</span> <span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span>
-            
+            <span class="k">if</span> <span class="n">origin</span> <span class="o">&gt;</span> <span class="mi">127</span> <span class="ow">or</span> <span class="n">origin</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_range_error_message</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="p">[</span><span class="n">leading_silence</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">origin</span><span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span>
+
+        <span class="n">semitones</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">leading_silence</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">)):</span>
             <span class="n">curser</span><span class="o">.</span><span class="n">set_specs_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">curser</span><span class="o">.</span><span class="n">is_silence</span><span class="p">():</span>   
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>       <span class="c1">#if they are different</span>
-                    <span class="n">origin</span><span class="o">+=</span><span class="n">curser</span><span class="o">.</span><span class="n">interval2semitone</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">origin</span><span class="p">]</span><span class="o">=</span><span class="n">velocity</span>        
-            
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">curser</span><span class="o">.</span><span class="n">is_silence</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="p">):</span>  <span class="c1"># if they are different calculate semitones, otherwise use prev value</span>
+                    <span class="n">semitones</span> <span class="o">=</span> <span class="n">curser</span><span class="o">.</span><span class="n">interval2semitone</span><span class="p">()</span>
+                <span class="n">origin</span> <span class="o">+=</span> <span class="n">semitones</span>
+                <span class="k">if</span> <span class="n">origin</span> <span class="o">&gt;</span> <span class="mi">127</span> <span class="ow">or</span> <span class="n">origin</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_range_error_message</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">origin</span><span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span></div>
-<div class="viewcode-block" id="embedder.intervals2pianoroll_melody"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.intervals2pianoroll_melody">[docs]</a>    <span class="k">def</span> <span class="nf">intervals2pianoroll_melody</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This method is depricated.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Call to function:</span>
-<span class="sd">            :func:`get_pianoroll_from_melodic_intervals`</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pianoroll_from_melodic_intervals</span><span class="p">()</span></div>
-        
-          
-<div class="viewcode-block" id="embedder.get_harmonic_intervals_from_pianoroll"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_harmonic_intervals_from_pianoroll">[docs]</a>    <span class="k">def</span> <span class="nf">get_harmonic_intervals_from_pianoroll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref_pianoroll</span><span class="p">,</span> <span class="n">pianoroll</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> 
-        <span class="sd">&quot;&quot;&quot;Creates sequence of harmonic intervals from pianoroll.</span>
-<span class="sd">        </span>
-<span class="sd">        Calculates the harmonic intervals of the highest pitch notes in self.pianoroll with respect to ref_pianoroll.        </span>
-<span class="sd">        </span>
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - Works on `self.pianoroll`.</span>
-<span class="sd">        - Updates `self.pianoroll` if pianoroll argument is passed.</span>
-<span class="sd">        - Updates `self.intervals`.</span>
+<div class="viewcode-block" id="embedder.get_harmonic_intervals_from_pianoroll">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_harmonic_intervals_from_pianoroll">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_harmonic_intervals_from_pianoroll</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ref_pianoroll</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pianoroll</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a sequence of harmonic intervals from the pianoroll relative to a reference pianoroll.</span>
+
+<span class="sd">        This method computes harmonic intervals of the highest pitch notes in `self.pianoroll` with</span>
+<span class="sd">        respect to `ref_pianoroll`. It updates `self.pianoroll` if `pianoroll` argument is passed</span>
+<span class="sd">        and also updates `self.intervals`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional</span>
-<span class="sd">            If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</span>
-<span class="sd">            </span>
 <span class="sd">        ref_pianoroll : ndarray, dtype=uint8, shape=(?, 128)</span>
-<span class="sd">            Harmonic intervals are calculated with reference to this pianoroll.</span>
+<span class="sd">            Reference pianoroll to which harmonic intervals are calculated.</span>
+<span class="sd">        pianoroll : ndarray, dtype=uint8, shape=(?, 128) | None, default=None</span>
+<span class="sd">            Pianoroll for which to calculate harmonic intervals. If None, uses `self.pianoroll`.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ndarray, dtype=int8, shape=(?, interval.feature_dimensions)</span>
-<span class="sd">            First dimension is timesteps and second dimension is interval features.</span>
+<span class="sd">            Array of harmonic intervals. First dimension represents timesteps, and the second</span>
+<span class="sd">            dimension corresponds to interval features.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If both `pianoroll` argument and `self.pianoroll` are None.</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            If `pianoroll.shape[1]` is not 128 or if `ref_pianoroll.shape[1]` is not 128.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">pianoroll</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="o">=</span><span class="n">pianoroll</span>
-            
-        <span class="n">notes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extract_highest_pitch_notes_from_pianoroll</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">notes</span><span class="p">),</span><span class="n">interval</span><span class="o">.</span><span class="n">feature_dimensions</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
-        <span class="n">curser</span><span class="o">=</span><span class="n">interval</span><span class="p">()</span>
-        
+            <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="o">=</span> <span class="n">pianoroll</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_none_error_message</span><span class="p">(</span><span class="s2">&quot;pianoroll&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NOTES_IN_MIDI</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_incompatible_dimension_error_message</span><span class="p">(</span><span class="s2">&quot;pianoroll&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ref_pianoroll</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NOTES_IN_MIDI</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_incompatible_dimension_error_message</span><span class="p">(</span><span class="s2">&quot;pianoroll&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">notes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_highest_pitch_notes_from_pianoroll</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">notes</span><span class="p">),</span> <span class="n">interval</span><span class="o">.</span><span class="n">feature_dimensions</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span>
+        <span class="p">)</span>
+        <span class="n">curser</span> <span class="o">=</span> <span class="n">interval</span><span class="p">()</span>
+
         <span class="n">silent_interval</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">get_silence_specs_list</span><span class="p">()</span>
-        
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">notes</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>                     <span class="c1">#it is silence</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">silent_interval</span>   
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">note</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">notes</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">note</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># it is silence</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">silent_interval</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">ref_note</span><span class="o">=</span><span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
-                <span class="k">while</span> <span class="n">ref_note</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">ref_pianoroll</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">ref_note</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">ref_note</span><span class="o">-=</span><span class="mi">1</span>
-                <span class="k">if</span> <span class="n">ref_note</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>                    
-                    <span class="n">curser</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">ref_note</span>
+                <span class="n">ref_note</span> <span class="o">=</span> <span class="n">note</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="k">while</span> <span class="n">ref_note</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">ref_pianoroll</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ref_note</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">ref_note</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">ref_note</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">curser</span><span class="o">.</span><span class="n">semitones</span> <span class="o">=</span> <span class="n">note</span> <span class="o">-</span> <span class="n">ref_note</span>
                     <span class="n">curser</span><span class="o">.</span><span class="n">semitone2interval</span><span class="p">()</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">curser</span><span class="o">.</span><span class="n">get_specs_list</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">curser</span><span class="o">.</span><span class="n">get_specs_list</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">silent_interval</span> 
-                
+                    <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">silent_interval</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span></div>
-<div class="viewcode-block" id="embedder.pianoroll2intervals_harmony"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.pianoroll2intervals_harmony">[docs]</a>    <span class="k">def</span> <span class="nf">pianoroll2intervals_harmony</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>    
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This method is depricated.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Call to function:</span>
-<span class="sd">            :func:`get_harmonic_intervals_from_pianoroll`</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_harmonic_intervals_from_pianoroll</span><span class="p">()</span></div>
+<div class="viewcode-block" id="embedder.get_pianoroll_from_harmonic_intervals">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_pianoroll_from_harmonic_intervals">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_pianoroll_from_harmonic_intervals</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pianoroll</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">intervals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">velocity</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a pianoroll from a sequence of harmonic intervals.</span>
 
-    
-<div class="viewcode-block" id="embedder.get_pianoroll_from_harmonic_intervals"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_pianoroll_from_harmonic_intervals">[docs]</a>    <span class="k">def</span> <span class="nf">get_pianoroll_from_harmonic_intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pianoroll</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">velocity</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates pianoroll from sequence of harmonic intervals.</span>
-<span class="sd">        </span>
-<span class="sd">        Extracts highest pitch notes from self.pianoroll first, then builds a new pianoroll based on the extracted notes and self.intervals(harmonic).</span>
-<span class="sd">        </span>
-<span class="sd">        **Example:** Given ATB choir pianoroll and Soprano&#39;s harmonic intervals with respect to Alto, returns Soprano&#39;s pianoroll.</span>
-<span class="sd">        </span>
-<span class="sd">        Notes</span>
-<span class="sd">        -----        </span>
-<span class="sd">        - Works on `self.intervals`.</span>
-<span class="sd">        - Updates `self.intervals` if intervals argument is passed.</span>
-<span class="sd">        - Updates `self.pianoroll`.        </span>
+<span class="sd">        This method builds a new pianoroll based on the highest pitch notes extracted from the provided or</span>
+<span class="sd">        class&#39;s pianoroll and the harmonic intervals stored in the class&#39;s intervals.</span>
+
+<span class="sd">        **Example:** Given ATB choir pianoroll and Soprano&#39;s harmonic intervals with respect to Alto,</span>
+<span class="sd">        returns Soprano&#39;s pianoroll.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional</span>
-<span class="sd">            If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</span>
-<span class="sd">            </span>
-<span class="sd">        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional</span>
-<span class="sd">            If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.</span>
-<span class="sd">        </span>
-<span class="sd">        velocity : int, optional</span>
-<span class="sd">           When creating pianorolls this value is used for notes&#39; velocities. The default is self.default_velocity.</span>
+<span class="sd">        pianoroll : ndarray, dtype=uint8, shape=(?, 128) | None, optional</span>
+<span class="sd">            Pianoroll representation of musical data to be used. If None, the method uses self.pianoroll.</span>
+<span class="sd">        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions) | None, optional</span>
+<span class="sd">            Sequence of harmonic intervals. If None, the method uses self.intervals.</span>
+<span class="sd">        velocity : int | None, optional</span>
+<span class="sd">            Velocity for notes in the pianoroll. If None, self.default_velocity is used.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If both pianoroll argument and self.pianoroll are None.</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            If pianoroll.shape[1] != 128, or if intervals.shape[1] != interval.feature_dimensions,</span>
+<span class="sd">            or if adding the interval to the pianoroll leads to a note out of MIDI range (0-127),</span>
+<span class="sd">            or if velocity is out of MIDI range (0-127).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ndarray, dtype=uint8, shape=(?, 128)</span>
-<span class="sd">            First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</span>
+<span class="sd">            The generated pianoroll, where the first dimension is timesteps and the second dimension</span>
+<span class="sd">            is fixed to 128 per MIDI standard.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">if</span> <span class="n">pianoroll</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="o">=</span><span class="n">pianoroll</span>
-            
+            <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="o">=</span> <span class="n">pianoroll</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_none_error_message</span><span class="p">(</span><span class="s2">&quot;pianoroll&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NOTES_IN_MIDI</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_incompatible_dimension_error_message</span><span class="p">(</span><span class="s2">&quot;pianoroll&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
         <span class="k">if</span> <span class="n">intervals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">=</span><span class="n">intervals</span>
-            
+            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="n">intervals</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_none_error_message</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">interval</span><span class="p">()</span><span class="o">.</span><span class="n">feature_dimensions</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_incompatible_dimension_error_message</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
         <span class="k">if</span> <span class="n">velocity</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">velocity</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">default_velocity</span>
-            
-        <span class="n">ref_notes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extract_highest_pitch_notes_from_pianoroll</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">),</span><span class="mi">128</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>   <span class="c1">#128 is the number of notes in MIDI</span>
-        <span class="n">curser</span><span class="o">=</span><span class="n">interval</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ref_notes</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">ref_notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>                               <span class="c1">#if it is not silence</span>
+            <span class="n">velocity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_velocity</span>
+        <span class="k">if</span> <span class="n">velocity</span> <span class="o">&gt;</span> <span class="mi">127</span> <span class="ow">or</span> <span class="n">velocity</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_range_error_message</span><span class="p">())</span>
+
+        <span class="n">ref_notes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_highest_pitch_notes_from_pianoroll</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">),</span> <span class="n">NOTES_IN_MIDI</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="n">curser</span> <span class="o">=</span> <span class="n">interval</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ref_note</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ref_notes</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">ref_note</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># if it is not silence</span>
                 <span class="n">curser</span><span class="o">.</span><span class="n">set_specs_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                <span class="n">note</span><span class="o">=</span><span class="n">curser</span><span class="o">.</span><span class="n">interval2semitone</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ref_notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">note</span><span class="p">]</span><span class="o">=</span><span class="n">velocity</span>
+                <span class="n">note</span> <span class="o">=</span> <span class="n">curser</span><span class="o">.</span><span class="n">interval2semitone</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">ref_note</span> <span class="o">+</span> <span class="n">note</span> <span class="o">&gt;</span> <span class="mi">127</span> <span class="ow">or</span> <span class="n">ref_note</span> <span class="o">+</span> <span class="n">note</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_range_error_message</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ref_note</span> <span class="o">+</span> <span class="n">note</span><span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span></div>
-<div class="viewcode-block" id="embedder.intervals2pianoroll_harmony"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.intervals2pianoroll_harmony">[docs]</a>    <span class="k">def</span> <span class="nf">intervals2pianoroll_harmony</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This method is depricated.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        Call to function:</span>
-<span class="sd">            :func:`get_pianoroll_from_harmonic_intervals`</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pianoroll_from_harmonic_intervals</span><span class="p">()</span></div>
+<div class="viewcode-block" id="embedder.get_barwise_intervals_from_pianoroll">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_barwise_intervals_from_pianoroll">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_barwise_intervals_from_pianoroll</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">pianoroll</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pixels_per_bar</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a sequence of barwise intervals from a pianoroll, calculating intervals with respect to the first note</span>
+<span class="sd">        of each bar. For the first notes of bars, intervals are calculated with respect to the first note of the</span>
+<span class="sd">        previous bar.</span>
 
-    
-<div class="viewcode-block" id="embedder.get_barwise_intervals_from_pianoroll"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_barwise_intervals_from_pianoroll">[docs]</a>    <span class="k">def</span> <span class="nf">get_barwise_intervals_from_pianoroll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pianoroll</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pixels_per_bar</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates sequence of barwise intervals from pianoroll.</span>
-<span class="sd">        </span>
-<span class="sd">        Calculates intervals with respect to the first note of the current bar. For first notes of bars, the interval is calculated with respect to the first note of the last bar.</span>
-<span class="sd">        </span>
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - Works on highest pitch notes in `self.pianoroll`.</span>
-<span class="sd">        - Updates `self.pianoroll` if pianoroll argument is passed.</span>
-<span class="sd">        - Updates `self.intervals`.</span>
-<span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional</span>
-<span class="sd">            If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</span>
-<span class="sd">        </span>
-<span class="sd">        pixels_per_bar: int, optional</span>
-<span class="sd">            Number of pixels in each bar. Equals time signature&#39;s numarator multiplied by resolution per pixel. The default is self.pixels_per_bar.</span>
-<span class="sd">            </span>
+<span class="sd">        pianoroll : ndarray, dtype=uint8, shape=(?, 128) | None, optional</span>
+<span class="sd">            Pianoroll representation of musical data. If not provided, `self.pianoroll` is used. The first dimension</span>
+<span class="sd">            represents timesteps, and the second dimension has a fixed size of 128, corresponding to MIDI standards.</span>
+<span class="sd">        pixels_per_bar : int | None, optional</span>
+<span class="sd">            Number of pixels in each bar, equal to the time signature&#39;s numerator multiplied by the resolution per</span>
+<span class="sd">            pixel. If not provided, `self.pixels_per_bar` is used.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ndarray, dtype=int8, shape=(?, interval.feature_dimensions)</span>
-<span class="sd">            First dimension is timesteps and second dimension is interval features.</span>
-<span class="sd">            </span>
-<span class="sd">        &quot;&quot;&quot;</span>     
+<span class="sd">            Interval representation of musical data. The first dimension represents timesteps, and the second dimension</span>
+<span class="sd">            corresponds to interval features.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If both `pianoroll` argument and `self.pianoroll` are None.</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            If `pianoroll.shape[1]` != 128.</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If `pixels_per_bar` &lt; 1 or if `pixels_per_bar` is None and `self.pixels_per_bar` &lt; 1.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">if</span> <span class="n">pianoroll</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="o">=</span><span class="n">pianoroll</span>
-        
+            <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="o">=</span> <span class="n">pianoroll</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_none_error_message</span><span class="p">(</span><span class="s2">&quot;pianoroll&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NOTES_IN_MIDI</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_incompatible_dimension_error_message</span><span class="p">(</span><span class="s2">&quot;pianoroll&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
         <span class="k">if</span> <span class="n">pixels_per_bar</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">pixels_per_bar</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pixels_per_bar</span>
-            
-        <span class="n">notes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extract_highest_pitch_notes_from_pianoroll</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1">#get the notes of the melody</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">notes</span><span class="p">),</span><span class="n">interval</span><span class="o">.</span><span class="n">feature_dimensions</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span> <span class="c1">#create the placeholder of intervals. </span>
-                
-        <span class="n">last_bar_ref_note</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>      <span class="c1">#init with an impossible value</span>
-        <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">notes</span><span class="p">:</span>          <span class="c1">#find first note</span>
-            <span class="k">if</span> <span class="n">note</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">pixels_per_bar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixels_per_bar</span>
+        <span class="k">if</span> <span class="n">pixels_per_bar</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of pixels in bar must be a positive integer.&quot;</span><span class="p">)</span>
+
+        <span class="n">notes</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extract_highest_pitch_notes_from_pianoroll</span><span class="p">()</span>
+        <span class="p">)</span>  <span class="c1"># get the notes of the melody</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">notes</span><span class="p">),</span> <span class="n">interval</span><span class="o">.</span><span class="n">feature_dimensions</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span>
+        <span class="p">)</span>  <span class="c1"># create the placeholder of intervals.</span>
+
+        <span class="n">last_bar_ref_note</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># init with an impossible value</span>
+        <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">notes</span><span class="p">:</span>  <span class="c1"># find first note</span>
+            <span class="k">if</span> <span class="n">note</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">last_bar_ref_note</span> <span class="o">=</span> <span class="n">note</span>
                 <span class="k">break</span>
-        <span class="k">if</span> <span class="n">last_bar_ref_note</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="c1">#this means all notes are 0; there is nothing to process</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">last_bar_ref_note</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="p">):</span>  <span class="c1"># this means all notes are 0; there is nothing to process</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span>
-                
-        <span class="n">curser</span><span class="o">=</span><span class="n">interval</span><span class="p">()</span>
+
+        <span class="n">curser</span> <span class="o">=</span> <span class="n">interval</span><span class="p">()</span>
         <span class="n">silent_interval</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">get_silence_specs_list</span><span class="p">()</span>
-        
-        <span class="k">for</span> <span class="n">bar_number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">notes</span><span class="p">)</span><span class="o">/</span><span class="n">pixels_per_bar</span><span class="p">)):</span>        <span class="c1">#traversing bars</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">notes</span><span class="p">[</span><span class="n">bar_number</span> <span class="o">*</span> <span class="n">pixels_per_bar</span> <span class="p">:</span> <span class="p">(</span><span class="n">bar_number</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">pixels_per_bar</span> <span class="p">])</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>  <span class="c1">#bar is empty</span>
+
+        <span class="k">for</span> <span class="n">bar_number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">notes</span><span class="p">)</span> <span class="o">/</span> <span class="n">pixels_per_bar</span><span class="p">)):</span>  <span class="c1"># traversing bars</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                    <span class="n">notes</span><span class="p">[</span>
+                        <span class="n">bar_number</span> <span class="o">*</span> <span class="n">pixels_per_bar</span> <span class="p">:</span> <span class="p">(</span><span class="n">bar_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">pixels_per_bar</span>
+                    <span class="p">]</span>
+                <span class="p">)</span>
+                <span class="o">==</span> <span class="mi">0</span>
+            <span class="p">):</span>  <span class="c1"># bar is empty</span>
                 <span class="k">continue</span>
-            
-            <span class="n">i</span><span class="o">=</span><span class="n">bar_number</span><span class="o">*</span><span class="n">pixels_per_bar</span>                                   <span class="c1">#init counter i with the first pixel of the bar</span>
-            <span class="k">while</span> <span class="n">i</span><span class="o">&lt;</span><span class="p">(</span><span class="n">bar_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">pixels_per_bar</span> <span class="ow">and</span> <span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>    <span class="c1">#finding the first note of the bar</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">silent_interval</span> 
-                <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
-            
-            <span class="k">if</span> <span class="n">i</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">notes</span><span class="p">):</span>                                        <span class="c1">#this ensures i does not exceed array boundaries which might happen at the last pixel of the last bar.</span>
+
+            <span class="n">i</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">bar_number</span> <span class="o">*</span> <span class="n">pixels_per_bar</span>
+            <span class="p">)</span>  <span class="c1"># init counter i with the first pixel of the bar</span>
+            <span class="k">while</span> <span class="p">(</span>
+                <span class="n">i</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">bar_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">pixels_per_bar</span> <span class="ow">and</span> <span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="p">):</span>  <span class="c1"># finding the first note of the bar</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">silent_interval</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span>
+                <span class="n">notes</span>
+            <span class="p">):</span>  <span class="c1"># this ensures i does not exceed array boundaries which might happen at the last pixel of the last bar.</span>
                 <span class="n">ref_note</span> <span class="o">=</span> <span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">break</span>
-            
-            <span class="n">curser</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="n">ref_note</span><span class="o">-</span><span class="n">last_bar_ref_note</span>         <span class="c1">#finding the interval of the first note of the current bar with respect to the first note of the last bar</span>
+
+            <span class="n">curser</span><span class="o">.</span><span class="n">semitones</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">ref_note</span> <span class="o">-</span> <span class="n">last_bar_ref_note</span>
+            <span class="p">)</span>  <span class="c1"># finding the interval of the first note of the current bar with respect to the first note of the last bar</span>
             <span class="n">curser</span><span class="o">.</span><span class="n">semitone2interval</span><span class="p">()</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">curser</span><span class="o">.</span><span class="n">get_specs_list</span><span class="p">()</span>
-            <span class="n">last_bar_ref_note</span><span class="o">=</span><span class="n">ref_note</span>
-            
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">bar_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">pixels_per_bar</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">silent_interval</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">curser</span><span class="o">.</span><span class="n">get_specs_list</span><span class="p">()</span>
+            <span class="n">last_bar_ref_note</span> <span class="o">=</span> <span class="n">ref_note</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">bar_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">pixels_per_bar</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">silent_interval</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">curser</span><span class="o">.</span><span class="n">semitones</span><span class="o">=</span><span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">ref_note</span>
+                    <span class="n">curser</span><span class="o">.</span><span class="n">semitones</span> <span class="o">=</span> <span class="n">notes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">ref_note</span>
                     <span class="n">curser</span><span class="o">.</span><span class="n">semitone2interval</span><span class="p">()</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">curser</span><span class="o">.</span><span class="n">get_specs_list</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">curser</span><span class="o">.</span><span class="n">get_specs_list</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span></div>
-    
 
-<div class="viewcode-block" id="embedder.get_pianoroll_from_barwise_intervals"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_pianoroll_from_barwise_intervals">[docs]</a>    <span class="k">def</span> <span class="nf">get_pianoroll_from_barwise_intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">velocity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">leading_silence</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pixels_per_bar</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates pianoroll from sequence of barwise intervals.</span>
-<span class="sd">        </span>
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - Works on `self.intervals`.</span>
-<span class="sd">        - Updates `self.intervals` if intervals argument is passed.</span>
-<span class="sd">        - Updates `self.pianoroll`.        </span>
+
+<div class="viewcode-block" id="embedder.get_pianoroll_from_barwise_intervals">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_pianoroll_from_barwise_intervals">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_pianoroll_from_barwise_intervals</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">intervals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">origin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">velocity</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">leading_silence</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">pixels_per_bar</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a pianoroll from a sequence of barwise intervals.</span>
+
+<span class="sd">        This method decodes barwise interval data into a pianoroll representation, considering each bar&#39;s</span>
+<span class="sd">        first note and the intervals following it. It supports specifying the origin note, velocity, leading</span>
+<span class="sd">        silence, and pixels per bar.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional</span>
-<span class="sd">            If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.</span>
-<span class="sd">            </span>
-<span class="sd">        origin: int, optional</span>
-<span class="sd">            The reference note of the melody; when decoding the melody, this indicates the first note. The default is self.origin.</span>
-<span class="sd">            </span>
-<span class="sd">        velocity : int, optional</span>
-<span class="sd">           When creating pianorolls this value is used for notes&#39; velocities. The default is self.default_velocity.</span>
-<span class="sd">            </span>
-<span class="sd">        leading_silence: int, optional</span>
+<span class="sd">        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), default=None</span>
+<span class="sd">            Sequence of barwise intervals. Uses `self.intervals` if None.</span>
+<span class="sd">        origin : int, default=None</span>
+<span class="sd">            Reference note for the melody (MIDI value). Uses `self.origin` if None.</span>
+<span class="sd">        velocity : int, default=None</span>
+<span class="sd">            Velocity for notes in the pianoroll. Uses `self.default_velocity` if None.</span>
+<span class="sd">        leading_silence : int, default=0</span>
 <span class="sd">            Number of silent pixels at the beginning of the melody.</span>
-<span class="sd">            </span>
-<span class="sd">        pixels_per_bar: int, optional</span>
-<span class="sd">            Number of pixels in each bar. Equals time signature&#39;s numarator multiplied by resolution per pixel. The default is self.pixels_per_bar.</span>
+<span class="sd">        pixels_per_bar : int, default=None</span>
+<span class="sd">            Number of pixels in each bar. Uses `self.pixels_per_bar` if None.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If `pixels_per_bar` is less than 1 or `leading_silence` is greater than or equal to the</span>
+<span class="sd">            length of intervals.</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            If `origin` or `velocity` is out of MIDI range (0-127), or if note calculations lead to</span>
+<span class="sd">            values outside this range.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ndarray, dtype=uint8, shape=(?, 128)</span>
-<span class="sd">            First dimension is timesteps and second dimension is fixed 128 per MIDI standard.</span>
+<span class="sd">            Pianoroll representation with each timestep and MIDI note.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">intervals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">=</span><span class="n">intervals</span>
-        
-        <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">origin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">origin</span>
-            
-        <span class="k">if</span> <span class="n">velocity</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">velocity</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">default_velocity</span>
-            
         <span class="k">if</span> <span class="n">pixels_per_bar</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">pixels_per_bar</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pixels_per_bar</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">),</span><span class="mi">128</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>   <span class="c1">#128 is the number of notes in MIDI        </span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="p">[</span> <span class="n">leading_silence</span><span class="p">,</span> <span class="n">origin</span><span class="p">]</span><span class="o">=</span><span class="n">velocity</span>
-       
-        <span class="n">curser</span><span class="o">=</span><span class="n">interval</span><span class="p">()</span>            
-        <span class="n">last_known_origin</span> <span class="o">=</span> <span class="n">origin</span>
-        <span class="n">origin_is_unkown</span><span class="o">=</span><span class="kc">True</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">leading_silence</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">pixels_per_bar</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>         <span class="c1">#a new bar has started, we need to find its first note</span>
-                <span class="n">origin_is_unkown</span> <span class="o">=</span> <span class="kc">True</span>
-                
-            <span class="k">if</span> <span class="n">origin_is_unkown</span><span class="p">:</span> 
-                <span class="n">curser</span><span class="o">.</span><span class="n">set_specs_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>                    <span class="c1">#this is the interval of the first note of the current bar with respect to the first note of the last bar</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">curser</span><span class="o">.</span><span class="n">is_silence</span><span class="p">():</span>       <span class="c1">#skip silences</span>
-                    <span class="n">origin</span> <span class="o">=</span> <span class="n">last_known_origin</span> <span class="o">+</span> <span class="n">curser</span><span class="o">.</span><span class="n">interval2semitone</span><span class="p">()</span>     <span class="c1">#finding the first note of the current bar</span>
-                    <span class="n">last_known_origin</span> <span class="o">=</span> <span class="n">origin</span>
+            <span class="n">pixels_per_bar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixels_per_bar</span>
+        <span class="k">if</span> <span class="n">pixels_per_bar</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of pixels in bar must be a positive integer.&quot;</span><span class="p">)</span>
 
-                    <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="p">[</span> <span class="n">i</span><span class="p">,</span> <span class="n">origin</span> <span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span>
-                    <span class="n">origin_is_unkown</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">else</span><span class="p">:</span> 
-                <span class="n">curser</span><span class="o">.</span><span class="n">set_specs_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">curser</span><span class="o">.</span><span class="n">is_silence</span><span class="p">():</span>      <span class="c1">#skip silences                    </span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="p">[</span> <span class="n">i</span><span class="p">,</span> <span class="n">origin</span> <span class="o">+</span> <span class="n">curser</span><span class="o">.</span><span class="n">interval2semitone</span><span class="p">()</span> <span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span>            
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span></div>
-    
-<div class="viewcode-block" id="embedder.chunk_sequence_of_intervals"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.chunk_sequence_of_intervals">[docs]</a>    <span class="k">def</span> <span class="nf">chunk_sequence_of_intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pixels_per_chunk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Breaks a long sequence of intervals into chunks.        </span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - Works on `self.intervals`.</span>
-<span class="sd">        - Updates `self.intervals` if intervals argument is passed. </span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional</span>
-<span class="sd">            If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.</span>
-<span class="sd">            </span>
-<span class="sd">        pixels_per_chunk: int, optional</span>
-<span class="sd">            Number of pixels in each chunk. Set it to time signature&#39;s numarator multiplied by resolution per pixel to get chunk_per-bar. The default is self.pixels_per_bar.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        ndarray, dtype=int8, shape=(?, pixels_per_chunk, interval.feature_dimensions)</span>
-<span class="sd">            First dimension is bars, second dimension is pixels in each chunk and, third dimension is interval features.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">intervals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">=</span><span class="n">intervals</span>
-            
-        <span class="k">if</span> <span class="n">pixels_per_chunk</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">pixels_per_chunk</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pixels_per_bar</span>
-            
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="n">pixels_per_chunk</span> <span class="p">,</span> <span class="n">pixels_per_chunk</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">))</span></div>
-    
-    
-<div class="viewcode-block" id="embedder.merge_chunked_intervals"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.merge_chunked_intervals">[docs]</a>    <span class="k">def</span> <span class="nf">merge_chunked_intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunked_intervals</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Merges chunks of interval sequence.</span>
-<span class="sd">        </span>
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - Updates `self.intervals`.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="n">intervals</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_none_error_message</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">interval</span><span class="p">()</span><span class="o">.</span><span class="n">feature_dimensions</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_incompatible_dimension_error_message</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">leading_silence</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Leading silences must be less than intervals.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span>
+        <span class="k">if</span> <span class="n">origin</span> <span class="o">&gt;</span> <span class="mi">127</span> <span class="ow">or</span> <span class="n">origin</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_range_error_message</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">velocity</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">velocity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_velocity</span>
+        <span class="k">if</span> <span class="n">velocity</span> <span class="o">&gt;</span> <span class="mi">127</span> <span class="ow">or</span> <span class="n">velocity</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_range_error_message</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">),</span> <span class="n">NOTES_IN_MIDI</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">origin</span> <span class="o">&gt;</span> <span class="mi">127</span> <span class="ow">or</span> <span class="n">origin</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_range_error_message</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="p">[</span><span class="n">leading_silence</span><span class="p">,</span> <span class="n">origin</span><span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span>
+
+        <span class="n">curser</span> <span class="o">=</span> <span class="n">interval</span><span class="p">()</span>
+        <span class="n">last_known_origin</span> <span class="o">=</span> <span class="n">origin</span>
+        <span class="n">origin_is_unkown</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">leading_silence</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">i</span> <span class="o">%</span> <span class="n">pixels_per_bar</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="p">):</span>  <span class="c1"># a new bar has started, we need to find its first note</span>
+                <span class="n">origin_is_unkown</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">if</span> <span class="n">origin_is_unkown</span><span class="p">:</span>
+                <span class="c1"># this is first note&#39;s interval of the current bar with respect to the first note of the last bar</span>
+                <span class="n">curser</span><span class="o">.</span><span class="n">set_specs_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">curser</span><span class="o">.</span><span class="n">is_silence</span><span class="p">():</span>  <span class="c1"># skip silences</span>
+                    <span class="n">origin</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">last_known_origin</span> <span class="o">+</span> <span class="n">curser</span><span class="o">.</span><span class="n">interval2semitone</span><span class="p">()</span>
+                    <span class="p">)</span>  <span class="c1"># finding the first note of the current bar</span>
+                    <span class="n">last_known_origin</span> <span class="o">=</span> <span class="n">origin</span>
+                    <span class="k">if</span> <span class="n">origin</span> <span class="o">&gt;</span> <span class="mi">127</span> <span class="ow">or</span> <span class="n">origin</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_range_error_message</span><span class="p">())</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">origin</span><span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span>
+                    <span class="n">origin_is_unkown</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">curser</span><span class="o">.</span><span class="n">set_specs_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">curser</span><span class="o">.</span><span class="n">is_silence</span><span class="p">():</span>  <span class="c1"># skip silences</span>
+                    <span class="n">note</span> <span class="o">=</span> <span class="n">origin</span> <span class="o">+</span> <span class="n">curser</span><span class="o">.</span><span class="n">interval2semitone</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">note</span> <span class="o">&gt;</span> <span class="mi">127</span> <span class="ow">or</span> <span class="n">note</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_range_error_message</span><span class="p">())</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">note</span><span class="p">]</span> <span class="o">=</span> <span class="n">velocity</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pianoroll</span></div>
+
+
+<div class="viewcode-block" id="embedder.chunk_sequence_of_intervals">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.chunk_sequence_of_intervals">[docs]</a>
+    <span class="k">def</span> <span class="nf">chunk_sequence_of_intervals</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">intervals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pixels_per_chunk</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Breaks a long sequence of intervals into chunks of a specified length.</span>
+
+<span class="sd">        This method divides a sequence of intervals into smaller, equally-sized chunks, which can be useful for</span>
+<span class="sd">        processing or analyzing data in segments. If `intervals` is None, the method works on `self.intervals`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        chunked_intervals : ndarray, dtype=int8, shape=(?, ?, interval.feature_dimensions)</span>
-<span class="sd">            Merging happens along the first dimension and removes the second dimension.</span>
+<span class="sd">        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions)</span>
+<span class="sd">            Sequence of intervals to be chunked. If None, uses `self.intervals`.</span>
+<span class="sd">        pixels_per_chunk : int</span>
+<span class="sd">            Number of pixels in each chunk. Defaults to `self.pixels_per_bar` if None.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        ndarray, dtype=int8, shape=(?, interval.feature_dimensions)</span>
-<span class="sd">            First dimension is timesteps and second dimension is interval features.</span>
+<span class="sd">        ndarray, dtype=int8</span>
+<span class="sd">            Array of chunked intervals. Shape is (?, pixels_per_chunk, interval.feature_dimensions),</span>
+<span class="sd">            where ? is the number of chunks.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If both `intervals` argument and `self.intervals` are None.</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            If `intervals` shape&#39;s second dimension is not equal to `interval.feature_dimensions`.</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If `pixels_per_chunk` is less than 1 or if it&#39;s None and `self.pixels_per_bar` is less than 1.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">intervals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">intervals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span>
+        <span class="k">if</span> <span class="n">intervals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_none_error_message</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">interval</span><span class="p">()</span><span class="o">.</span><span class="n">feature_dimensions</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_incompatible_dimension_error_message</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">pixels_per_chunk</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pixels_per_chunk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixels_per_bar</span>
+        <span class="k">if</span> <span class="n">pixels_per_chunk</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of pixels in chunk must be a positive integer.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+            <span class="n">intervals</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="n">pixels_per_chunk</span><span class="p">,</span>
+                <span class="n">pixels_per_chunk</span><span class="p">,</span>
+                <span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="embedder.merge_chunked_intervals">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.merge_chunked_intervals">[docs]</a>
+    <span class="k">def</span> <span class="nf">merge_chunked_intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunked_intervals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Merges chunks of interval sequences into a single sequence.</span>
+
+<span class="sd">        This method flattens a 3D array of chunked intervals into a 2D array, where the first dimension represents</span>
+<span class="sd">        the total timesteps and the second dimension represents interval features. It is useful for reassembling</span>
+<span class="sd">        interval data that was previously divided into chunks.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        chunked_intervals : ndarray</span>
+<span class="sd">            A 3D array of chunked intervals, with shape (num_chunks, chunk_size, interval.feature_dimensions).</span>
+<span class="sd">            Each chunk represents a portion of the interval sequence.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ndarray</span>
+<span class="sd">            A 2D array of merged intervals, with shape (num_timesteps, interval.feature_dimensions). Represents the</span>
+<span class="sd">            entire sequence of intervals as a single continuous array.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">chunked_intervals</span><span class="p">,</span> <span class="p">(</span> <span class="n">chunked_intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">chunked_intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">chunked_intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="p">)</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+            <span class="n">chunked_intervals</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="n">chunked_intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">chunked_intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">chunked_intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span></div>
 
-<div class="viewcode-block" id="embedder.get_RLE_from_intervals"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_RLE_from_intervals">[docs]</a>    <span class="k">def</span> <span class="nf">get_RLE_from_intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compresses sequence of intervals using Run-Length Encoding.</span>
-<span class="sd">        </span>
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - Works on `self.intervals`.</span>
-<span class="sd">        - Updates `self.intervals` if `intervals` argument is passed.</span>
+
+<div class="viewcode-block" id="embedder.get_RLE_from_intervals">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_RLE_from_intervals">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_RLE_from_intervals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intervals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compresses a sequence of intervals using Run-Length Encoding (RLE).</span>
+
+<span class="sd">        This method takes a sequence of intervals and compresses it using RLE, which is useful</span>
+<span class="sd">        for reducing the size of repetitive data. The output is an array where each row represents</span>
+<span class="sd">        a compressed sequence of intervals, and the last column in each row indicates the number</span>
+<span class="sd">        of repetitions.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional</span>
-<span class="sd">            If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.</span>
+<span class="sd">        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions) | None, optional</span>
+<span class="sd">            The sequence of intervals to be compressed. If None, uses self.intervals.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ndarray, dtype=int32, shape=(?, interval.feature_dimensions + 1)</span>
-<span class="sd">            First dimension is compressed timesteps. The last element in the second dimension indicates number of repeatitions for the rest of the elements in the second dimension.</span>
+<span class="sd">            The RLE compressed intervals. Each row contains the compressed interval data with</span>
+<span class="sd">            the last element indicating the count of repetitions.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If both intervals argument and self.intervals are None.</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            If intervals.shape[1] != interval.feature_dimensions (if intervals is None,</span>
+<span class="sd">            then self.intervals.shape[1] is checked).</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">intervals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">=</span><span class="n">intervals</span>
-        
-        <span class="n">RLE</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-        
-        <span class="n">RLE</span><span class="p">[</span><span class="mi">0</span><span class="p">,:</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">RLE</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
-        <span class="n">index</span><span class="o">=</span><span class="mi">0</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
-                <span class="n">RLE</span><span class="p">[</span><span class="n">index</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="n">intervals</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_none_error_message</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">interval</span><span class="p">()</span><span class="o">.</span><span class="n">feature_dimensions</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_incompatible_dimension_error_message</span><span class="p">(</span><span class="s2">&quot;intervals&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">RLE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span>
+        <span class="p">)</span>
+
+        <span class="n">RLE</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">RLE</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]):</span>
+                <span class="n">RLE</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">index</span><span class="o">+=</span><span class="mi">1</span>
-                <span class="n">RLE</span><span class="p">[</span><span class="n">index</span><span class="p">,:</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="n">RLE</span><span class="p">[</span><span class="n">index</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
-                
-        <span class="k">return</span> <span class="n">RLE</span><span class="p">[:</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,:]</span></div>
-    
-<div class="viewcode-block" id="embedder.get_intervals_from_RLE"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_intervals_from_RLE">[docs]</a>    <span class="k">def</span> <span class="nf">get_intervals_from_RLE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">RLE_data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Uncompresses Run-Length Encoded intervals data.</span>
-<span class="sd">        </span>
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - Updates `self.intervals`.</span>
+                <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">RLE</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">RLE</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">RLE</span><span class="p">[:</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="embedder.get_intervals_from_RLE">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_intervals_from_RLE">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_intervals_from_RLE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">RLE_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Uncompresses a Run-Length Encoded sequence of intervals.</span>
+
+<span class="sd">        This method takes a Run-Length Encoded (RLE) array representing a sequence of intervals and</span>
+<span class="sd">        decompresses it to obtain the original sequence of intervals.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        RLE_data : ndarray, dtype=int32, shape=(?, interval.feature_dimensions + 1)</span>
-<span class="sd">            First dimension is compressed timesteps. The last element in the second dimension indicates number of repeatitions for the rest of the elements in the second dimension.</span>
+<span class="sd">            Compressed intervals using Run-Length Encoding. The last element in each row indicates</span>
+<span class="sd">            the number of repetitions for the interval.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ndarray, dtype=int8, shape=(?, interval.feature_dimensions)</span>
-<span class="sd">            First dimension is timesteps and second dimension is interval features.</span>
+<span class="sd">            Decompressed sequence of intervals. The first dimension represents timesteps, and the</span>
+<span class="sd">            second dimension corresponds to interval features.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">RLE_data</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span> <span class="p">)</span>
-        <span class="n">index</span><span class="o">=</span><span class="mi">0</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">RLE_data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">RLE_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="n">replacement</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">RLE_data</span><span class="p">[</span><span class="n">i</span><span class="p">,:</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span><span class="n">repeats</span><span class="o">=</span><span class="n">RLE_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>            
-            <span class="n">replacement</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">replacement</span><span class="p">,(</span><span class="n">RLE_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">index</span><span class="p">:</span><span class="n">index</span><span class="o">+</span><span class="n">RLE_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],:</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">=</span><span class="n">replacement</span>
-            <span class="n">index</span><span class="o">+=</span><span class="n">RLE_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">replacement</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
+                <span class="n">RLE_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">repeats</span><span class="o">=</span><span class="n">RLE_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">replacement</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+                <span class="n">replacement</span><span class="p">,</span> <span class="p">(</span><span class="n">RLE_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;F&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span>
+                <span class="n">index</span> <span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="n">RLE_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">]</span> <span class="o">=</span> <span class="n">replacement</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="n">RLE_data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span></div>
-    
-<div class="viewcode-block" id="embedder.get_RLE_from_intervals_bulk"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_RLE_from_intervals_bulk">[docs]</a>    <span class="k">def</span> <span class="nf">get_RLE_from_intervals_bulk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bulk_intervals</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Bulk version of :func:`get_RLE_from_intervals`.</span>
+
+
+<div class="viewcode-block" id="embedder.get_RLE_from_intervals_bulk">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_RLE_from_intervals_bulk">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_RLE_from_intervals_bulk</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">bulk_intervals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bulk compresses a sequence of intervals using Run-Length Encoding (RLE).</span>
+
+<span class="sd">        This method processes multiple sequences of intervals simultaneously, applying RLE compression to each</span>
+<span class="sd">        sequence in the bulk data. It is useful for handling large datasets where individual processing would be</span>
+<span class="sd">        inefficient.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        bulk_intervals : ndarray, dtype=int8, shape=(?, pixels_per_chunk, interval.feature_dimensions)</span>
-<span class="sd">            First dimension is chunks, second dimension is pixels in each chunk and, third dimension is interval features.</span>
+<span class="sd">        bulk_intervals : ndarray</span>
+<span class="sd">            An array containing multiple sequences of intervals, with shape (n_chunks, chunk_size,</span>
+<span class="sd">            interval.feature_dimensions). Each sequence (chunk) in the first dimension will be compressed using RLE.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        list</span>
-<span class="sd">            List of RLE_compressed data, see :func:`get_intervals_from_RLE`.</span>
+<span class="sd">        List[ndarray]</span>
+<span class="sd">            A list of RLE-compressed interval sequences, where each element in the list corresponds to the RLE</span>
+<span class="sd">            representation of a chunk in `bulk_intervals`. Each ndarray in the list has shape (?,</span>
+<span class="sd">            interval.feature_dimensions + 1), where the last dimension includes the run lengths.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        get_RLE_from_intervals : Compresses a single sequence of intervals using Run-Length Encoding.</span>
+<span class="sd">        get_intervals_from_RLE_bulk : Bulk decompresses Run-Length Encoded interval sequences.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        
-        <span class="n">RLE_bulk</span><span class="o">=</span><span class="p">[]</span>
-        
+
+        <span class="n">RLE_bulk</span> <span class="o">=</span> <span class="p">[]</span>
+
         <span class="k">for</span> <span class="n">intervals</span> <span class="ow">in</span> <span class="n">bulk_intervals</span><span class="p">:</span>
-            <span class="n">RLE_bulk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_RLE_from_intervals</span><span class="p">(</span><span class="n">intervals</span><span class="p">))</span>        
-                
+            <span class="n">RLE_bulk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_RLE_from_intervals</span><span class="p">(</span><span class="n">intervals</span><span class="p">))</span>
+
         <span class="k">return</span> <span class="n">RLE_bulk</span></div>
-    
-<div class="viewcode-block" id="embedder.get_intervals_from_RLE_bulk"><a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_intervals_from_RLE_bulk">[docs]</a>    <span class="k">def</span> <span class="nf">get_intervals_from_RLE_bulk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bulk_RLE_data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Bulk version of :func:`get_intervals_from_RLE`.</span>
-<span class="sd">        </span>
+
+
+<div class="viewcode-block" id="embedder.get_intervals_from_RLE_bulk">
+<a class="viewcode-back" href="../../embedder.html#music_embedding.embedder.embedder.get_intervals_from_RLE_bulk">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_intervals_from_RLE_bulk</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">bulk_RLE_data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bulk uncompresses a sequence of Run-Length Encoded intervals.</span>
+
+<span class="sd">        This method uncompresses multiple sequences of intervals that have been compressed using</span>
+<span class="sd">        Run-Length Encoding (RLE). It processes a list of RLE-compressed data and returns the</span>
+<span class="sd">        uncompressed intervals in bulk.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        bulk_RLE_data : List[np.ndarray]</span>
+<span class="sd">            A list of RLE-compressed data, where each element is an ndarray with the shape</span>
+<span class="sd">            (?, interval.feature_dimensions + 1). The last element in each row indicates the number</span>
+<span class="sd">            of repetitions for the rest of the elements in the row.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            An ndarray of uncompressed intervals. The shape of the output array is</span>
+<span class="sd">            (?, pixels_per_chunk, interval.feature_dimensions), where the first dimension represents</span>
+<span class="sd">            chunks, the second dimension represents pixels in each chunk, and the third dimension</span>
+<span class="sd">            represents interval features.</span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        - Infers output size from the first chunk.</span>
-<span class="sd">    </span>
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        bulk_RLE_data : list</span>
-<span class="sd">            List of RLE_compressed data, see self.get_intervals_from_RLE.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        ndarray, dtype=int8, shape=(?, pixels_per_chunk, interval.feature_dimensions)</span>
-<span class="sd">            First dimension is chunks, second dimension is pixels in each chunk and, third dimension is interval features.</span>
+<span class="sd">        The output size is inferred from the first chunk in the bulk RLE data.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">tmp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_intervals_from_RLE</span><span class="p">(</span><span class="n">bulk_RLE_data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>        <span class="c1">#just to identify the shape</span>
-        <span class="n">bulk_intervals</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">bulk_RLE_data</span><span class="p">),</span> <span class="n">tmp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-        
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bulk_RLE_data</span><span class="p">)):</span>
-            <span class="n">bulk_intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_intervals_from_RLE</span><span class="p">(</span><span class="n">bulk_RLE_data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-        
-        <span class="k">return</span> <span class="n">bulk_intervals</span></div></div>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_intervals_from_RLE</span><span class="p">(</span>
+            <span class="n">bulk_RLE_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>  <span class="c1"># just to identify the shape</span>
+        <span class="n">bulk_intervals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">bulk_RLE_data</span><span class="p">),</span> <span class="n">tmp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">RLE_data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bulk_RLE_data</span><span class="p">):</span>
+            <span class="n">bulk_intervals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_intervals_from_RLE</span><span class="p">(</span><span class="n">RLE_data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">bulk_intervals</span></div>
+</div>
+
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, SeyyedPooya HekmatiAthar.
-
-    </p>
+    <p>&#169; Copyright 2021-24, SeyyedPooya HekmatiAthar.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
