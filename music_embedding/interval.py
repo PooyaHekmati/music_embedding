@@ -423,22 +423,26 @@ class interval:
         """
         return [0] * interval().feature_dimensions
 
-    def get_name(self, semitones=None):
-        """Generates interval's name from inner representation.
-
-        Notes
-        -----
-        - Updates all `self parameters` if semitones is passed.
+    def get_name(self, semitones: int | None = None) -> str:
+        """
+        Generates the interval's name from its internal representation. If `semitones` is provided, the interval 
+        characteristics are updated accordingly before generating the name.
 
         Parameters
         ----------
-        semitones : int8, optional
-            If passed, is used to generate the name. The default is None.
+        semitones : int | None, default=None
+            If provided, the number of semitones is used to update the interval characteristics.
 
         Returns
         -------
-        output : string
-            Name of the interval.
+        str
+            The name of the interval, including its quality, ordinal number, and direction (ascending/descending).
+
+        Notes
+        -----
+        Returns "Silence" if the interval represents silence. The name includes the interval's quality (diminished, 
+        minor, perfect, major, augmented), its ordinal number (1st, 2nd, etc.), and its direction 
+        (ascending or descending) if applicable.
         """
         if semitones is not None:
             self.semitones = semitones
