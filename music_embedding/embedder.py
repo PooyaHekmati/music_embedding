@@ -64,31 +64,42 @@ class embedder:
             )
         raise ValueError("Unrecognized variable name")
 
-    def extract_highest_pitch_notes_from_pianoroll(self, preserve_pianoroll=True):
+    def extract_highest_pitch_notes_from_pianoroll(
+        self, preserve_pianoroll: bool = True
+    ) -> np.ndarray:
         """
-        Extracts highest pitch note at each timestep from pianoroll.
+        Extracts the highest pitch note at each timestep from the pianoroll attribute.
+
+        This method processes the `self.pianoroll` array to find the highest pitch note for each timestep.
+        It can operate in either a non-destructive mode, preserving the original pianoroll, or a faster,
+        destructive mode that alters the original data.
 
         **Example:** Given the pianoroll of an SATB choir, returns Soprano notes.
 
-        Notes
-        -----
-        - Works on `self.pianoroll`, fill it before calling this function.
-
         Parameters
         ----------
-        preserve_pianoroll : boolean
-            Determines if self.pianoroll needs to be preserved. Setting it to False slightly increases the performance.
+        preserve_pianoroll : bool, optional
+            Determines if `self.pianoroll` should be preserved.
+            Setting it to False increases performance by avoiding data copying. Default is True.
 
         Raises
-        --------
-        Type Error: if self.pianoroll is None.
-        Index Error: if self.pianoroll.shape[1] != 128
+        ------
+        TypeError
+            If `self.pianoroll` is None.
+        IndexError
+            If `self.pianoroll` does not have the second dimension size of 128.
 
         Returns
         -------
-        array, dtype=int64, shape=(?)
-            Contains the highest pitch note at each timestep. Indicates silence with 0.
+        ndarray, dtype=int64, shape=(?)
+            An array containing the highest pitch note at each timestep. Indicates silence with a value of 0.
+
+        Notes
+        -----
+        The method operates on `self.pianoroll` and requires it to be filled before calling.
+        The pianoroll format is expected to conform to MIDI standards with 128 pitches.
         """
+
         if self.pianoroll is None:
             raise TypeError("self.pianoroll is None.")
         if self.pianoroll.shape[1] != 128:
