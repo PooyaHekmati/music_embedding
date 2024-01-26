@@ -1,45 +1,53 @@
+from typing import Dict, List
 import numpy as np
 
 
-class interval(object):
-    """Implementation of interval concept in music theory.
+class interval:
+    """
+    A class representing musical intervals, offering functionality to handle
+    interval characteristics, conversions, and descriptions within music theory.
 
     Attributes
     ----------
-    interval_order: int
-        first to seventh
-    interval_type: int
-        -2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug
-    octave_offset : int8
-        octave offset of a compound interval, 0 if interval is not compund.
-    is_descending : boolean
-            true if interval is descending.
-    semitones: int
-        Number of semitones in the interval.
+    interval_order : int
+        The ordinal number of the interval, ranging from 1 (unison) to 7 (seventh).
+    interval_type : int
+        The quality of the interval, represented by integers:
+        -2 (diminished), -1 (minor), 0 (perfect), 1 (major), 2 (augmented).
+    octave_offset : int
+        The octave offset for compound intervals; 0 if the interval is within a single octave.
+    is_descending : int
+        Indicates the direction of the interval: 0 for ascending, 1 for descending.
+    semitones : int
+        The number of semitones in the interval.
+
+    Notes
+    -----
+    The class provides both numerical and one-hot-encoded methods for
+    representing interval characteristics, and it includes methods for
+    converting between semitone distances and interval qualities.
     """
 
     feature_dimensions = 4
 
     def __init__(
         self,
-        interval_order=1,
-        interval_type=0,
-        octave_offset=0,
-        is_descending=0,
-        semitones=0,
+        interval_order: int = 1,
+        interval_type: int = 0,
+        octave_offset: int = 0,
+        is_descending: int = 0,
+        semitones: int = 0,
     ):
-        self.interval_order = interval_order
-        self.interval_type = interval_type
-        self.octave_offset = octave_offset
-        self.is_descending = is_descending
-        self.semitones = semitones
+        self.interval_order: int = interval_order
+        self.interval_type: int = interval_type
+        self.octave_offset: int = octave_offset
+        self.is_descending: int = is_descending
+        self.semitones: int = semitones
 
-    def semitone2interval(self, semitones=None):
-        """Calculates the interval characterisics based on their semitone distance.
-
-        Notes
-        -----
-        - Updates `self.semitones` if semitones is passed.
+    def semitone2interval(self, semitones: int | None = None) -> Dict[str, int]:
+        """
+        Calculates the interval characteristics based on their semitone distance. If the 'semitones' argument
+        is provided, it updates the instance's 'semitones' attribute before calculating the interval.
 
         Semitone-interval Q-Table
             =========   ===============
@@ -62,14 +70,14 @@ class interval(object):
 
         Parameters
         ----------
-        semitones : int, optional
-            Number of semitones in the interval.
+        semitones : int | None, default=None
+            The number of semitones in the interval. If provided, updates the instance's 'semitones' attribute.
 
         Returns
         -------
-        dict, shape=(4)
-            {'interval_order', 'interval_type', 'octave_offset', 'is_descending'}
-
+        dict
+            A dictionary with the updated interval characteristics: 'interval_order', 'interval_type',
+            'octave_offset', and 'is_descending'.
         """
         if semitones is not None:
             self.semitones = semitones
@@ -128,31 +136,33 @@ class interval(object):
             "is_descending": self.is_descending,
         }
 
-    def interval2semitone(self, specs=None):
-        """Returns the distance between the two notes of the interval in semitones.
+    def interval2semitone(self, specs: List[int] | None = None) -> int:
+        """
+        Returns the distance between the two notes of the interval in semitones.
 
         Notes
         -----
-        - Updates intervals parameters if specs is passed.
-
-        Faulty interval representation handling:
-            - if interval is 1st, 4th, or 5th and interval type is set to m or M, calculates P interval.
-            - if interval is 2nd, 3rd, 6th, or 7th and interval type is set to P, calculates M interval.
-
+        - Updates interval parameters if `specs` is passed.
+        - Faulty interval representation handling:
+            * If the interval is 1st, 4th, or 5th and the interval type is set to minor (m) or Major (M),
+            calculates the perfect (P) interval.
+            * If the interval is 2nd, 3rd, 6th, or 7th and the interval type is set to perfect (P),
+            calculates the Major (M) interval.
 
         Parameters
         ----------
-        specs : array, dtype=int, shape=(4), optional
-            - interval_order=specs[0] (first to seventh)
-            - interval_type=specs[1] (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug )
-            - is_descending=specs[2]
-            - octave_offset=specs[3]
+        specs : List[int] | None, optional
+            A list containing the interval characteristics in the following order:
+            - interval_order (first to seventh)
+            - interval_type (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug)
+            - is_descending (0 for ascending, 1 for descending)
+            - octave_offset (octave offset of the interval, 0 if not compound)
+            If None, uses the current interval's properties.
 
         Returns
         -------
         int
-            Number of semitones in the interval
-
+            Number of semitones in the interval.
         """
 
         if specs is not None:
@@ -253,23 +263,27 @@ class interval(object):
 
         return int(self.semitones)
 
-    def is_silence(self):
-        """Determines if the interval represents silence.
+    def is_silence(self) -> bool:
+        """
+        Determines if the interval represents silence, based on its specifications.
+
+        Silence is represented by an interval with all attributes set to zero values.
 
         Returns
         -------
-        boolean
-            True if interval is silenmce, False otherwise.
-
+        bool
+            True if the interval represents silence, False otherwise.
         """
         return np.array_equal(self.get_specs_list(), interval.get_silence_specs_list())
 
-    def get_specs_list(self):
-        """Returns interval's characteristics.
+    def get_specs_list(self) -> List[int]:
+        """
+        Returns the interval's characteristics as a list of integers.
 
         Returns
         -------
-        list, dtype=int, shape=(4)
+        List[int]
+            A list containing the interval's characteristics in the following order:
             [interval_order, interval_type, is_descending, octave_offset]
 
         """
@@ -280,27 +294,30 @@ class interval(object):
             self.octave_offset,
         ]
 
-    def set_specs_list(self, specs):
-        """Sets interval's characteristics.
+    def set_specs_list(self, specs: List[int] | Dict[str, int] | None) -> None:
+        """
+        Sets the interval's characteristics from a list or dictionary.
 
         Parameters
         ----------
-        specs : array or dict, dtype=int, shape=(4)
-            - interval_order=specs[0] (first to seventh)
-            - interval_type=specs[1] (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug )
-            - is_descending=specs[2]
-            - octave_offset=specs[3]
+        specs : List[int] | Dict[str, int] | None
+            A list or dictionary containing the interval's characteristics, or None. The list or dictionary should
+            contain the following elements in order: interval_order (int), interval_type (int), is_descending (int),
+            and octave_offset (int).
 
         Raises
-        -------
-        Value Error: if interval_order > 7 or interval_order < 0
-        Value Error: if interval_type > 2 or interval_type < -2
-        Value Error: if is_descending < 0 or is_descending > 1
-        Value Error: if octave_offset < 0 or octave_offset > 9
+        ------
+        ValueError
+            If any of the provided values for interval_order, interval_type, is_descending, or octave_offset are out of
+            their valid ranges.
 
-        Returns
-        -------
-        None.
+        Notes
+        -----
+        The valid ranges for the attributes are as follows:
+        - interval_order: between 0 and 7 (inclusive)
+        - interval_type: between -2 and 2 (inclusive)
+        - is_descending: either 0 or 1
+        - octave_offset: between 0 and 9 (inclusive)
 
         """
         if isinstance(specs, dict):
@@ -328,13 +345,17 @@ class interval(object):
         self.is_descending = is_descending
         self.octave_offset = octave_offset
 
-    def get_one_hot_specs_list(self):
-        """Provides one-hot-encoding of the interval's order, type, and is decending. Octave offset is represented as an integer.
+    def get_one_hot_specs_list(self) -> Dict[str, List[int] | int | bool]:
+        """
+        Provides a one-hot encoding of the interval's order and type, and represents the descending status and
+        octave offset as an integer and boolean, respectively.
 
         Returns
         -------
-        dict, shape=(4)
-            interval order (one-hot), interval type(one hot), is decending (boolean), octave offset (integer)
+        Dict[str, List[int] | int, bool]]
+            A dictionary containing one-hot encoded representations of the interval order and type, the descending
+            status as a boolean, and the octave offset as an integer. Keys are 'interval_order', 'interval_type',
+            'is_descending', and 'octave_offset'.
         """
         interval_order = [0] * 7
         interval_type = [0] * 5
@@ -352,24 +373,28 @@ class interval(object):
         }
 
     def set_one_hot_specs_list(
-        self, interval_order, interval_type, is_descending, octave_offset
-    ):
-        """Sets interval's characteristics.
+        self,
+        interval_order: List[int],
+        interval_type: List[int],
+        is_descending: int,
+        octave_offset: int,
+    ) -> None:
+        """
+        Sets the interval's characteristics based on one-hot encoded representations and integer values.
 
         Parameters
         ----------
-        interval_order : array, dtype=int8, shape=(7)
-            One-hot encoding representation of interval's order: 1st to 7th
-        interval_type : array, dtype=int8, shape=(5)
-            One-hot encoding representation of interval's type: 0: dim,-1: min, 2: perfect, 3: Maj, 4: Aug
-        is_descending : boolean
-            true if interval is descending.
-        octave_offset : int8
-            octave offset of a compound interval, 0 if interval is not compund.
-
-        Returns
-        -------
-        None.
+        interval_order : List[int]
+            One-hot encoding representation of the interval's order: 1st to 7th. A list of 7 integers,
+            where exactly one element is 1, and the others are 0, indicating the order of the interval.
+        interval_type : List[int]
+            One-hot encoding representation of the interval's type: -2 (diminished) to 2 (augmented).
+            A list of 5 integers, where exactly one element is 1, and the others are 0, indicating the
+            type of the interval.
+        is_descending : int
+            Indicates the direction of the interval: 0 for ascending, 1 for descending.
+        octave_offset : int
+            The octave offset for compound intervals; 0 if the interval is within a single octave.
 
         """
         interval_order = (
@@ -383,33 +408,41 @@ class interval(object):
         )
 
     @staticmethod
-    def get_silence_specs_list():
-        """Representaion of a silence.
+    def get_silence_specs_list() -> List[int]:
+        """
+        Provides a representation of silence in the interval format.
+
+        Silence is represented as a list of zeros with a length equal to the number of feature dimensions
+        of the interval class.
 
         Returns
         -------
-        array, dtype=int8, shape=(interval.feature_dimensions)
-            All zeros.
+        List[int]
+            A list of integers representing silence, with all elements set to zero.
 
         """
         return [0] * interval().feature_dimensions
 
-    def get_name(self, semitones=None):
-        """Generates interval's name from inner representation.
-
-        Notes
-        -----
-        - Updates all `self parameters` if semitones is passed.
+    def get_name(self, semitones: int | None = None) -> str:
+        """
+        Generates the interval's name from its internal representation. If `semitones` is provided, the interval
+        characteristics are updated accordingly before generating the name.
 
         Parameters
         ----------
-        semitones : int8, optional
-            If passed, is used to generate the name. The default is None.
+        semitones : int | None, default=None
+            If provided, the number of semitones is used to update the interval characteristics.
 
         Returns
         -------
-        output : string
-            Name of the interval.
+        str
+            The name of the interval, including its quality, ordinal number, and direction (ascending/descending).
+
+        Notes
+        -----
+        Returns "Silence" if the interval represents silence. The name includes the interval's quality (diminished,
+        minor, perfect, major, augmented), its ordinal number (1st, 2nd, etc.), and its direction
+        (ascending or descending) if applicable.
         """
         if semitones is not None:
             self.semitones = semitones

@@ -7,7 +7,7 @@ def _get_long_description():
         return f.read()
 
 
-VERSION = "1.0.2"
+VERSION = "1.1.0"
 
 setup(
     name="music_embedding",
@@ -15,7 +15,7 @@ setup(
     version=VERSION,
     license="MIT",
     description="A package for representing music data based on music theory",
-    author="SeyyedPooya HekmatiAthar",
+    author="Pooya Hekmati",
     author_email="s.pooyahekmati.a@gmail.com",
     url="https://github.com/PooyaHekmati",
     long_description=_get_long_description(),
