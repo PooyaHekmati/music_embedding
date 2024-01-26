@@ -355,7 +355,6 @@ class embedder:
 
         silent_interval = interval.get_silence_specs_list()
 
-        # for i in range(len(notes)):
         for i, note in enumerate(notes):
             if note == 0:  # it is silence
                 self.intervals[i] = silent_interval
