@@ -275,12 +275,14 @@ class interval:
         """
         return np.array_equal(self.get_specs_list(), interval.get_silence_specs_list())
 
-    def get_specs_list(self):
-        """Returns interval's characteristics.
+    def get_specs_list(self) -> list[int]:
+        """
+        Returns the interval's characteristics as a list of integers.
 
         Returns
         -------
-        list, dtype=int, shape=(4)
+        list[int]
+            A list containing the interval's characteristics in the following order:
             [interval_order, interval_type, is_descending, octave_offset]
 
         """
