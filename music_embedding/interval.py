@@ -293,27 +293,30 @@ class interval:
             self.octave_offset,
         ]
 
-    def set_specs_list(self, specs):
-        """Sets interval's characteristics.
+    def set_specs_list(self, specs: list[int] | dict[str, int] | None) -> None:
+        """
+        Sets the interval's characteristics from a list or dictionary.
 
         Parameters
         ----------
-        specs : array or dict, dtype=int, shape=(4)
-            - interval_order=specs[0] (first to seventh)
-            - interval_type=specs[1] (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug )
-            - is_descending=specs[2]
-            - octave_offset=specs[3]
+        specs : list[int] | dict[str, int] | None
+            A list or dictionary containing the interval's characteristics, or None. The list or dictionary should
+            contain the following elements in order: interval_order (int), interval_type (int), is_descending (int),
+            and octave_offset (int).
 
         Raises
-        -------
-        Value Error: if interval_order > 7 or interval_order < 0
-        Value Error: if interval_type > 2 or interval_type < -2
-        Value Error: if is_descending < 0 or is_descending > 1
-        Value Error: if octave_offset < 0 or octave_offset > 9
+        ------
+        ValueError
+            If any of the provided values for interval_order, interval_type, is_descending, or octave_offset are out of
+            their valid ranges.
 
-        Returns
-        -------
-        None.
+        Notes
+        -----
+        The valid ranges for the attributes are as follows:
+        - interval_order: between 0 and 7 (inclusive)
+        - interval_type: between -2 and 2 (inclusive)
+        - is_descending: either 0 or 1
+        - octave_offset: between 0 and 9 (inclusive)
 
         """
         if isinstance(specs, dict):
