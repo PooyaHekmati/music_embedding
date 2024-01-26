@@ -14,6 +14,11 @@ class embedder:
     pianorolls, converting pianoroll data to melodic, harmonic, and barwise intervals, and vice versa. Additionally,
     it supports Run-Length Encoding (RLE) compression for intervals.
 
+    The constant `NOTES_IN_MIDI` is set to 128, reflecting the total number of MIDI notes in the standard MIDI range.
+    This constant is used throughout the class to standardize the size of the second dimension in pianoroll arrays,
+    ensuring they conform to MIDI standards. The pianoroll arrays are therefore structured with a shape of (?, 128),
+    where each column represents a possible MIDI note, allowing for a consistent representation of musical data.
+
     Attributes
     ----------
     pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional
