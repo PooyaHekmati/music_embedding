@@ -567,51 +567,45 @@ class embedder:
 
     def get_pianoroll_from_barwise_intervals(
         self,
-        intervals=None,
-        origin=None,
-        velocity=None,
-        leading_silence=0,
-        pixels_per_bar=None,
-    ):
-        """Creates pianoroll from sequence of barwise intervals.
+        intervals: np.ndarray | None = None,
+        origin: int | None = None,
+        velocity: int | None = None,
+        leading_silence: int = 0,
+        pixels_per_bar: int | None = None,
+    ) -> np.ndarray:
+        """
+        Creates a pianoroll from a sequence of barwise intervals.
 
-        Notes
-        -----
-        - Works on `self.intervals`.
-        - Updates `self.intervals` if intervals argument is passed.
-        - Updates `self.pianoroll`.
+        This method decodes barwise interval data into a pianoroll representation, considering each bar's
+        first note and the intervals following it. It supports specifying the origin note, velocity, leading
+        silence, and pixels per bar.
 
         Parameters
         ----------
-        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional
-            If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.
-
-        origin: int, optional
-            The reference note of the melody; when decoding the melody, this indicates the first note. The default is self.origin.
-
-        velocity : int, optional
-           When creating pianorolls this value is used for notes' velocities. The default is self.default_velocity.
-
-        leading_silence: int, optional
+        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), default=None
+            Sequence of barwise intervals. Uses `self.intervals` if None.
+        origin : int, default=None
+            Reference note for the melody (MIDI value). Uses `self.origin` if None.
+        velocity : int, default=None
+            Velocity for notes in the pianoroll. Uses `self.default_velocity` if None.
+        leading_silence : int, default=0
             Number of silent pixels at the beginning of the melody.
-
-        pixels_per_bar: int, optional
-            Number of pixels in each bar. Equals time signature's numarator multiplied by resolution per pixel. The default is self.pixels_per_bar.
+        pixels_per_bar : int, default=None
+            Number of pixels in each bar. Uses `self.pixels_per_bar` if None.
 
         Raises
-        --------
-        Type Error: if both intervals argument and self.intervals are None.
-        Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions]
-        Value Error: if leading_silence >= len(intervals) [if intervals=None then raises if leading_silence >= len(self.intervals)]
-        Value Error: if pixels_per_bar < 1. If pixels_per_bar is None then self.pixels_per_bar is substituted.
-        Index Error: if origin > 127 or origin < 0. If origin is None then self.origin is substituted.
-        Index Error: if velocity > 127 or velocity < 0. If velocity is None then self.default_velocity is substituted.
-        Index Error: if the sequence of the given intervals leads to to a note which is out of MIDI range (0-127).
+        ------
+        ValueError
+            If `pixels_per_bar` is less than 1 or `leading_silence` is greater than or equal to the
+            length of intervals.
+        IndexError
+            If `origin` or `velocity` is out of MIDI range (0-127), or if note calculations lead to
+            values outside this range.
 
         Returns
         -------
         ndarray, dtype=uint8, shape=(?, 128)
-            First dimension is timesteps and second dimension is fixed 128 per MIDI standard.
+            Pianoroll representation with each timestep and MIDI note.
 
         """
         if pixels_per_bar is None:
@@ -659,9 +653,8 @@ class embedder:
                 origin_is_unkown = True
 
             if origin_is_unkown:
-                curser.set_specs_list(
-                    self.intervals[i]
-                )  # this is the interval of the first note of the current bar with respect to the first note of the last bar
+                # this is first note's interval of the current bar with respect to the first note of the last bar
+                curser.set_specs_list(self.intervals[i])
                 if not curser.is_silence():  # skip silences
                     origin = (
                         last_known_origin + curser.interval2semitone()
