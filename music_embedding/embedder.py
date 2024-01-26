@@ -3,24 +3,35 @@ from .interval import interval
 
 
 class embedder:
-    """The embedding class for musical data. Provides functionallities to convert pianorolls into intervals and vice versa (embedding).
+    """
+    A class for embedding musical data, providing functionalities to convert between pianoroll representations
+    and interval-based representations.
+
+    This class handles various operations related to musical data manipulation, including extracting notes from
+    pianorolls, converting pianoroll data to melodic, harmonic, and barwise intervals, and vice versa. Additionally,
+    it supports Run-Length Encoding (RLE) compression for intervals.
 
     Attributes
     ----------
     pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional
-        First dimension is timesteps and second dimension is fixed 128 per MIDI standard. The default is None.
-
+        Pianoroll representation of musical data. The first dimension represents timesteps, and the second dimension
+        has a fixed size of 128, corresponding to MIDI standards.
     intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional
-        First dimension is timesteps and second dimension is interval features. The default is None.
-
+        Interval representation of musical data. The first dimension represents timesteps, and the second dimension
+        corresponds to interval features.
     default_velocity : int
-        When creating pianorolls this value is used for notes' velocities. The default is 100.
-
+        Default velocity used for notes in pianoroll representation. Defaults to 100.
     origin : int
-        The reference note of a melody; when decoding a melody, this indicates the first note. The default is 60.
-
+        Reference note for melody, used as the starting note when decoding a melody. Defaults to 60 (Middle C in MIDI)
     pixels_per_bar : int
-        Number of pixels in each bar. Equals time signature's numarator multiplied by resolution per pixel. The default is 96.
+        Number of pixels representing each bar in a pianoroll, calculated as the time signature's numerator multiplied
+        by the resolution per pixel. Defaults to 96.
+
+
+    See Also
+    --------
+    interval : Class used for interval-related calculations.
+
     """
 
     def __init__(
