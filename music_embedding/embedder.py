@@ -887,22 +887,34 @@ class embedder:
 
         return RLE_bulk
 
-    def get_intervals_from_RLE_bulk(self, bulk_RLE_data):
-        """Bulk version of :func:`get_intervals_from_RLE`.
+    def get_intervals_from_RLE_bulk(
+        self, bulk_RLE_data: List[np.ndarray]
+    ) -> np.ndarray:
+        """
+        Bulk uncompresses a sequence of Run-Length Encoded intervals.
 
-        Notes
-        -----
-        - Infers output size from the first chunk.
+        This method uncompresses multiple sequences of intervals that have been compressed using
+        Run-Length Encoding (RLE). It processes a list of RLE-compressed data and returns the
+        uncompressed intervals in bulk.
 
         Parameters
         ----------
-        bulk_RLE_data : list
-            List of RLE_compressed data, see self.get_intervals_from_RLE.
+        bulk_RLE_data : List[np.ndarray]
+            A list of RLE-compressed data, where each element is an ndarray with the shape
+            (?, interval.feature_dimensions + 1). The last element in each row indicates the number
+            of repetitions for the rest of the elements in the row.
 
         Returns
         -------
-        ndarray, dtype=int8, shape=(?, pixels_per_chunk, interval.feature_dimensions)
-            First dimension is chunks, second dimension is pixels in each chunk and, third dimension is interval features.
+        np.ndarray
+            An ndarray of uncompressed intervals. The shape of the output array is
+            (?, pixels_per_chunk, interval.feature_dimensions), where the first dimension represents
+            chunks, the second dimension represents pixels in each chunk, and the third dimension
+            represents interval features.
+
+        Notes
+        -----
+        The output size is inferred from the first chunk in the bulk RLE data.
 
         """
         tmp = self.get_intervals_from_RLE(
@@ -910,7 +922,6 @@ class embedder:
         )  # just to identify the shape
         bulk_intervals = np.zeros((len(bulk_RLE_data), tmp.shape[0], tmp.shape[1]))
 
-        # for i in range(len(bulk_RLE_data)):
         for i, RLE_data in enumerate(bulk_RLE_data):
             bulk_intervals[i] = self.get_intervals_from_RLE(RLE_data)
 
