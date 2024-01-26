@@ -7,7 +7,7 @@ def _get_long_description():
         return f.read()
 
 
-VERSION = "1.1.0"
+VERSION = "1.1.2"
 
 setup(
     name="music_embedding",
