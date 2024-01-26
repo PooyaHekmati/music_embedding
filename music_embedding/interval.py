@@ -373,26 +373,30 @@ class interval:
         }
 
     def set_one_hot_specs_list(
-        self, interval_order, interval_type, is_descending, octave_offset
-    ):
-        """Sets interval's characteristics.
+        self, 
+        interval_order: List[int], 
+        interval_type: List[int], 
+        is_descending: int, 
+        octave_offset: int
+    ) -> None:
+        """
+        Sets the interval's characteristics based on one-hot encoded representations and integer values.
 
         Parameters
         ----------
-        interval_order : array, dtype=int8, shape=(7)
-            One-hot encoding representation of interval's order: 1st to 7th
-        interval_type : array, dtype=int8, shape=(5)
-            One-hot encoding representation of interval's type: 0: dim,-1: min, 2: perfect, 3: Maj, 4: Aug
-        is_descending : boolean
-            true if interval is descending.
-        octave_offset : int8
-            octave offset of a compound interval, 0 if interval is not compund.
+        interval_order : List[int]
+            One-hot encoding representation of the interval's order: 1st to 7th. A list of 7 integers,
+            where exactly one element is 1, and the others are 0, indicating the order of the interval.
+        interval_type : List[int]
+            One-hot encoding representation of the interval's type: -2 (diminished) to 2 (augmented).
+            A list of 5 integers, where exactly one element is 1, and the others are 0, indicating the
+            type of the interval.
+        is_descending : int
+            Indicates the direction of the interval: 0 for ascending, 1 for descending.
+        octave_offset : int
+            The octave offset for compound intervals; 0 if the interval is within a single octave.
 
-        Returns
-        -------
-        None.
-
-        """
+    """
         interval_order = (
             np.argmax(interval_order) + 1
         )  # 1 is added to get the index; index starts at 0 while order starts at 1
