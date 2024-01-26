@@ -10,22 +10,22 @@ Music Embedding
 ![Code Size](https://img.shields.io/github/languages/code-size/pooyahekmati/music_embedding)
 [![Code Quality](https://img.shields.io/codefactor/grade/github/pooyahekmati/music_embedding)](https://www.codefactor.io/repository/github/pooyahekmati/music_embedding/overview/main)
 
-By SeyyedPooya HekmatiAthar 2021
+By Pooya Hekmati 2021-23
 
 Music Embedding is an open source python package for representing music data based on music theory. It provides tools to convert melodic and harmonic sequences to and from pianorolls.
 
 Features
 --------
 
-- Representation for music intervals
-- Create sequence of (harmonic or melodic) intervals from pianoroll presentation
+- Representation of music intervals
+- Create a sequence of (harmonic or melodic) intervals from pianoroll presentation
 - Create pianoroll from a sequence of (harmonic or melodic) intervals
 - Break the sequence of intervals into smaller pieces e.g. bars
 - Compress the sequence of intervals using Run Length Encoding (RLE)
 
 Why Music Embedding
 -------------------
-Embedding is an underexplored area in the intersection of AI and music. While many works try to apply NLP-based embedding and automatic embedding (such as convolution), representing music data based on music theory is important. Music Embedding package aims to make employment of music theory easy to enhance the computationals music projects' results. Some potential usecases are:
+Embedding is an underexplored area in the intersection of AI and music. While many works try to apply NLP-based embedding and automatic embedding (such as convolution), representing music data based on music theory is important. Music Embedding package aims to make employment of music theory easy to enhance the computationals music projects' results. Some potential use cases are:
 - Statistical and probabilistic analysis of music pieces,
 - Developing generative models to have AI-synthesized music,
 - Genre classification,
@@ -37,14 +37,14 @@ Embedding is an underexplored area in the intersection of AI and music. While ma
 Installation
 ------------
 
-Music Embedding's only prerequisit is the Numpy package. Music Embedding is developed and tested in interaction with [Pypianoroll](https://github.com/salu133445/pypianoroll); yet, any other code which can handle pianorolls should work just fine.
+Music Embedding's only prerequisite is the Numpy package. Music Embedding is developed and tested in interaction with [Pypianoroll](https://github.com/salu133445/pypianoroll); yet, any other code which can handle pianorolls should work just fine.
 
 To install Music Embedding, please run `pip install music_embedding`. To build Music Embedding from source, please download the [source](https://github.com/PooyaHekmati/music_embedding/releases) and run `python setup.py install`.
 
 Semantic Versioning Policy
 --------------------------
 
-Music Embedding uses x.y.z format to indicate the version where x is major versin number, y is minor version number, and z is the patch number.
+Music Embedding uses the x.y.z format to indicate the version where x is the major version number, y is the minor version number, and z is the patch number.
 
 Documentation
 -------------
