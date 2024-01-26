@@ -301,35 +301,36 @@ class embedder:
 
         return self.pianoroll
 
-    def get_harmonic_intervals_from_pianoroll(self, ref_pianoroll, pianoroll=None):
-        """Creates sequence of harmonic intervals from pianoroll.
+    def get_harmonic_intervals_from_pianoroll(
+        self, ref_pianoroll: np.ndarray, pianoroll: np.ndarray | None = None
+    ) -> np.ndarray:
+        """
+        Creates a sequence of harmonic intervals from the pianoroll relative to a reference pianoroll.
 
-        Calculates the harmonic intervals of the highest pitch notes in self.pianoroll with respect to ref_pianoroll.
-
-        Notes
-        -----
-        - Works on `self.pianoroll`.
-        - Updates `self.pianoroll` if pianoroll argument is passed.
-        - Updates `self.intervals`.
+        This method computes harmonic intervals of the highest pitch notes in `self.pianoroll` with
+        respect to `ref_pianoroll`. It updates `self.pianoroll` if `pianoroll` argument is passed
+        and also updates `self.intervals`.
 
         Parameters
         ----------
-        pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional
-            If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.
-
         ref_pianoroll : ndarray, dtype=uint8, shape=(?, 128)
-            Harmonic intervals are calculated with reference to this pianoroll.
-
-        Raises
-        --------
-        Type Error: if both pianoroll argument and self.pianoroll are None.
-        Index Error: if pianoroll.shape[1] != 128 [if pianoroll=None then raises if self.pianoroll.shape[1] != 128]
-        Index Error: if ref_pianoroll.shape[1] != 128
+            Reference pianoroll to which harmonic intervals are calculated.
+        pianoroll : ndarray, dtype=uint8, shape=(?, 128) | None, default=None
+            Pianoroll for which to calculate harmonic intervals. If None, uses `self.pianoroll`.
 
         Returns
         -------
         ndarray, dtype=int8, shape=(?, interval.feature_dimensions)
-            First dimension is timesteps and second dimension is interval features.
+            Array of harmonic intervals. First dimension represents timesteps, and the second
+            dimension corresponds to interval features.
+
+        Raises
+        ------
+        TypeError
+            If both `pianoroll` argument and `self.pianoroll` are None.
+        IndexError
+            If `pianoroll.shape[1]` is not 128 or if `ref_pianoroll.shape[1]` is not 128.
+
         """
         if pianoroll is not None:
             self.pianoroll = pianoroll
