@@ -1,3 +1,4 @@
+from typing import List
 import numpy as np
 from .interval import interval
 
@@ -849,18 +850,33 @@ class embedder:
             index += RLE_data[i, -1]
         return self.intervals
 
-    def get_RLE_from_intervals_bulk(self, bulk_intervals):
-        """Bulk version of :func:`get_RLE_from_intervals`.
+    def get_RLE_from_intervals_bulk(
+        self, bulk_intervals: np.ndarray
+    ) -> List[np.ndarray]:
+        """
+        Bulk compresses a sequence of intervals using Run-Length Encoding (RLE).
+
+        This method processes multiple sequences of intervals simultaneously, applying RLE compression to each
+        sequence in the bulk data. It is useful for handling large datasets where individual processing would be
+        inefficient.
 
         Parameters
         ----------
-        bulk_intervals : ndarray, dtype=int8, shape=(?, pixels_per_chunk, interval.feature_dimensions)
-            First dimension is chunks, second dimension is pixels in each chunk and, third dimension is interval features.
+        bulk_intervals : ndarray
+            An array containing multiple sequences of intervals, with shape (n_chunks, chunk_size,
+            interval.feature_dimensions). Each sequence (chunk) in the first dimension will be compressed using RLE.
 
         Returns
         -------
-        list
-            List of RLE_compressed data, see :func:`get_intervals_from_RLE`.
+        List[ndarray]
+            A list of RLE-compressed interval sequences, where each element in the list corresponds to the RLE
+            representation of a chunk in `bulk_intervals`. Each ndarray in the list has shape (?,
+            interval.feature_dimensions + 1), where the last dimension includes the run lengths.
+
+        See Also
+        --------
+        get_RLE_from_intervals : Compresses a single sequence of intervals using Run-Length Encoding.
+        get_intervals_from_RLE_bulk : Bulk decompresses Run-Length Encoded interval sequences.
 
         """
 
