@@ -5,16 +5,19 @@ import numpy as np
 
 #TODO implement a function that checks the variables for any problems.
 def test__get_none_error_message():
-    assert embedder()._get_none_error_message("test") == "Both test argument and self.test are None."
+    emb = embedder()
+    assert emb._get_none_error_message("test") == "Both test argument and self.test are None."
 
 def test__get_range_error_message():
-    assert embedder()._get_range_error_message() == "Attempted to assign an out of range value. MIDI accepts values in the range 0-127."
+    emb = embedder()
+    assert emb._get_range_error_message() == "Attempted to assign an out of range value. MIDI accepts values in the range 0-127."
 
 def test__get_incompatible_dimension_error_message():
-    assert embedder()._get_incompatible_dimension_error_message("pianoroll") == "Wrong pianoroll shape, second dimension must be 128."
-    assert embedder()._get_incompatible_dimension_error_message("intervals") == f"Wrong intervals shape, second dimension must be interval.feature_dimensions ({interval().feature_dimensions})."
+    emb = embedder()
+    assert emb._get_incompatible_dimension_error_message("pianoroll") == "Wrong pianoroll shape, second dimension must be 128."
+    assert emb._get_incompatible_dimension_error_message("intervals") == f"Wrong intervals shape, second dimension must be interval.feature_dimensions ({interval().feature_dimensions})."
     with pytest.raises(ValueError):
-        embedder._get_incompatible_dimension_error_message("invalid_input")
+        emb._get_incompatible_dimension_error_message("invalid_input")
         
 def test_invalid_argument_handling(): 
     #extract_highest_pitch_notes_from_pianoroll
