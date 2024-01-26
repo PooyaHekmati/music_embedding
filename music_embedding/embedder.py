@@ -48,17 +48,20 @@ class embedder:
         self.origin = origin
         self.pixels_per_bar = pixels_per_bar
 
-    def _get_none_error_message(self, var_name):
+    def _get_none_error_message(self, var_name: str) -> str:
         return f"Both {var_name} argument and self.{var_name} are None."
 
-    def _get_range_error_message(self):
+    def _get_range_error_message(self) -> str:
         return "Attempted to assign an out of range value. MIDI accepts values in the range 0-127."
 
-    def _get_incompatible_dimension_error_message(self, variable_name):
+    def _get_incompatible_dimension_error_message(self, variable_name: str) -> str:
         if variable_name == "pianoroll":
             return "Wrong pianoroll shape, second dimension must be 128."
         if variable_name == "intervals":
-            return f"Wrong intervals shape, second dimension must be interval.feature_dimensions ({interval().feature_dimensions})."
+            return (
+                "Wrong intervals shape, second dimension must be interval.feature_dimensions "
+                f"({interval().feature_dimensions})."
+            )
         raise ValueError("Unrecognized variable name")
 
     def extract_highest_pitch_notes_from_pianoroll(self, preserve_pianoroll=True):
