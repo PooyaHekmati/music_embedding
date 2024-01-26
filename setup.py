@@ -3,7 +3,8 @@ from pathlib import Path
 
 
 def _get_long_description():
-    with open(str(Path(__file__).parent / "doc" / "source" / "index.rst"), "r") as f:
+    readme_path = Path(__file__).parent / "README.md"
+    with open(readme_path, "r", encoding="utf-8") as f:
         return f.read()
 
 
