@@ -203,45 +203,49 @@ class embedder:
         return self.intervals
 
     def get_pianoroll_from_melodic_intervals(
-        self, intervals=None, origin=None, velocity=None, leading_silence=0
-    ):
-        """Creates pianoroll from sequence of melodic intervals.
+        self,
+        intervals: np.ndarray | None = None,
+        origin: int | None = None,
+        velocity: int | None = None,
+        leading_silence: int = 0,
+    ) -> np.ndarray:
+        """
+        Creates a pianoroll from a sequence of melodic intervals.
 
-        Notes
-        -----
-        - Works on `self.intervals`
-        - Updates `self.intervals` if intervals argument is passed.
-        - Updates `self.pianoroll`.
+        This method generates a pianoroll representation of a melody based on the provided sequence of melodic
+        intervals. The origin note is used as the starting point for the melody, and the specified velocity is
+        applied to the notes.
 
         Parameters
         ----------
         intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional
-            If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.
-
-        origin: int, optional
-            The reference note of the melody; when decoding the melody, this indicates the first note. The default is self.origin.
-
+            Sequence of melodic intervals. If None, the method uses self.intervals.
+            Each row represents interval features for a timestep.
+        origin : int, optional
+            The reference note of the melody; used as the starting note for decoding the melody.
+            Defaults to self.origin if None.
         velocity : int, optional
-           When creating pianorolls this value is used for notes' velocities. The default is self.default_velocity.
-
-        leading_silence: int, optional
-            Number of silent pixels at the beginning of the melody. Must be less than number of intervals.
+            Velocity used for notes in the pianoroll. Defaults to self.default_velocity if None.
+        leading_silence : int, optional
+            Number of silent pixels at the beginning of the melody. Defaults to 0.
 
         Raises
-        --------
-        Type Error: if both intervals argument and self.intervals are None.
-        Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions]
-        Value Error: if leading_silence >= len(intervals) [if intervals=None then raises if leading_silence >= len(self.intervals)]
-        Index Error: if origin > 127 or origin < 0. If origin is None then self.origin is substituted.
-        Index Error: if velocity > 127 or velocity < 0. If velocity is None then self.default_velocity is substituted.
-        Index Error: if the sequence of the given intervals leads to to a note which is out of MIDI range (0-127).
+        ------
+        TypeError
+            If both intervals argument and self.intervals are None.
+        IndexError
+            If intervals.shape[1] != interval.feature_dimensions or if the sequence of given intervals leads to a
+            note outside the MIDI range (0-127).
+        ValueError
+            If leading_silence is greater than or equal to the number of intervals.
 
         Returns
         -------
         ndarray, dtype=uint8, shape=(?, 128)
-            First dimension is timesteps and second dimension is fixed 128 per MIDI standard.
-
+            Pianoroll representation of the melody. The first dimension represents timesteps, and the second dimension
+            is fixed to 128, corresponding to MIDI standards.
         """
+
         if intervals is not None:
             self.intervals = intervals
         else:
