@@ -37,16 +37,13 @@ class embedder:
         self.origin = origin
         self.pixels_per_bar = pixels_per_bar
 
-    @staticmethod
-    def _get_none_error_message(var_name):
+    def _get_none_error_message(self, var_name):
         return f"Both {var_name} argument and self.{var_name} are None."
 
-    @staticmethod
-    def _get_range_error_message():
+    def _get_range_error_message(self):
         return "Attempted to assign an out of range value. MIDI accepts values in the range 0-127."
 
-    @staticmethod
-    def _get_incompatible_dimension_error_message(variable_name):
+    def _get_incompatible_dimension_error_message(self, variable_name):
         if variable_name == "pianoroll":
             return "Wrong pianoroll shape, second dimension must be 128."
         if variable_name == "intervals":
