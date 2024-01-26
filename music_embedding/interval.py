@@ -136,7 +136,7 @@ class interval:
             "is_descending": self.is_descending,
         }
 
-    def interval2semitone(self, specs: Listint] | None = None) -> int:
+    def interval2semitone(self, specs: List[int] | None = None) -> int:
         """
         Returns the distance between the two notes of the interval in semitones.
 
@@ -373,11 +373,11 @@ class interval:
         }
 
     def set_one_hot_specs_list(
-        self, 
-        interval_order: List[int], 
-        interval_type: List[int], 
-        is_descending: int, 
-        octave_offset: int
+        self,
+        interval_order: List[int],
+        interval_type: List[int],
+        is_descending: int,
+        octave_offset: int,
     ) -> None:
         """
         Sets the interval's characteristics based on one-hot encoded representations and integer values.
@@ -396,7 +396,7 @@ class interval:
         octave_offset : int
             The octave offset for compound intervals; 0 if the interval is within a single octave.
 
-    """
+        """
         interval_order = (
             np.argmax(interval_order) + 1
         )  # 1 is added to get the index; index starts at 0 while order starts at 1
@@ -410,7 +410,7 @@ class interval:
     @staticmethod
     def get_silence_specs_list() -> List[int]:
         """
-        Provides a representation of silence in the interval format. 
+        Provides a representation of silence in the interval format.
 
         Silence is represented as a list of zeros with a length equal to the number of feature dimensions
         of the interval class.
@@ -425,7 +425,7 @@ class interval:
 
     def get_name(self, semitones: int | None = None) -> str:
         """
-        Generates the interval's name from its internal representation. If `semitones` is provided, the interval 
+        Generates the interval's name from its internal representation. If `semitones` is provided, the interval
         characteristics are updated accordingly before generating the name.
 
         Parameters
@@ -440,8 +440,8 @@ class interval:
 
         Notes
         -----
-        Returns "Silence" if the interval represents silence. The name includes the interval's quality (diminished, 
-        minor, perfect, major, augmented), its ordinal number (1st, 2nd, etc.), and its direction 
+        Returns "Silence" if the interval represents silence. The name includes the interval's quality (diminished,
+        minor, perfect, major, augmented), its ordinal number (1st, 2nd, etc.), and its direction
         (ascending or descending) if applicable.
         """
         if semitones is not None:
