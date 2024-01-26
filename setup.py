@@ -20,7 +20,7 @@ setup(
     author_email="s.pooyahekmati.a@gmail.com",
     url="https://github.com/PooyaHekmati",
     long_description=_get_long_description(),
-    # long_description_content_type="text/markdown",
+    long_description_content_type="text/markdown",
     download_url=f"https://github.com/PooyaHekmati/music_embedding/archive/v{VERSION}.tar.gz",
     project_urls={"Documentation": "https://pooyahekmati.github.io/music_embedding/"},
     keywords=[
