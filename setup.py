@@ -7,16 +7,7 @@ def _get_long_description():
         return f.read()
 
 
-def _get_version():
-    with open(str(Path(__file__).parent / "music_embedding/version.py"), "r") as f:
-        for line in f:
-            if line.startswith("__version__"):
-                delimeter = '"' if '"' in line else "'"
-                return line.split(delimeter)[1]
-    raise RuntimeError("Cannot read version string.")
-
-
-VERSION = _get_version()
+VERSION = "1.0.2"
 
 setup(
     name="music_embedding",
