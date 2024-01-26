@@ -126,38 +126,43 @@ class embedder:
             1, 129, dtype=np.uint32
         )  # 128 is the number of notes in MIDI, arange's stop is exclusive so it has to be 129
         for i in range(pianoroll.shape[0]):
-            pianoroll[
-                i, :
-            ] *= coef  # coef is a constantly growing series. Its multiplication is needed to ensure the note with the highest pitch is selected in a chord.
+            pianoroll[i, :] *= coef
+            # coef is a constantly growing series. Its multiplication is needed to ensure the note with
+            # the highest pitch is selected in a chord.
 
         return np.argmax(pianoroll, axis=1)
 
-    def get_melodic_intervals_from_pianoroll(self, pianoroll=None):
-        """Creates sequence of melodic intervals from pianoroll.
+    def get_melodic_intervals_from_pianoroll(
+        self, pianoroll: np.ndarray | None = None
+    ) -> np.ndarray:
+        """
+        Creates a sequence of melodic intervals from a pianoroll.
+
+        This method calculates the melodic intervals of the highest pitch notes in the pianoroll.
+        If a pianoroll is provided as an argument, it updates `self.pianoroll` with this new data.
+        The resulting intervals are stored in `self.intervals`.
 
         **Example:** Given the pianoroll of an SATB choir, returns melodic intervals of Soprano.
-
-        Notes
-        -----
-        - Works on highest pitch notes in `self.pianoroll`
-        - Updates `self.pianoroll` if pianoroll argument is passed.
-        - Updates `self.intervals`.
 
         Parameters
         ----------
         pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional
-            If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.
-
-        Raises
-        --------
-        Type Error: if both pianoroll argument and self.pianoroll are None.
-        Index Error: if pianoroll.shape[1] != 128 [if pianoroll=None then raises if self.pianoroll.shape[1] != 128]
+            Pianoroll to be processed. If not provided, the method uses `self.pianoroll`. The first dimension represents
+            timesteps, and the second dimension is fixed to 128, corresponding to MIDI standards.
 
         Returns
         -------
         ndarray, dtype=int8, shape=(?, interval.feature_dimensions)
-            First dimension is timesteps and second dimension is interval features.
+            Array of melodic intervals. The first dimension represents timesteps, and the second dimension corresponds
+            to interval features.
 
+        Raises
+        ------
+        TypeError
+            If both the pianoroll argument and `self.pianoroll` are None.
+        IndexError
+            If the provided pianoroll (or `self.pianoroll` if pianoroll is None) does not have a second dimension of
+            size 128.
         """
         if pianoroll is not None:
             self.pianoroll = pianoroll
@@ -184,9 +189,9 @@ class embedder:
         if (
             notes[0] == 0
         ):  # if the first pixel is silence there is no interval to calculate
-            self.intervals[
-                1
-            ] = silent_interval  # The first melodic interval is always zeros. This is becuase melody is calcualted with respect to the previous note.
+            self.intervals[1] = silent_interval
+            # The first melodic interval is always zeros. This is becuase melody is calcualted with
+            # respect to the previous note.
         for i in range(1, len(notes)):
             if notes[i] == 0:  # it is silence and there is no interval to calculate
                 self.intervals[i] = silent_interval
