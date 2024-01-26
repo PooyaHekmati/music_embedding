@@ -372,46 +372,46 @@ class embedder:
         return self.intervals
 
     def get_pianoroll_from_harmonic_intervals(
-        self, pianoroll=None, intervals=None, velocity=None
-    ):
-        """Creates pianoroll from sequence of harmonic intervals.
+        self,
+        pianoroll: np.ndarray | None = None,
+        intervals: np.ndarray | None = None,
+        velocity: int | None = None,
+    ) -> np.ndarray:
+        """
+        Creates a pianoroll from a sequence of harmonic intervals.
 
-        Extracts highest pitch notes from pianoroll first, then builds a new pianoroll based on the extracted notes and self.intervals(harmonic).
+        This method builds a new pianoroll based on the highest pitch notes extracted from the provided or
+        class's pianoroll and the harmonic intervals stored in the class's intervals.
 
-        **Example:** Given ATB choir pianoroll and Soprano's harmonic intervals with respect to Alto, returns Soprano's pianoroll.
-
-        Notes
-        -----
-        - Works on `self.intervals`.
-        - Updates `self.intervals` if intervals argument is passed.
-        - Updates `self.pianoroll`.
+        **Example:** Given ATB choir pianoroll and Soprano's harmonic intervals with respect to Alto,
+        returns Soprano's pianoroll.
 
         Parameters
         ----------
-        pianoroll : ndarray, dtype=uint8, shape=(?, 128), optional
-            If None, the function expects self.pianoroll to have value; else, it overwrites self.pianoroll. First dimension is timesteps and second dimension is fixed 128 per MIDI standard.
-
-        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional
-            If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.
-
-        velocity : int, optional
-           When creating pianorolls this value is used for notes' velocities. The default is self.default_velocity.
+        pianoroll : ndarray, dtype=uint8, shape=(?, 128) | None, optional
+            Pianoroll representation of musical data to be used. If None, the method uses self.pianoroll.
+        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions) | None, optional
+            Sequence of harmonic intervals. If None, the method uses self.intervals.
+        velocity : int | None, optional
+            Velocity for notes in the pianoroll. If None, self.default_velocity is used.
 
         Raises
-        --------
-        Type Error: if both intervals argument and self.intervals are None.
-        Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions]
-        Type Error: if both pianoroll argument and self.pianoroll are None.
-        Index Error: if pianoroll.shape[1] != 128 [if pianoroll=None then raises if self.pianoroll.shape[1] != 128]
-        Index Error: if velocity > 127 or velocity < 0. If velocity is None then self.default_velocity is substituted.
-        Index Error: if adding the interval to the pianoroll leads to to a note which is out of MIDI range (0-127).
+        ------
+        TypeError
+            If both pianoroll argument and self.pianoroll are None.
+        IndexError
+            If pianoroll.shape[1] != 128, or if intervals.shape[1] != interval.feature_dimensions,
+            or if adding the interval to the pianoroll leads to a note out of MIDI range (0-127),
+            or if velocity is out of MIDI range (0-127).
 
         Returns
         -------
         ndarray, dtype=uint8, shape=(?, 128)
-            First dimension is timesteps and second dimension is fixed 128 per MIDI standard.
+            The generated pianoroll, where the first dimension is timesteps and the second dimension
+            is fixed to 128 per MIDI standard.
 
         """
+
         if pianoroll is not None:
             self.pianoroll = pianoroll
         else:
