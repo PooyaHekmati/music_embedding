@@ -1,3 +1,4 @@
+from typing import Dict, List
 import numpy as np
 
 
@@ -135,7 +136,7 @@ class interval:
             "is_descending": self.is_descending,
         }
 
-    def interval2semitone(self, specs: list[int] | None = None) -> int:
+    def interval2semitone(self, specs: Listint] | None = None) -> int:
         """
         Returns the distance between the two notes of the interval in semitones.
 
@@ -150,7 +151,7 @@ class interval:
 
         Parameters
         ----------
-        specs : list[int] | None, optional
+        specs : List[int] | None, optional
             A list containing the interval characteristics in the following order:
             - interval_order (first to seventh)
             - interval_type (-2: dim, -1: min, 0: perfect, 1: Maj, 2: Aug)
@@ -275,13 +276,13 @@ class interval:
         """
         return np.array_equal(self.get_specs_list(), interval.get_silence_specs_list())
 
-    def get_specs_list(self) -> list[int]:
+    def get_specs_list(self) -> List[int]:
         """
         Returns the interval's characteristics as a list of integers.
 
         Returns
         -------
-        list[int]
+        List[int]
             A list containing the interval's characteristics in the following order:
             [interval_order, interval_type, is_descending, octave_offset]
 
@@ -293,13 +294,13 @@ class interval:
             self.octave_offset,
         ]
 
-    def set_specs_list(self, specs: list[int] | dict[str, int] | None) -> None:
+    def set_specs_list(self, specs: List[int] | Dict[str, int] | None) -> None:
         """
         Sets the interval's characteristics from a list or dictionary.
 
         Parameters
         ----------
-        specs : list[int] | dict[str, int] | None
+        specs : List[int] | Dict[str, int] | None
             A list or dictionary containing the interval's characteristics, or None. The list or dictionary should
             contain the following elements in order: interval_order (int), interval_type (int), is_descending (int),
             and octave_offset (int).
@@ -344,13 +345,17 @@ class interval:
         self.is_descending = is_descending
         self.octave_offset = octave_offset
 
-    def get_one_hot_specs_list(self):
-        """Provides one-hot-encoding of the interval's order, type, and is decending. Octave offset is represented as an integer.
+    def get_one_hot_specs_list(self) -> Dict[str, List[int] | int | bool]:
+        """
+        Provides a one-hot encoding of the interval's order and type, and represents the descending status and
+        octave offset as an integer and boolean, respectively.
 
         Returns
         -------
-        dict, shape=(4)
-            interval order (one-hot), interval type(one hot), is decending (boolean), octave offset (integer)
+        Dict[str, List[int] | int, bool]]
+            A dictionary containing one-hot encoded representations of the interval order and type, the descending
+            status as a boolean, and the octave offset as an integer. Keys are 'interval_order', 'interval_type',
+            'is_descending', and 'octave_offset'.
         """
         interval_order = [0] * 7
         interval_type = [0] * 5
