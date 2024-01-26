@@ -262,14 +262,16 @@ class interval:
 
         return int(self.semitones)
 
-    def is_silence(self):
-        """Determines if the interval represents silence.
+    def is_silence(self) -> bool:
+        """
+        Determines if the interval represents silence, based on its specifications.
+
+        Silence is represented by an interval with all attributes set to zero values.
 
         Returns
         -------
-        boolean
-            True if interval is silenmce, False otherwise.
-
+        bool
+            True if the interval represents silence, False otherwise.
         """
         return np.array_equal(self.get_specs_list(), interval.get_silence_specs_list())
 
