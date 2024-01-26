@@ -38,13 +38,13 @@ class interval:
         is_descending: int = 0,
         semitones: int = 0,
     ):
-        self.interval_order = interval_order
-        self.interval_type = interval_type
-        self.octave_offset = octave_offset
-        self.is_descending = is_descending
-        self.semitones = semitones
+        self.interval_order: int = interval_order
+        self.interval_type: int = interval_type
+        self.octave_offset: int = octave_offset
+        self.is_descending: int = is_descending
+        self.semitones: int = semitones
 
-    def semitone2interval(self, semitones: int | None = None) -> dict:
+    def semitone2interval(self, semitones: int | None = None) -> Dict[str, int]:
         """
         Calculates the interval characteristics based on their semitone distance. If the 'semitones' argument
         is provided, it updates the instance's 'semitones' attribute before calculating the interval.
