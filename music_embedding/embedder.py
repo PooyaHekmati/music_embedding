@@ -813,22 +813,24 @@ class embedder:
 
         return RLE[: index + 1, :]
 
-    def get_intervals_from_RLE(self, RLE_data):
-        """Uncompresses Run-Length Encoded intervals data.
+    def get_intervals_from_RLE(self, RLE_data: np.ndarray) -> np.ndarray:
+        """
+        Uncompresses a Run-Length Encoded sequence of intervals.
 
-        Notes
-        -----
-        - Updates `self.intervals`.
+        This method takes a Run-Length Encoded (RLE) array representing a sequence of intervals and
+        decompresses it to obtain the original sequence of intervals.
 
         Parameters
         ----------
         RLE_data : ndarray, dtype=int32, shape=(?, interval.feature_dimensions + 1)
-            First dimension is compressed timesteps. The last element in the second dimension indicates number of repeatitions for the rest of the elements in the second dimension.
+            Compressed intervals using Run-Length Encoding. The last element in each row indicates
+            the number of repetitions for the interval.
 
         Returns
         -------
         ndarray, dtype=int8, shape=(?, interval.feature_dimensions)
-            First dimension is timesteps and second dimension is interval features.
+            Decompressed sequence of intervals. The first dimension represents timesteps, and the
+            second dimension corresponds to interval features.
 
         """
         s = np.sum(RLE_data, axis=0)
