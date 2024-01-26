@@ -673,40 +673,42 @@ class embedder:
                     self.pianoroll[i, note] = velocity
         return self.pianoroll
 
-    def chunk_sequence_of_intervals(self, intervals=None, pixels_per_chunk=None):
-        """Breaks a long sequence of intervals into chunks.
+    def chunk_sequence_of_intervals(
+        self, intervals: np.ndarray | None = None, pixels_per_chunk: int | None = None
+    ) -> np.ndarray:
+        """
+        Breaks a long sequence of intervals into chunks of a specified length.
 
-        Notes
-        -----
-        - Works on `self.intervals`.
-        - Updates `self.intervals` if intervals argument is passed.
+        This method divides a sequence of intervals into smaller, equally-sized chunks, which can be useful for
+        processing or analyzing data in segments. If `intervals` is None, the method works on `self.intervals`.
 
         Parameters
         ----------
-        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions), optional
-            If None, the function expects self.intervals to have value; else, it overwrites self.intervals. First dimension is timesteps and second dimension is interval features.
-
-        pixels_per_chunk: int, optional
-            Number of pixels in each chunk. Set it to time signature's numarator multiplied by resolution per pixel to get chunk_per-bar. The default is self.pixels_per_bar.
-
-        Raises
-        --------
-        Type Error: if both intervals argument and self.intervals are None.
-        Index Error: if intervals.shape[1] != interval.feature_dimensions [if intervals=None then raises if self.intervals.shape[1] != interval.feature_dimensions]
-        Value Error: if pixels_per_chunk < 1. If pixels_per_chunk is None then self.pixels_per_bar is substituted.
+        intervals : ndarray, dtype=int8, shape=(?, interval.feature_dimensions)
+            Sequence of intervals to be chunked. If None, uses `self.intervals`.
+        pixels_per_chunk : int
+            Number of pixels in each chunk. Defaults to `self.pixels_per_bar` if None.
 
         Returns
         -------
-        ndarray, dtype=int8, shape=(?, pixels_per_chunk, interval.feature_dimensions)
-            First dimension is bars, second dimension is pixels in each chunk and, third dimension is interval features.
+        ndarray, dtype=int8
+            Array of chunked intervals. Shape is (?, pixels_per_chunk, interval.feature_dimensions),
+            where ? is the number of chunks.
 
+        Raises
+        ------
+        TypeError
+            If both `intervals` argument and `self.intervals` are None.
+        IndexError
+            If `intervals` shape's second dimension is not equal to `interval.feature_dimensions`.
+        ValueError
+            If `pixels_per_chunk` is less than 1 or if it's None and `self.pixels_per_bar` is less than 1.
         """
-        if intervals is not None:
-            self.intervals = intervals
-        else:
-            if self.intervals is None:
-                raise TypeError(self._get_none_error_message("intervals"))
-        if self.intervals.shape[1] != interval().feature_dimensions:
+        if intervals is None:
+            intervals = self.intervals
+        if intervals is None:
+            raise TypeError(self._get_none_error_message("intervals"))
+        if intervals.shape[1] != interval().feature_dimensions:
             raise IndexError(
                 self._get_incompatible_dimension_error_message("intervals")
             )
@@ -717,11 +719,11 @@ class embedder:
             raise ValueError("Number of pixels in chunk must be a positive integer.")
 
         return np.reshape(
-            self.intervals,
+            intervals,
             (
-                self.intervals.shape[0] // pixels_per_chunk,
+                intervals.shape[0] // pixels_per_chunk,
                 pixels_per_chunk,
-                self.intervals.shape[1],
+                intervals.shape[1],
             ),
         )
 
