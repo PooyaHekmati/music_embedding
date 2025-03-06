@@ -33,6 +33,11 @@ Embedding is an underexplored area in the intersection of AI and music. While ma
 - Audio-to-Score alignment,
 - Score structure analysis.
 
+Music Embedding GPT
+-------------------
+Explore Music Embedding with an AI assistant!
+Use the [Music Embedding GPT](https://chatgpt.com/g/g-e7L71gwl2-music-embedding) to get quick explanations, code examples, and answers about the repository.
+
 Installation
 ------------
 
